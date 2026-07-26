@@ -1,9 +1,6 @@
-'use client';
-
 import React, { useState } from 'react';
 import { ShoppingCart, Search, Star, Plus, Trash2, X, CheckCircle2, Truck, ArrowLeft, Filter } from 'lucide-react';
 
-// โครงสร้างข้อมูลสินค้า
 interface Product {
   id: number;
   name: string;
@@ -15,7 +12,6 @@ interface Product {
   image: string;
 }
 
-// โครงสร้างตะกร้าสินค้า
 interface CartItem {
   id: number;
   name: string;
@@ -24,7 +20,6 @@ interface CartItem {
   image: string;
 }
 
-// ฐานข้อมูลสินค้าจำลอง (ปรับให้ทุกหมวดย่อยมี 40 รายการเป๊ะ!)
 const GENERATE_PRODUCTS = (): Product[] => {
   const categories = [
     { main: 'clothing', subs: ['เสื้อผ้าผู้หญิง', 'เสื้อผ้าผู้ชาย', 'เสื้อผ้าเด็ก'] },
@@ -48,7 +43,6 @@ const GENERATE_PRODUCTS = (): Product[] => {
 
   categories.forEach((cat) => {
     cat.subs.forEach((sub) => {
-      // ปรับลูปตรงนี้เป็น 40 ตัวเลือกต่อทุกๆ หมวดย่อย!
       for (let i = 1; i <= 40; i++) {
         list.push({
           id: idCounter,
@@ -76,11 +70,9 @@ export default function Home() {
   const [selectedMainCategory, setSelectedMainCategory] = useState<string>('all');
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all');
   
-  // สถานะหน้าสั่งซื้อสำเร็จ
   const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<{ items: CartItem[]; total: number } | null>(null);
 
-  // เพิ่มสินค้าเข้าตะกร้า
   const addToCart = (product: Product) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
@@ -93,14 +85,12 @@ export default function Home() {
     });
   };
 
-  // ลบสินค้าออกจากตะกร้า
   const removeFromCart = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // กรองสินค้าตามหมวดและคำค้นหา
   const filteredProducts = ALL_PRODUCTS.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase().trim());
     const matchesMainCat = selectedMainCategory === 'all' || product.category === selectedMainCategory;
@@ -108,7 +98,6 @@ export default function Home() {
     return matchesSearch && matchesMainCat && matchesSubCat;
   });
 
-  // กดยืนยันสั่งซื้อ
   const handleCheckout = () => {
     if (cart.length === 0) return;
     setCompletedOrder({ items: [...cart], total: totalPrice });
@@ -116,7 +105,6 @@ export default function Home() {
     setCart([]);
   };
 
-  // ปุ่มกลับไปเลือกซื้อสินค้าต่อ
   const handleResetOrder = () => {
     setIsCheckoutSuccess(false);
     setCompletedOrder(null);
@@ -124,7 +112,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-red-600 selection:text-white">
-      {/* Header สไตล์ ดำ-แดง */}
       <header className="bg-neutral-900 border-b border-red-900/40 sticky top-0 z-50 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setSearchTerm(''); setSelectedMainCategory('all'); setSelectedSubCategory('all'); }}>
@@ -134,7 +121,6 @@ export default function Home() {
             <span className="text-xl font-bold tracking-widest text-white">367</span>
           </div>
 
-          {/* ช่องค้นหา */}
           <div className="flex-1 max-w-xl relative">
             <input
               type="text"
@@ -150,7 +136,6 @@ export default function Home() {
             )}
           </div>
 
-          {/* ตะกร้าสินค้า */}
           <div className="relative cursor-pointer p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition">
             <ShoppingCart className="w-6 h-6 text-red-500" />
             {cart.length > 0 && (
@@ -162,7 +147,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* หน้าเพจสั่งซื้อสำเร็จ (ถ้ากดสั่งซื้อจะสลับมาหน้านี้) */}
       {isCheckoutSuccess && completedOrder ? (
         <main className="max-w-3xl mx-auto px-4 py-12">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-2xl text-center space-y-6 relative overflow-hidden">
@@ -174,13 +158,11 @@ export default function Home() {
 
             <h2 className="text-3xl font-extrabold text-white">สั่งซื้อสินค้าสำเร็จ!</h2>
             
-            {/* กล่องสถานะจัดส่ง */}
             <div className="bg-neutral-950 border border-neutral-800 p-4 rounded-xl flex items-center justify-center gap-3 text-red-400">
               <Truck className="w-6 h-6 animate-bounce" />
               <span className="font-semibold text-lg">สถานะ: กำลังจัดส่ง 🚚</span>
             </div>
 
-            {/* รายละเอียดสินค้าที่สั่งซื้อ */}
             <div className="text-left space-y-4 pt-4 border-t border-neutral-800">
               <h3 className="font-bold text-neutral-300 text-lg">รายการสินค้าของคุณ:</h3>
               <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
@@ -213,9 +195,7 @@ export default function Home() {
           </div>
         </main>
       ) : (
-        /* หน้าเลือกร้านค้าปกติ */
         <main className="max-w-7xl mx-auto px-4 py-8">
-          {/* เมนูเลือกหมวดหมู่หลัก */}
           <div className="flex flex-wrap gap-2 mb-4 border-b border-neutral-800 pb-4">
             <button
               onClick={() => { setSelectedMainCategory('all'); setSelectedSubCategory('all'); }}
@@ -259,7 +239,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* เมนูย่อยของแต่ละหมวด */}
           {selectedMainCategory !== 'all' && (
             <div className="flex flex-wrap gap-2 mb-6 bg-neutral-900 p-3 rounded-xl border border-neutral-800 items-center">
               <span className="text-neutral-400 text-sm font-semibold flex items-center gap-1">
@@ -321,7 +300,6 @@ export default function Home() {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* โซนสินค้า (Grid 3 คอลัมน์) */}
             <section className="lg:col-span-3">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-black text-white tracking-wide border-l-4 border-red-600 pl-3">
@@ -376,7 +354,6 @@ export default function Home() {
               )}
             </section>
 
-            {/* โซนตะกร้าสินค้า (Sidebar) */}
             <aside className="bg-neutral-900 border border-neutral-800 p-5 rounded-2xl h-fit sticky top-24 space-y-4 shadow-xl">
               <h2 className="text-lg font-bold border-b border-neutral-800 pb-3 text-white flex items-center justify-between">
                 <span>ตะกร้าของคุณ</span>
