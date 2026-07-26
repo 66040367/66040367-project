@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { 
-  Search, ShoppingCart, Heart, Star, Zap, X, Check, Eye, Plus, Trash2, ArrowLeft, CheckCircle2, Truck
+  Search, ShoppingCart, Heart, Star, Zap, X, Plus, Trash2, ArrowLeft, CheckCircle2, Truck
 } from 'lucide-react';
 
 export interface ProductItem {
@@ -20,7 +20,7 @@ export interface ProductItem {
   spec: string;
 }
 
-// 1. หมวดหมู่ทั้งหมดตามบรีฟเป๊ะๆ
+// 1. หมวดหมู่หลักและหมวดย่อยตรงตามบรีฟ
 const CATEGORY_STRUCTURE = [
   {
     id: 'fashion',
@@ -54,7 +54,7 @@ const CATEGORY_STRUCTURE = [
   }
 ];
 
-// รูปภาพคุณภาพสูงแยกตามหมวด
+// รูปภาพจำลองสำหรับแต่ละหมวดย่อย
 const SAMPLE_IMAGES: Record<string, string> = {
   'เสื้อผ้า ผญ': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80',
   'เสื้อผ้าผู้ชาย': 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80',
@@ -89,7 +89,7 @@ const SAMPLE_IMAGES: Record<string, string> = {
   'ตุ๊กตา/พรม/ของแต่งห้อง': 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&q=80',
 };
 
-// 2. Data Generator สร้างสินค้าหมวดย่อยละ 35 ชิ้น (รวมกว่า 1,000+ ชิ้นอย่างรวดเร็ว)
+// 2. Data Factory สร้างสินค้ามากกว่า 35 ชิ้น ต่อหมวดย่อย
 const GENERATED_PRODUCTS: ProductItem[] = (() => {
   const list: ProductItem[] = [];
   let idCounter = 1;
@@ -101,17 +101,17 @@ const GENERATED_PRODUCTS: ProductItem[] = (() => {
         const price = Math.floor(190 + (i * 120) + (sub.length * 55));
         list.push({
           id: idCounter++,
-          name: `${sub} ตัวท็อป รุ่น Premium Class (Vol.${i})`,
+          name: `${sub} Lalana367 Special Edition Vol.${i}`,
           mainCategory: cat.id,
           subCategory: sub,
           price: price,
-          originalPrice: Math.floor(price * 1.25),
-          rating: Number((4.3 + (i % 8) * 0.1).toFixed(1)),
-          reviewsCount: 120 + i * 14,
-          sold: 300 + i * 25,
+          originalPrice: Math.floor(price * 1.3),
+          rating: Number((4.2 + (i % 8) * 0.1).toFixed(1)),
+          reviewsCount: 100 + i * 12,
+          sold: 250 + i * 18,
           image: baseImg,
           badge: i % 4 === 0 ? 'HOT' : i % 6 === 0 ? 'SALE' : i % 9 === 0 ? 'NEW' : undefined,
-          spec: `สินค้าคุณภาพเกรด Top Tier • รับประกันศูนย์ไทย 1 ปีเต็ม • Batch #${i}`
+          spec: `สินค้าแท้ 100% ประกันศูนย์ Lalana367 • Premium Quality #${i}`
         });
       }
     });
@@ -125,20 +125,16 @@ export default function StorePage() {
   const [activeSubCat, setActiveSubCat] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
-  // State สำหรับ Cart และ Order Success
   const [cart, setCart] = useState<{ product: ProductItem; quantity: number }[]>([]);
-  const [favorites, setFavorites] = useState<number[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<{ items: { product: ProductItem; quantity: number }[]; total: number } | null>(null);
 
-  // ดึงหมวดย่อยปัจจุบัน
   const currentSubCategories = useMemo(() => {
     const found = CATEGORY_STRUCTURE.find(c => c.id === activeMainCat);
     return found ? found.subs : [];
   }, [activeMainCat]);
 
-  // กรองสินค้า
   const filteredProducts = useMemo(() => {
     return GENERATED_PRODUCTS.filter((item) => {
       const matchCat = item.mainCategory === activeMainCat;
@@ -149,7 +145,6 @@ export default function StorePage() {
     });
   }, [activeMainCat, activeSubCat, searchQuery]);
 
-  // ระบบเพิ่มลงตะกร้า
   const addToCart = (product: ProductItem, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setCart((prev) => {
@@ -161,12 +156,10 @@ export default function StorePage() {
     });
   };
 
-  // ระบบลบสินค้าในตะกร้า
   const removeFromCart = (productId: number) => {
     setCart((prev) => prev.filter((item) => item.product.id !== productId));
   };
 
-  // ยืนยันชำระเงิน
   const handleCheckout = () => {
     if (cart.length === 0) return;
     const total = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
@@ -178,10 +171,10 @@ export default function StorePage() {
   const totalCartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
   const totalCartPrice = cart.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
 
-  // 🟢 หน้าแสดงเมื่อสั่งซื้อสำเร็จ (Success Page)
+  // 🟢 หน้าจอเมื่อสั่งซื้อสำเร็จ (Success View)
   if (completedOrder) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 font-sans">
         <div className="max-w-2xl w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
           <div className="text-center space-y-3">
             <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30">
@@ -189,11 +182,10 @@ export default function StorePage() {
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-white">ชำระเงินเรียบร้อย สั่งซื้อสำเร็จ!</h1>
             <p className="text-emerald-400 text-sm font-semibold flex items-center justify-center gap-2">
-              <Truck className="w-4 h-4" /> พนักงานกำลังจัดส่งพัสดุ ขอบคุณที่อุดหนุนครับ
+              <Truck className="w-4 h-4" /> พนักงานกำลังจัดส่งพัสดุ ขอบคุณที่อุดหนุนร้าน Lalana367
             </p>
           </div>
 
-          {/* รายการสินค้าที่สั่งซื้อ */}
           <div className="border-t border-b border-slate-800 py-4 max-h-60 overflow-y-auto space-y-3 pr-2">
             {completedOrder.items.map(({ product, quantity }) => (
               <div key={product.id} className="flex items-center justify-between gap-4 bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80">
@@ -218,7 +210,7 @@ export default function StorePage() {
             onClick={() => setCompletedOrder(null)}
             className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-2xl transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2"
           >
-            <ArrowLeft className="w-4 h-4" /> ย้อนกลับไปหน้าหลัก
+            <ArrowLeft className="w-4 h-4" /> ย้อนกลับไปเลือกซื้อสินค้า
           </button>
         </div>
       </div>
@@ -232,16 +224,16 @@ export default function StorePage() {
       <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
           
-          {/* Logo */}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setActiveSubCat('all'); setSearchQuery(''); }}>
-            <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-500/30">
-              N
+          {/* Logo ร้าน Lalana367 */}
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => { setActiveSubCat('all'); setSearchQuery(''); }}>
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-rose-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-500/30">
+              L
             </div>
             <div>
-              <span className="text-xl font-black bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
-                NEXUS STORE
+              <span className="text-xl font-black bg-gradient-to-r from-indigo-400 via-rose-400 to-pink-400 bg-clip-text text-transparent">
+                Lalana367
               </span>
-              <span className="text-[9px] font-bold text-slate-500 block tracking-widest -mt-1">DARK EDITION</span>
+              <span className="text-[9px] font-bold text-slate-500 block tracking-widest -mt-1">PREMIUM STORE</span>
             </div>
           </div>
 
@@ -252,7 +244,7 @@ export default function StorePage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ค้นหาสินค้า เสื้อผ้า, จอคอม, ลิป, มาม่า, โต๊ะคอม..."
-              className="w-full bg-slate-800/80 text-slate-100 pl-11 pr-10 py-2.5 rounded-2xl text-xs border border-slate-700/60 focus:border-indigo-500 focus:outline-none transition-all"
+              className="w-full bg-slate-800/80 text-slate-100 pl-11 pr-10 py-2.5 rounded-2xl text-xs border border-slate-700/60 focus:border-rose-500 focus:outline-none transition-all"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-4 top-3" />
             {searchQuery && (
@@ -262,7 +254,7 @@ export default function StorePage() {
             )}
           </div>
 
-          {/* Cart Icon */}
+          {/* Cart Button */}
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative p-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition-all active:scale-95"
@@ -277,10 +269,10 @@ export default function StorePage() {
         </div>
       </header>
 
-      {/* 🟢 MAIN CONTAINER */}
+      {/* 🟢 MAIN STORE AREA */}
       <main className="max-w-7xl mx-auto px-4 pt-6">
         
-        {/* 7 หมวดหมู่หลัก */}
+        {/* หมวดหมู่หลักทั้ง 7 */}
         <div className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-none border-b border-slate-800/80 mb-4">
           {CATEGORY_STRUCTURE.map((cat) => (
             <button
@@ -288,7 +280,7 @@ export default function StorePage() {
               onClick={() => { setActiveMainCat(cat.id); setActiveSubCat('all'); }}
               className={`px-5 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap transition-all ${
                 activeMainCat === cat.id
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105'
+                  ? 'bg-gradient-to-r from-indigo-600 to-rose-600 text-white shadow-lg shadow-indigo-600/30 scale-105'
                   : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-slate-800'
               }`}
             >
@@ -297,7 +289,7 @@ export default function StorePage() {
           ))}
         </div>
 
-        {/* หมวดย่อย (Sub Categories) */}
+        {/* หมวดย่อย */}
         <div className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-none mb-6">
           <button
             onClick={() => setActiveSubCat('all')}
@@ -315,7 +307,7 @@ export default function StorePage() {
               onClick={() => setActiveSubCat(sub)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 activeSubCat === sub
-                  ? 'bg-indigo-500 text-white font-bold'
+                  ? 'bg-rose-500 text-white font-bold'
                   : 'bg-slate-900/80 text-slate-400 hover:bg-slate-800 border border-slate-800'
               }`}
             >
@@ -324,15 +316,14 @@ export default function StorePage() {
           ))}
         </div>
 
-        {/* Grid แสดงรายการสินค้า */}
+        {/* ตารางแสดงสินค้า */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               onClick={() => setSelectedProduct(product)}
-              className="bg-slate-900 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 cursor-pointer group flex flex-col justify-between"
+              className="bg-slate-900 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-rose-500/50 hover:shadow-xl hover:shadow-rose-500/10 transition-all duration-300 cursor-pointer group flex flex-col justify-between"
             >
-              {/* Aspect Square Image */}
               <div className="relative aspect-square w-full bg-slate-950 overflow-hidden">
                 <img
                   src={product.image}
@@ -355,10 +346,9 @@ export default function StorePage() {
                 </div>
               </div>
 
-              {/* Product Info */}
               <div className="p-3 flex-1 flex flex-col justify-between space-y-2">
                 <div>
-                  <h3 className="font-bold text-slate-200 text-xs line-clamp-2 leading-snug group-hover:text-indigo-400 transition-colors">
+                  <h3 className="font-bold text-slate-200 text-xs line-clamp-2 leading-snug group-hover:text-rose-400 transition-colors">
                     {product.name}
                   </h3>
                   <p className="text-[10px] text-slate-500 line-clamp-1 mt-1">
@@ -367,17 +357,15 @@ export default function StorePage() {
                 </div>
 
                 <div>
-                  {/* Reviews & Star Rating */}
                   <div className="flex items-center gap-1 text-amber-400 text-[10px] mb-2">
                     <Star className="w-3 h-3 fill-current" />
                     <span className="font-bold text-slate-200">{product.rating}</span>
                     <span className="text-slate-500">({product.reviewsCount} รีวิว)</span>
                   </div>
 
-                  {/* Price & Add Button */}
                   <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
                     <div>
-                      <span className="text-indigo-400 font-black text-sm block">
+                      <span className="text-rose-400 font-black text-sm block">
                         ฿{product.price.toLocaleString()}
                       </span>
                       <span className="text-slate-600 text-[9px] line-through block -mt-1">
@@ -386,7 +374,7 @@ export default function StorePage() {
                     </div>
                     <button
                       onClick={(e) => addToCart(product, e)}
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-xl transition-all shadow-md active:scale-90"
+                      className="bg-rose-600 hover:bg-rose-500 text-white p-2 rounded-xl transition-all shadow-md active:scale-90"
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </button>
@@ -398,7 +386,7 @@ export default function StorePage() {
         </div>
       </main>
 
-      {/* 🟢 MODAL: ดูรายละเอียดสินค้า */}
+      {/* 🟢 MODAL รายละเอียดสินค้า */}
       {selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-slate-900 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative border border-slate-800">
@@ -415,7 +403,7 @@ export default function StorePage() {
 
             <div className="p-6 space-y-4">
               <div>
-                <span className="bg-indigo-500/20 text-indigo-400 text-xs font-bold px-2.5 py-1 rounded-lg border border-indigo-500/30">
+                <span className="bg-rose-500/20 text-rose-400 text-xs font-bold px-2.5 py-1 rounded-lg border border-rose-500/30">
                   {selectedProduct.subCategory}
                 </span>
                 <h2 className="text-lg font-bold text-white mt-2">{selectedProduct.name}</h2>
@@ -424,8 +412,8 @@ export default function StorePage() {
 
               <div className="flex items-center justify-between py-3 border-y border-slate-800">
                 <div>
-                  <span className="text-slate-500 text-xs">ราคาพิเศษ</span>
-                  <div className="text-2xl font-black text-indigo-400">฿{selectedProduct.price.toLocaleString()}</div>
+                  <span className="text-slate-500 text-xs">ราคาพิเศษ Lalana367</span>
+                  <div className="text-2xl font-black text-rose-400">฿{selectedProduct.price.toLocaleString()}</div>
                 </div>
                 <div className="text-right">
                   <div className="flex items-center gap-1 text-amber-400 text-xs font-bold">
@@ -437,7 +425,7 @@ export default function StorePage() {
 
               <button
                 onClick={() => { addToCart(selectedProduct); setSelectedProduct(null); }}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-rose-600/30 transition-all flex items-center justify-center gap-2"
               >
                 <ShoppingCart className="w-4 h-4" /> ใส่ตะกร้าสินค้า
               </button>
@@ -446,21 +434,20 @@ export default function StorePage() {
         </div>
       )}
 
-      {/* 🟢 SIDEBAR: ตะกร้าสินค้า (ลบง่าย คลีนๆ) */}
+      {/* 🟢 SIDEBAR ตะกร้าสินค้า */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm">
           <div className="bg-slate-900 border-l border-slate-800 w-full max-w-md h-full flex flex-col justify-between p-6 shadow-2xl">
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <h2 className="font-extrabold text-base text-white flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-indigo-400" /> ตะกร้าของคุณ ({totalCartCount})
+                  <ShoppingCart className="w-5 h-5 text-rose-400" /> ตะกร้า Lalana367 ({totalCartCount})
                 </h2>
                 <button onClick={() => setIsCartOpen(false)} className="p-2 text-slate-400 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Items List */}
               <div className="mt-4 space-y-3 overflow-y-auto max-h-[60vh] pr-1">
                 {cart.length === 0 ? (
                   <p className="text-center text-slate-500 py-16 text-xs">ไม่มีสินค้าในตะกร้า</p>
@@ -470,7 +457,7 @@ export default function StorePage() {
                       <img src={product.image} className="w-12 h-12 rounded-xl object-cover" />
                       <div className="flex-1 min-w-0">
                         <h4 className="font-bold text-xs text-slate-200 truncate">{product.name}</h4>
-                        <span className="text-indigo-400 font-black text-xs">฿{(product.price * quantity).toLocaleString()}</span>
+                        <span className="text-rose-400 font-black text-xs">฿{(product.price * quantity).toLocaleString()}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold text-slate-400">x{quantity}</span>
@@ -487,11 +474,10 @@ export default function StorePage() {
               </div>
             </div>
 
-            {/* Bottom Checkout */}
             <div className="pt-4 border-t border-slate-800 space-y-3">
               <div className="flex justify-between items-center text-sm font-bold">
                 <span className="text-slate-400">ราคารวมทั้งหมด:</span>
-                <span className="text-xl font-black text-indigo-400">฿{totalCartPrice.toLocaleString()}</span>
+                <span className="text-xl font-black text-rose-400">฿{totalCartPrice.toLocaleString()}</span>
               </div>
               <button
                 disabled={cart.length === 0}
