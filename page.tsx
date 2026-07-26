@@ -12,6 +12,7 @@ interface Product {
   category: string;
   subCategory: string;
   image: string;
+  searchKeywords: string; // คีย์เวิร์ดเสริมสำหรับการค้นหาที่แม่นยำ
 }
 
 interface CartItem {
@@ -22,21 +23,63 @@ interface CartItem {
   image: string;
 }
 
-// ฐานข้อมูลสินค้าจำลอง (ปรับเป็นหมวดย่อยละ 50 รายการ!)
+// ฐานข้อมูลสินค้าจำลองครบทุกหมวดหมู่ (750 รายการ)
 const GENERATE_PRODUCTS = (): Product[] => {
   const categories = [
-    { main: 'clothing', subs: ['เสื้อผ้าผู้หญิง', 'เสื้อผ้าผู้ชาย', 'เสื้อผ้าเด็ก'] },
-    { main: 'electronics', subs: ['หูฟัง & ลำโพง', 'สมาร์ตวอทช์', 'อุปกรณ์ไอที'] },
-    { main: 'lifestyle', subs: ['กระเป๋า', 'รองเท้า', 'เครื่องประดับ'] },
+    {
+      main: 'clothing',
+      mainName: 'เสื้อผ้าแฟชั่น',
+      subs: [
+        { name: 'เสื้อผ้าผู้หญิง', keywords: 'เสื้อผ้า เสื้อผญ เสื้อผู้หญิง เดรส ชุดผู้หญิง' },
+        { name: 'เสื้อผ้าผู้ชาย', keywords: 'เสื้อผ้า เสื้อผช เสื้อผู้ชาย กางเกง เสื้อเชิ้ต' },
+        { name: 'เสื้อผ้าเด็ก', keywords: 'เสื้อผ้า ชุดเด็ก เสื้อเด็ก เสื้อผ้าเด็ก' },
+      ],
+    },
+    {
+      main: 'shoes',
+      mainName: 'รองเท้า',
+      subs: [
+        { name: 'รองเท้าแฟชั่นผู้หญิง', keywords: 'รองเท้า รองเท้าผญ รองเท้าผู้หญิง ส้นสูง คัทชู' },
+        { name: 'รองเท้าผู้ชาย', keywords: 'รองเท้า รองเท้าผช รองเท้าผู้ชาย รองเท้าหนัง คัทชู' },
+        { name: 'รองเท้าสปอร์ต & ผ้าใบ', keywords: 'รองเท้า ผ้าใบ รองเท้ากีฬา Sneaker รองเท้าวิ่ง' },
+      ],
+    },
+    {
+      main: 'electronics',
+      mainName: 'ไอที & แกดเจ็ต',
+      subs: [
+        { name: 'หูฟัง & ลำโพง', keywords: 'ไอที หูฟัง ลำโพง บลูทูธ Headphone' },
+        { name: 'สมาร์ตวอทช์', keywords: 'ไอที นาฬิกา Smartwatch สมาร์ตวอทช์' },
+        { name: 'อุปกรณ์คอมฯ & ไอที', keywords: 'ไอที คีย์บอร์ด เมาส์ สายชาร์จ Gadget' },
+      ],
+    },
+    {
+      main: 'bags_acc',
+      mainName: 'กระเป๋า & เครื่องประดับ',
+      subs: [
+        { name: 'กระเป๋าแฟชั่น', keywords: 'กระเป๋า กระเป๋าผญ กระเป๋าผู้หญิง กระเป๋าถือ' },
+        { name: 'กระเป๋าเดินทาง & เป้', keywords: 'กระเป๋า เป้ กระเป๋าเดินทาง กระเป๋าสะพาย' },
+        { name: 'เครื่องประดับ & แว่นตา', keywords: 'เครื่องประดับ แว่นตา สร้อย แหวน ต่างหู' },
+      ],
+    },
+    {
+      main: 'beauty',
+      mainName: 'ความงาม & ของใช้ส่วนตัว',
+      subs: [
+        { name: 'เครื่องสำอาง & เวชสำอาง', keywords: 'ความงาม เครื่องสำอาง ลิปสติก แป้งแต่งหน้า' },
+        { name: 'น้ำหอม', keywords: 'ความงาม น้ำหอม น้ำหอมผญ น้ำหอมผช' },
+        { name: 'ผลิตภัณฑ์ดูแลผิว', keywords: 'ความงาม สกินแคร์ ครีมบำรุง เซรั่ม' },
+      ],
+    },
   ];
 
   const images = [
     'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80',
     'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80',
     'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&q=80',
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80',
     'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80',
     'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80',
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80',
     'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80',
     'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&q=80',
   ];
@@ -46,17 +89,17 @@ const GENERATE_PRODUCTS = (): Product[] => {
 
   categories.forEach((cat) => {
     cat.subs.forEach((sub) => {
-      // ปรับเป็น 50 ตัวเลือกต่อหมวดย่อย!
       for (let i = 1; i <= 50; i++) {
         list.push({
           id: idCounter,
-          name: `${sub} LALANA Premium Collection (แบบที่ ${i})`,
-          price: Math.floor(Math.random() * 1800) + 199,
+          name: `${sub.name} LALANA Premium Collection (แบบที่ ${i})`,
+          price: Math.floor(Math.random() * 2500) + 199,
           rating: Number((Math.random() * (5.0 - 4.2) + 4.2).toFixed(1)),
           sold: Math.floor(Math.random() * 3000) + 10,
           category: cat.main,
-          subCategory: sub,
+          subCategory: sub.name,
           image: images[idCounter % images.length],
+          searchKeywords: `${sub.name} ${sub.keywords} LALANA แบบที่ ${i}`.toLowerCase(),
         });
         idCounter++;
       }
@@ -95,8 +138,10 @@ export default function Home() {
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  // ระบบค้นหาฉลาด ค้นหาจากทั้งชื่อสินค้าและ Keywords คำกรอง
   const filteredProducts = ALL_PRODUCTS.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+    const term = searchTerm.toLowerCase().trim();
+    const matchesSearch = !term || product.name.toLowerCase().includes(term) || product.searchKeywords.includes(term);
     const matchesMainCat = selectedMainCategory === 'all' || product.category === selectedMainCategory;
     const matchesSubCat = selectedSubCategory === 'all' || product.subCategory === selectedSubCategory;
     return matchesSearch && matchesMainCat && matchesSubCat;
@@ -128,7 +173,7 @@ export default function Home() {
           <div className="flex-1 max-w-xl relative">
             <input
               type="text"
-              placeholder="ค้นหาสินค้าแฟชั่น ไอที ไลฟ์สไตล์..."
+              placeholder="ค้นหา เสื้อผ้า, เสื้อผญ, รองเท้า, หูฟัง, กระเป๋า..."
               className="w-full py-2.5 pl-4 pr-10 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-400 focus:outline-none focus:border-red-500 transition"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -200,6 +245,7 @@ export default function Home() {
         </main>
       ) : (
         <main className="max-w-7xl mx-auto px-4 py-8">
+          {/* เมนูเลือกหมวดหมู่หลัก */}
           <div className="flex flex-wrap gap-2 mb-4 border-b border-neutral-800 pb-4">
             <button
               onClick={() => { setSelectedMainCategory('all'); setSelectedSubCategory('all'); }}
@@ -209,7 +255,7 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              🔥 สินค้าทั้งหมด (450)
+              🔥 สินค้าทั้งหมด (750)
             </button>
             <button
               onClick={() => { setSelectedMainCategory('clothing'); setSelectedSubCategory('all'); }}
@@ -219,7 +265,17 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              👕 หมวดเสื้อผ้า (150)
+              👕 เสื้อผ้าแฟชั่น (150)
+            </button>
+            <button
+              onClick={() => { setSelectedMainCategory('shoes'); setSelectedSubCategory('all'); }}
+              className={`px-4 py-2 rounded-lg font-bold text-sm transition ${
+                selectedMainCategory === 'shoes'
+                  ? 'bg-red-600 text-white'
+                  : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
+              }`}
+            >
+              👟 รองเท้า (150)
             </button>
             <button
               onClick={() => { setSelectedMainCategory('electronics'); setSelectedSubCategory('all'); }}
@@ -229,20 +285,31 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              🎧 หมวดไอที & สมาร์ตไอเทม (150)
+              🎧 ไอที & แกดเจ็ต (150)
             </button>
             <button
-              onClick={() => { setSelectedMainCategory('lifestyle'); setSelectedSubCategory('all'); }}
+              onClick={() => { setSelectedMainCategory('bags_acc'); setSelectedSubCategory('all'); }}
               className={`px-4 py-2 rounded-lg font-bold text-sm transition ${
-                selectedMainCategory === 'lifestyle'
+                selectedMainCategory === 'bags_acc'
                   ? 'bg-red-600 text-white'
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              👟 หมวดไลฟ์สไตล์ & แฟชั่น (150)
+              👜 กระเป๋า & เครื่องประดับ (150)
+            </button>
+            <button
+              onClick={() => { setSelectedMainCategory('beauty'); setSelectedSubCategory('all'); }}
+              className={`px-4 py-2 rounded-lg font-bold text-sm transition ${
+                selectedMainCategory === 'beauty'
+                  ? 'bg-red-600 text-white'
+                  : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
+              }`}
+            >
+              💄 ความงาม & ของใช้ส่วนตัว (150)
             </button>
           </div>
 
+          {/* เมนูเลือกหมวดย่อย */}
           {selectedMainCategory !== 'all' && (
             <div className="flex flex-wrap gap-2 mb-6 bg-neutral-900 p-3 rounded-xl border border-neutral-800 items-center">
               <span className="text-neutral-400 text-sm font-semibold flex items-center gap-1">
@@ -258,45 +325,38 @@ export default function Home() {
               >
                 ทั้งหมด
               </button>
+
               {selectedMainCategory === 'clothing' &&
                 ['เสื้อผ้าผู้หญิง', 'เสื้อผ้าผู้ชาย', 'เสื้อผ้าเด็ก'].map((sub) => (
-                  <button
-                    key={sub}
-                    onClick={() => setSelectedSubCategory(sub)}
-                    className={`px-3 py-1 rounded text-xs font-bold transition ${
-                      selectedSubCategory === sub
-                        ? 'bg-red-950 text-red-400 border border-red-800'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
-                  >
+                  <button key={sub} onClick={() => setSelectedSubCategory(sub)} className={`px-3 py-1 rounded text-xs font-bold transition ${selectedSubCategory === sub ? 'bg-red-950 text-red-400 border border-red-800' : 'text-neutral-400 hover:text-white'}`}>
                     {sub} (50)
                   </button>
                 ))}
+
+              {selectedMainCategory === 'shoes' &&
+                ['รองเท้าแฟชั่นผู้หญิง', 'รองเท้าผู้ชาย', 'รองเท้าสปอร์ต & ผ้าใบ'].map((sub) => (
+                  <button key={sub} onClick={() => setSelectedSubCategory(sub)} className={`px-3 py-1 rounded text-xs font-bold transition ${selectedSubCategory === sub ? 'bg-red-950 text-red-400 border border-red-800' : 'text-neutral-400 hover:text-white'}`}>
+                    {sub} (50)
+                  </button>
+                ))}
+
               {selectedMainCategory === 'electronics' &&
-                ['หูฟัง & ลำโพง', 'สมาร์ตวอทช์', 'อุปกรณ์ไอที'].map((sub) => (
-                  <button
-                    key={sub}
-                    onClick={() => setSelectedSubCategory(sub)}
-                    className={`px-3 py-1 rounded text-xs font-bold transition ${
-                      selectedSubCategory === sub
-                        ? 'bg-red-950 text-red-400 border border-red-800'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
-                  >
+                ['หูฟัง & ลำโพง', 'สมาร์ตวอทช์', 'อุปกรณ์คอมฯ & ไอที'].map((sub) => (
+                  <button key={sub} onClick={() => setSelectedSubCategory(sub)} className={`px-3 py-1 rounded text-xs font-bold transition ${selectedSubCategory === sub ? 'bg-red-950 text-red-400 border border-red-800' : 'text-neutral-400 hover:text-white'}`}>
                     {sub} (50)
                   </button>
                 ))}
-              {selectedMainCategory === 'lifestyle' &&
-                ['กระเป๋า', 'รองเท้า', 'เครื่องประดับ'].map((sub) => (
-                  <button
-                    key={sub}
-                    onClick={() => setSelectedSubCategory(sub)}
-                    className={`px-3 py-1 rounded text-xs font-bold transition ${
-                      selectedSubCategory === sub
-                        ? 'bg-red-950 text-red-400 border border-red-800'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
-                  >
+
+              {selectedMainCategory === 'bags_acc' &&
+                ['กระเป๋าแฟชั่น', 'กระเป๋าเดินทาง & เป้', 'เครื่องประดับ & แว่นตา'].map((sub) => (
+                  <button key={sub} onClick={() => setSelectedSubCategory(sub)} className={`px-3 py-1 rounded text-xs font-bold transition ${selectedSubCategory === sub ? 'bg-red-950 text-red-400 border border-red-800' : 'text-neutral-400 hover:text-white'}`}>
+                    {sub} (50)
+                  </button>
+                ))}
+
+              {selectedMainCategory === 'beauty' &&
+                ['เครื่องสำอาง & เวชสำอาง', 'น้ำหอม', 'ผลิตภัณฑ์ดูแลผิว'].map((sub) => (
+                  <button key={sub} onClick={() => setSelectedSubCategory(sub)} className={`px-3 py-1 rounded text-xs font-bold transition ${selectedSubCategory === sub ? 'bg-red-950 text-red-400 border border-red-800' : 'text-neutral-400 hover:text-white'}`}>
                     {sub} (50)
                   </button>
                 ))}
