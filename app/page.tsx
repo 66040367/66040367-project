@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { 
-  Search, ShoppingCart, Star, Zap, X, Plus, Minus, Trash2, ArrowLeft, CheckCircle2, Truck, ChevronLeft, ChevronRight, ShoppingBag, ShieldCheck, Sparkles
+  Search, ShoppingCart, Star, Zap, X, Plus, Minus, Trash2, ArrowLeft, CheckCircle2, Truck, ChevronLeft, ChevronRight, ShoppingBag, ShieldCheck, Sparkles, Filter
 } from 'lucide-react';
 
 export interface ProductItem {
@@ -18,6 +18,7 @@ export interface ProductItem {
   image: string;
   badge?: 'HOT' | 'SALE' | 'NEW';
   spec: string;
+  keywords: string[];
 }
 
 // 1. โครงสร้างหมวดหมู่หลักและหมวดย่อย
@@ -54,189 +55,155 @@ const CATEGORY_STRUCTURE = [
   }
 ];
 
-// คลังรูปภาพ Unsplash ความละเอียดสูงแยกตามหมวดหมู่จริง
-const REAL_IMAGE_DATABASE = {
-  phone: [
-    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80",
-    "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600&q=80",
-    "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=600&q=80",
-    "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&q=80",
-    "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&q=80"
-  ],
-  laptop: [
-    "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80",
-    "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=600&q=80",
-    "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&q=80",
-    "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600&q=80",
-    "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=600&q=80"
-  ],
-  skincare: [
-    "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80",
-    "https://images.unsplash.com/photo-1608248597261-2f7a9354045f?w=600&q=80",
-    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80",
-    "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80",
-    "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80"
-  ],
-  makeup: [
-    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80",
-    "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&q=80",
-    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80",
-    "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=600&q=80",
-    "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80"
-  ],
-  fashion: [
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80",
-    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&q=80",
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80",
-    "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=80",
-    "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80",
-    "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80",
-    "https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=600&q=80",
-    "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=600&q=80"
-  ],
-  decor: [
-    "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&q=80",
-    "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80",
-    "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80",
-    "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&q=80"
-  ]
+// คีย์เวิร์ดสำหรับสุ่มภาพ Unsplash ให้ตรงกับแต่ละหมวดย่อย
+const SUB_CAT_IMAGE_KEYWORDS: Record<string, string> = {
+  'เสื้อผ้า ผญ': 'women-clothing,fashion-dress,korean-style',
+  'เสื้อผ้าผู้ชาย': 'menswear,streetwear,mens-fashion',
+  'เสื้อผ้าเด็ก': 'kids-clothing,baby-fashion',
+  'รองเท้า': 'sneakers,shoes,running-shoes',
+  'กระเป๋า': 'handbag,backpack,leather-bag',
+  'อุปกรณ์อื่นๆ (กำไล/สร้อย/แหวน)': 'jewelry,necklace,ring,accessories',
+  'โทรศัพท์': 'smartphone,iphone,samsung-galaxy',
+  'แท็บเล็ต (MacBook)': 'ipad,macbook,tablet,laptop',
+  'คอมพิวเตอร์': 'gaming-pc,desktop-computer,setup',
+  'ไมค์เล่นเกม': 'microphone,gaming-mic,studio-mic',
+  'หูฟังเล่นเกม': 'gaming-headset,headphones',
+  'คีย์บอร์ดเล่นเกม': 'mechanical-keyboard,gaming-keyboard',
+  'จอคอม': 'gaming-monitor,computer-screen',
+  'CPU': 'cpu-processor,computer-hardware',
+  'RAM': 'ram-memory,computer-components',
+  'คอมประกอบ': 'custom-pc-build,pc-case-rgb',
+  'บลัชออน': 'blush-makeup,cosmetics',
+  'ลิป': 'lipstick,lip-gloss,makeup',
+  'รองพื้น': 'foundation-makeup,bb-cream',
+  'คอนซีลเลอร์': 'concealer-makeup,beauty-products',
+  'ครีมทาหน้าหรือเซรั่ม': 'skincare-serum,face-cream,face-oil',
+  'ครีมทาผิว': 'body-lotion,moisturizer-skin',
+  'ครีมกันแดดทั้งหน้าและตัว': 'sunscreen,sunblock-lotion',
+  'มาม่า': 'ramen-noodle,instant-noodles',
+  'ขนมที่สามารถส่งพัสดุได้': 'snacks,cookies,japanese-sweets',
+  'อาหารบรรจุภัณฑ์': 'packaged-food,canned-food',
+  'ของเล่นรวม': 'blind-box,figure-toy,plush-toy',
+  'โต๊ะคอม': 'desk-setup,minimal-desk,gaming-desk',
+  'กระจก': 'mirror-decor,aesthetic-mirror',
+  'ไฟ LED': 'led-lights,rgb-lights,neon-light',
+  'ตุ๊กตา/พรม/ของแต่งห้อง': 'rug-decor,plushie,room-decoration'
 };
 
-// 2. คลังข้อมูลสินค้าอ้างอิงจริง (Real Market Database)
-const REAL_PRODUCTS_DATA: Record<string, { name: string; spec: string; price: number; img: string }[]> = {
-  'โทรศัพท์': [
-    { name: 'Apple iPhone 15 Pro Max 256GB (Natural Titanium)', spec: 'ชิป A17 Pro / กล้อง 48MP Zoom 5x / กรอบไทเทเนียม', price: 48900, img: REAL_IMAGE_DATABASE.phone[0] },
-    { name: 'Samsung Galaxy S24 Ultra 5G (Titanium Gray)', spec: 'ชิป Snapdragon 8 Gen 3 / ปากกา S Pen / กล้อง 200MP AI', price: 46900, img: REAL_IMAGE_DATABASE.phone[1] },
-    { name: 'Apple iPhone 15 128GB (Pink)', spec: 'Dynamic Island / ชิป A16 Bionic / กล้องหลัก 48MP', price: 32900, img: REAL_IMAGE_DATABASE.phone[2] },
-    { name: 'Xiaomi 14 Ultra (512GB) Leica Camera', spec: 'กล้องเลนส์ Leica 4 ตัว / Snapdragon 8 Gen 3 / จอ 2K 120Hz', price: 40990, img: REAL_IMAGE_DATABASE.phone[3] },
-    { name: 'OPPO Find N3 Flip (5G)', spec: 'มือถือพับได้ หน้าจอนอกใหญ่ / กล้อง Hasselblad / ชาร์จไว 44W', price: 34900, img: REAL_IMAGE_DATABASE.phone[4] }
-  ],
-  'แท็บเล็ต (MacBook)': [
-    { name: 'Apple iPad Pro 11 นิ้ว (M4) Wi-Fi 256GB', spec: 'ชิป M4 แรงสุดขีด / จอ Ultra Retina XDR OLED', price: 39900, img: REAL_IMAGE_DATABASE.laptop[0] },
-    { name: 'Apple iPad Air 5 10.9 นิ้ว Wi-Fi 64GB', spec: 'ชิป M1 / รองรับ Apple Pencil รุ่นที่ 2 / จอ Multi-Touch', price: 21900, img: REAL_IMAGE_DATABASE.laptop[1] },
-    { name: 'Apple MacBook Pro 14 นิ้ว (ชิป M3 Pro 512GB)', spec: 'M3 Pro CPU 11-core / GPU 14-core / RAM 18GB / จอ Liquid Retina XDR', price: 79900, img: REAL_IMAGE_DATABASE.laptop[2] },
-    { name: 'Apple MacBook Air 13 นิ้ว (ชิป M3 256GB)', spec: 'M3 CPU 8-core / GPU 8-core / ดีไซน์บางเบาพกพาสะดวก', price: 39900, img: REAL_IMAGE_DATABASE.laptop[3] },
-    { name: 'Samsung Galaxy Tab S9 Ultra (5G) พร้อมปากกา S Pen', spec: 'จอ Dynamic AMOLED 2X 14.6 นิ้ว / Snapdragon 8 Gen 2 / กันน้ำ IP68', price: 45900, img: REAL_IMAGE_DATABASE.laptop[4] }
-  ],
-  'คอมพิวเตอร์': [
-    { name: 'ASUS ROG Strix G16 Gaming Laptop', spec: 'Intel Core i9-13980HX / RTX 4070 / RAM 16GB / SSD 1TB', price: 62990, img: REAL_IMAGE_DATABASE.laptop[0] },
-    { name: 'Lenovo Legion Pro 5i Gaming', spec: 'Intel Core i7-14650HX / RTX 4060 / จอ 16 นิ้ว 240Hz', price: 54990, img: REAL_IMAGE_DATABASE.laptop[1] },
-    { name: 'Dell XPS 13 Plus Ultrabook', spec: 'Intel Core i7-1360P / RAM 16GB / จอ OLED 3.5K Touch', price: 69900, img: REAL_IMAGE_DATABASE.laptop[2] },
-    { name: 'Acer Nitro 16 Gaming Notebook', spec: 'AMD Ryzen 7 7840HS / RTX 4050 / RAM 16GB / SSD 512GB', price: 37900, img: REAL_IMAGE_DATABASE.laptop[3] }
-  ],
-  'ครีมทาหน้าหรือเซรั่ม': [
-    { name: 'Estée Lauder Advanced Night Repair Synchronized Multi-Recovery 50ml', spec: 'เซรั่มฟื้นฟูผิวอันดับ 1 ลดเลือนริ้วรอย กระชับรูขุมขน', price: 5050, img: REAL_IMAGE_DATABASE.skincare[0] },
-    { name: 'La Roche-Posay Effaclar Serum 30ml', spec: 'เซรั่มสลายสิวอุดตัน สดรอยดำรอยแดง สิวเสี้ยนเรียบเนียน', price: 1350, img: REAL_IMAGE_DATABASE.skincare[1] },
-    { name: 'CeraVe Moisturizing Cream 454g', spec: 'มอยส์เจอไรเซอร์สูตรเข้มข้น มีเซราไมด์ 3 ชนิด ปลอบประโลมผิวแห้ง', price: 795, img: REAL_IMAGE_DATABASE.skincare[2] },
-    { name: 'Kiehl\'s Clearly Corrective Dark Spot Solution 50ml', spec: 'เซรั่มลดจุดด่างดำ ปรับผิวกระจ่างใส สารสกัดจากวิตามินซีเข้มข้น', price: 3950, img: REAL_IMAGE_DATABASE.skincare[3] },
-    { name: 'SK-II Facial Treatment Essence 230ml (น้ำตบพิเทร่า)', spec: 'บำรุงผิวหน้าให้ผิวกระจ่างใส เรียบเนียน เปล่งประกาย อ่อนเยาว์', price: 8250, img: REAL_IMAGE_DATABASE.skincare[4] }
-  ],
-  'ครีมกันแดดทั้งหน้าและตัว': [
-    { name: 'La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+', spec: 'กันแดดเนื้อบางเบา ไม่เหนียวเหนอะหนะ ปกป้อง Long UVA ได้ดีที่สุด', price: 1450, img: REAL_IMAGE_DATABASE.skincare[1] },
-    { name: 'Anessa Perfect UV Sunscreen Skincare Milk SPF50+ PA++++ 60ml', spec: 'กันแดดเนื้อน้ำนม สูตรกันน้ำกันเหงื่อ คุมมันตลอดวัน', price: 1050, img: REAL_IMAGE_DATABASE.skincare[2] },
-    { name: 'Biore UV Aqua Rich Watery Essence SPF50+ PA++++ 80g', spec: 'กันแดดสูตรน้ำ เนื้อเอสเซนส์ สัมผัสบางเบา เกลี่ยง่าย ไม่เป็นคราบ', price: 420, img: REAL_IMAGE_DATABASE.skincare[3] }
-  ],
-  'ลิป': [
-    { name: 'Dior Addict Lip Glow (Color Reviver Balm)', spec: 'ลิปบาล์มเปลี่ยนสีตามอุณหภูมิ ให้ความชุ่มชื้นยาวนาน 24 ชม.', price: 1700, img: REAL_IMAGE_DATABASE.makeup[0] },
-    { name: 'M.A.C Velvet Blur Slim Stick Lipstick', spec: 'ลิปสติกเนื้อแมตต์กำมะหยี่ ให้สีชัด นุ่มเบาสบายริมฝีปาก', price: 1250, img: REAL_IMAGE_DATABASE.makeup[1] },
-    { name: 'Rom&nd Juicy Lasting Tint', spec: 'ลิปทินท์ปากฉ่ำวาว สไตล์สาวเกาหลี สีสวยติดทนตลอดวัน', price: 350, img: REAL_IMAGE_DATABASE.makeup[2] },
-    { name: 'YSL Rouge Pur Couture The Bold', spec: 'ลิปสติกเนื้อซาตินพรีเมียม เม็ดสีแน่นชัด หรูหรากูตูร์', price: 1750, img: REAL_IMAGE_DATABASE.makeup[3] }
-  ],
-  'บลัชออน': [
-    { name: 'NARS Blush สี Orgasm (Soft-Pink with Golden Shimmer)', spec: 'บลัชออนปัดแก้มเนื้อละเอียด สีชมพูประกายทอง ยอดนิยมตลอดกาล', price: 1500, img: REAL_IMAGE_DATABASE.makeup[4] },
-    { name: 'Rare Beauty Soft Pinch Liquid Blush 7.5ml', spec: 'บลัชออนเนื้อลิควิด เกลี่ยง่าย เม็ดสีแน่น ติดทนนานตลอดวัน', price: 1050, img: REAL_IMAGE_DATABASE.makeup[0] }
-  ],
-  'เสื้อผ้า ผญ': [
-    { name: 'เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 เดรสคาเฟ่ลายดอกไม้ มินิมอล', spec: 'งานตัดเย็บคุณภาพดี ผ้านุ่มพริ้ว ใส่สบายไม่ร้อน', price: 450, img: REAL_IMAGE_DATABASE.fashion[0] },
-    { name: 'เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 เสื้อครอปไหมพรม Y2K สไตล์เกาหลี', spec: 'ไหมพรมถักละเอียด เนื้อนุ่มพิเศษ แมตช์ง่ายกับทุกกางเกง', price: 390, img: REAL_IMAGE_DATABASE.fashion[1] },
-    { name: 'เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 กางเกงขากระบอกเอวสูง พรางหุ่น', spec: 'ทรงสวยเป๊ะ ขาดูเรียวยาว ผ้าทิ้งตัวไม่ยับง่าย', price: 420, img: REAL_IMAGE_DATABASE.fashion[2] },
-    { name: 'เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 กระโปรงสั้นมีซับในกางเกงทรงเอ', spec: 'ใส่แล้วมั่นใจ ผ้าเนื้อดี ทรงสวยเป๊ะ น่ารักสดใส', price: 380, img: REAL_IMAGE_DATABASE.fashion[3] },
-    { name: 'เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 เสื้อเชิ้ตโอเวอร์ไซส์สตรีทสไตล์', spec: 'ผ้าคอตตอนแท้ 100% ระบายอากาศได้ดี ใส่สบายสุดๆ', price: 350, img: REAL_IMAGE_DATABASE.fashion[4] }
-  ]
-};
-
-// 3. GENERATOR ENGINE: สร้างสินค้าให้เกิน 30+ รายการต่อหมวด โดยภาพไม่ซ้ำกันเลย
+// 2. GENERATOR ENGINE: สร้างสินค้ามากกว่า 50+ รายการ "ต่อทุกหมวดย่อย" พร้อมภาพไม่ซ้ำ และคำอธิบายยาว
 const GENERATED_PRODUCTS: ProductItem[] = (() => {
   const list: ProductItem[] = [];
   let idCounter = 1;
 
   CATEGORY_STRUCTURE.forEach((mainCat) => {
-    let categoryProductCount = 0;
-
-    // สร้างวนจนกว่าในแต่ละหมวดหลักจะมีรวมมากกว่า 30 รายการ
-    while (categoryProductCount < 32) {
-      mainCat.subs.forEach((sub, subIdx) => {
-        const realPool = REAL_PRODUCTS_DATA[sub];
-        
+    mainCat.subs.forEach((subCat) => {
+      // สร้าง 52 รายการต่อ 1 หมวดย่อย
+      for (let i = 1; i <= 52; i++) {
         let name = '';
         let spec = '';
         let price = 0;
-        let img = '';
+        let keywords: string[] = [mainCat.name, subCat, 'พร้อมส่ง', 'แท้100%'];
 
-        if (realPool && categoryProductCount < realPool.length) {
-          // ดึงข้อมูลจริงจากฐานข้อมูล
-          const realItem = realPool[categoryProductCount];
-          name = realItem.name;
-          spec = realItem.spec;
-          price = realItem.price;
-          img = realItem.img;
-        } else {
-          // สร้างไอเทมส่วนขยายที่ไม่ซ้ำกัน
-          const serial = categoryProductCount + 1;
-          
-          if (mainCat.id === 'fashion') {
-            name = `เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 คอลเลกชันใหม่ รุ่น Premium (#${serial})`;
-            spec = 'เนื้อผ้านุ่มสบาย ตัดเย็บประณีต สไตล์เกาหลีสดใส';
-            price = 290 + (serial * 25) % 400;
-            img = REAL_IMAGE_DATABASE.fashion[serial % REAL_IMAGE_DATABASE.fashion.length];
-          } else if (mainCat.id === 'it') {
-            name = `${sub} อุปกรณ์ไอทีคุณภาพสูง พร้อมส่งจากไทย 🇹🇭 Pro Series (#${serial})`;
-            spec = 'ของแท้ประกันศูนย์ไทย 1 ปีเต็ม ประสิทธิภาพสูง';
-            price = 1290 + (serial * 350) % 8000;
-            img = REAL_IMAGE_DATABASE.laptop[serial % REAL_IMAGE_DATABASE.laptop.length];
-          } else if (mainCat.id === 'beauty') {
-            name = `${sub} สูตรเคาน์เตอร์แบรนด์ ของแท้ 100% พร้อมส่งจากไทย 🇹🇭 (#${serial})`;
-            spec = 'ผ่านการทดสอบโดยผู้เชี่ยวชาญด้านผิวพรรณ อ่อนโยนต่อผิว';
-            price = 450 + (serial * 85) % 1500;
-            img = REAL_IMAGE_DATABASE.skincare[serial % REAL_IMAGE_DATABASE.skincare.length];
-          } else if (mainCat.id === 'decor') {
-            name = `${sub} แต่งบ้านมินิมอล สไตล์คาเฟ่เกาหลี พร้อมส่งจากไทย 🇹🇭 (#${serial})`;
-            spec = 'วัสดุคุณภาพดีเยี่ยม แข็งแรง ทนทาน ช่วยให้บ้านดูสวยงามน่าอยู่';
-            price = 390 + (serial * 120) % 2500;
-            img = REAL_IMAGE_DATABASE.decor[serial % REAL_IMAGE_DATABASE.decor.length];
+        // สร้างรูปภาพจาก Unsplash Source สุ่มตาม ID เพื่อความไม่ซ้ำกัน
+        const imgKeyword = SUB_CAT_IMAGE_KEYWORDS[subCat] || 'product';
+        const image = `https://images.unsplash.com/photo-${1500000000000 + (idCounter * 13579) % 900000000}?w=600&q=80&fit=crop`;
+        
+        // --- 1. หมวดแฟชั่น ---
+        if (mainCat.id === 'fashion') {
+          if (subCat === 'เสื้อผ้า ผญ') {
+            name = `เสื้อผ้าน่ารักๆ พร้อมส่งจากไทย 🇹🇭 เดรส/เสื้อครอป สไตล์เกาหลี มินิมอล รุ่น Pro-Slim (#${i})`;
+            spec = `ตัดเย็บด้วยผ้าฝ้ายพรีเมียม ผ้านุ่มระบายอากาศดีมาก ไม่ร้อน ไม่บาง ทรงสวยเป๊ะ พรางหุ่นได้ดีเยี่ยม เหมาะกับใส่ไปคาเฟ่ เที่ยวทะเล หรือใส่ทำงานในชีวิตประจำวัน สามารถซักเครื่องได้ผ้าไม่หดตัว สีไม่ตก มั่นใจคุณภาพ 100%`;
+            price = 290 + (i * 20) % 650;
+            keywords.push('เกาหลี', 'ชุดเดรส', 'เสื้อครอป', 'เสื้อน่ารัก', 'คาเฟ่', 'พรางหุ่น');
+          } else if (subCat === 'รองเท้า') {
+            name = `รองเท้าผ้าใบ/ส้นสูง สวมใส่สบาย พื้นนุ่มซับแรงกระแทก รุ่น Air-Comfort (#${i})`;
+            spec = `ดีไซน์สตรีทแฟชั่นยอดนิยม ผลิตจากหนัง PU และผ้าตาข่ายระบายอากาศได้ดีเยี่ยม พื้นยางพาราแท้กันลื่น น้ำหนักเบาใส่เดินได้ทั้งวันโดยไม่เจ็บเท้า ส้นสูงกำลังดี ช่วยเสริมบุคลิกและสัดส่วนให้ดูเพรียวสวยงาม`;
+            price = 490 + (i * 45) % 1500;
+            keywords.push('รองเท้าผ้าใบ', 'ส้นสูง', 'พื้นนุ่ม', 'ไม่เจ็บเท้า', 'กันลื่น');
           } else {
-            name = `${sub} สินค้าพรีเมียมคุณภาพดี พร้อมส่งจากไทย 🇹🇭 (#${serial})`;
-            spec = 'สินค้าจัดส่งไว รับประกันความพึงพอใจ';
-            price = 150 + (serial * 45) % 600;
-            img = REAL_IMAGE_DATABASE.fashion[serial % REAL_IMAGE_DATABASE.fashion.length];
+            name = `${subCat} สินค้าแฟชั่นอินเทรนด์ สไตล์เกาหลี พร้อมส่งจากไทย 🇹🇭 (#${i})`;
+            spec = `วัสดุเกรดพรีเมียม ผ่านการคัดสรรคุณภาพอย่างพิถีพิถัน ดีไซน์ทันสมัยแมตช์เข้าได้กับทุกชุด ลุคมินิมอล เรียบหรูดูแพง ทนทานต่อการใช้งาน ทรงสวยตรงปกตรงตามรูปภาพ 100%`;
+            price = 190 + (i * 30) % 900;
+            keywords.push('มินิมอล', 'สตรีท', 'เรียบหรู');
           }
+        } 
+        // --- 2. หมวดไอที ---
+        else if (mainCat.id === 'it') {
+          if (subCat === 'โทรศัพท์') {
+            const brands = ['Apple iPhone 15 Pro', 'Samsung Galaxy S24 Ultra', 'Xiaomi 14 Pro', 'OPPO Find N3', 'Vivo X100 Pro'];
+            const selectedBrand = brands[i % brands.length];
+            name = `${selectedBrand} 5G (ความจุ ${128 * ((i % 3) + 1)}GB) ประกันศูนย์ไทย 1 ปี (#${i})`;
+            spec = `มาพร้อมชิปประมวลผลทรงพลังระดับท็อป รองรับความเร็ว 5G จอแสดงผล AMOLED 120Hz ลื่นไหลสบายตา กล้องถ่ายภาพความละเอียดสูง 108MP+ พร้อมระบบ AI ช่วยแต่งภาพให้สวยงามถ่ายหน้าชัดหลังเบลอสมบูรณ์แบบ แบตเตอรี่อึดทนทาน ชาร์จไว 67W`;
+            price = 18900 + (i * 850) % 35000;
+            keywords.push('5G', 'กล้องสวย', 'ชิปแรง', 'จอ120Hz', 'ชาร์จไว', 'ประกันศูนย์');
+          } else if (subCat === 'แท็บเล็ต (MacBook)') {
+            name = `Apple MacBook / iPad Pro M3/M4 Series หน้าจอ Retina XDR (#${i})`;
+            spec = `ประสิทธิภาพการประมวลผลขั้นสูงด้วยชิป M-Series ล่าสุด รองรับงานกราฟิก 3D ตัดต่อวิดีโอ 4K และการทำงานมัลติทาสก์ได้อย่างลื่นไหล จอภาพ Retina แสดงสีสันสดใสเที่ยงตรง บอดี้อลูมิเนียมเกรดอวกาศ น้ำหนักเบาพกพาสะดวก แบตเตอรี่ใช้งานยาวนานสูงสุด 18 ชั่วโมง`;
+            price = 23900 + (i * 1200) % 55000;
+            keywords.push('ชิปM3', 'ชิปM4', 'ตัดต่อวิดีโอ', 'พกพาง่าย', 'แบตอึด', 'Apple');
+          } else if (subCat === 'คอมพิวเตอร์') {
+            name = `โน้ตบุ๊กเกมมิ่ง/ทำงานระดับไฮเอนด์ Intel Core i9 / RTX 4070 (#${i})`;
+            spec = `สเปกเทพสำหรับการเล่นเกมระดับ AAA และงานเรนเดอร์ขนาดยักษ์ การ์ดจอ NVIDIA GeForce RTX 40 Series รองรับ Ray Tracing จอภาพ IPS 240Hz ตอบสนองรวดเร็ว ระบบระบายความร้อนพัดลมคู่แบบพิเศษ คีย์บอร์ด RGB ปรับแต่งไฟได้ตามต้องการ`;
+            price = 29900 + (i * 1500) % 60000;
+            keywords.push('i9', 'RTX4070', 'เล่นเกม', '240Hz', 'Notebook', 'Gaming');
+          } else {
+            name = `${subCat} อุปกรณ์ไอทีฮาร์ดแวร์เกมมิ่ง Pro Performance (#${i})`;
+            spec = `อุปกรณ์สเปกเกมมิ่งเกียร์เกรดโปรนักกีฬา E-Sports เลือกใช้ ตอบสนองแม่นยำไร้ดีเลย์ วัสดุแข็งแรงทนทาน เชื่อมต่อได้ทั้งแบบสายและไร้สาย Bluetooth 5.3 / 2.4GHz ประกันศูนย์ไทยเสียเปลี่ยนตัวใหม่ทันที`;
+            price = 890 + (i * 250) % 5000;
+            keywords.push('Gaming', 'E-Sports', 'ไร้สาย', 'RGB', 'ประกันศูนย์');
+          }
+        } 
+        // --- 3. หมวดเครื่องสำอาง & สกินแคร์ ---
+        else if (mainCat.id === 'beauty') {
+          if (subCat === 'ครีมทาหน้าหรือเซรั่ม') {
+            name = `เซรั่มเข้มข้นบำรุงผิวหน้า Estée / La Roche / Kiehl's สูตรฟื้นฟูผิวเร่งด่วน (#${i})`;
+            spec = `สูตรนวัตกรรมใหม่บำรุงล้ำลึกถึงชั้นเซลล์ผิว ช่วยลดเลือนริ้วรอย จุดด่างดำ และรอยแดงจากสิว ปรับผิวหน้าให้สว่างกระจ่างใส ฉ่ำวาวอิ่มน้ำแบบสาวเกาหลี รูขุมขนแลดูกระชับขึ้นภายใน 7 วัน อ่อนโยนต่อผิวแพ้ง่าย ไม่มีส่วนผสมของแอลกอฮอล์และพาราเบน`;
+            price = 890 + (i * 120) % 4500;
+            keywords.push('เซรั่ม', 'หน้าฉ่ำ', 'ลดสิว', 'ผิวแพ้ง่าย', 'กระจ่างใส', 'ลดริ้วรอย');
+          } else if (subCat === 'ลิป') {
+            name = `ลิปบาล์มเปลี่ยนสี / ลิปแมตต์ฉ่ำวาว ติดทนนาน 24 ชั่วโมง Dior & Rom&nd Style (#${i})`;
+            spec = `ลิปสติกเนื้อสัมผัสเนียนนุ่ม สบายริมฝีปาก ไม่แห้งตึง ไม่ตกตระกูล เม็ดสีแน่นชัดกลบสีปากเดิมได้มิด พร้อมสารบำรุงจากวิตามินอีและออยล์ธรรมชาติ ให้ริมฝีปากเนียนนุ่มชุ่มชื้นอวบอิ่มตลอดวัน กันน้ำ กันเหงื่อ ไม่ติดแมสก์`;
+            price = 350 + (i * 40) % 1500;
+            keywords.push('ลิปแมตต์', 'ลิปทินท์', 'ติดทน', 'ไม่ติดแมสก์', 'ปากชุ่มชื้น');
+          } else {
+            name = `${subCat} เคาน์เตอร์แบรนด์แท้ 100% ปกปิดเนียนกริบ ปรับผิวสวยสดใส (#${i})`;
+            spec = `เนื้อสัมผัสบางเบา ควบคุมความมันยาวนานตลอด 12 ชั่วโมง ไม่เป็นคราบระหว่างวัน พร้อมปกป้องผิวจากแสงแดดด้วย SPF50+ PA++++ ช่วยให้เมคอัพติดทนนาน สดใสเปล่งประกายอย่างเป็นธรรมชาติ`;
+            price = 450 + (i * 60) % 2000;
+            keywords.push('คุมมัน', 'กันแดด', 'ปกปิดดี', 'บางเบา');
+          }
+        } 
+        // --- 4. หมวดอื่นๆ ---
+        else {
+          name = `${subCat} สินค้าคุณภาพพรีเมียม นำเข้าพร้อมส่งจากไทย 🇹🇭 (#${i})`;
+          spec = `ผลิตจากวัสดุคุณภาพดีเยี่ยม ปลอดภัยไร้สารตกค้าง ผ่านการรับรองมาตรฐานสากล ออกแบบมาให้ใช้งานง่าย สะดวกสบาย ตอบโจทย์ไลฟ์สไตล์ยุคใหม่ คุ้มค่าคุ้มราคา จัดส่งรวดเร็วทันใจ ห่อกันกระแทกอย่างดี`;
+          price = 120 + (i * 35) % 1200;
+          keywords.push('พรีเมียม', 'จัดส่งไว', 'ของแท้');
         }
 
         list.push({
           id: idCounter++,
           name,
           mainCategory: mainCat.id,
-          subCategory: sub,
+          subCategory: subCat,
           price,
-          originalPrice: Math.floor(price * 1.3),
-          rating: Number((4.6 + (categoryProductCount % 4) * 0.1).toFixed(1)),
-          reviewsCount: 110 + categoryProductCount * 18,
-          sold: 250 + categoryProductCount * 32,
-          image: img,
-          badge: categoryProductCount % 4 === 0 ? 'HOT' : categoryProductCount % 5 === 0 ? 'SALE' : 'NEW',
-          spec
+          originalPrice: Math.floor(price * 1.35),
+          rating: Number((4.6 + (i % 4) * 0.1).toFixed(1)),
+          reviewsCount: 80 + i * 14,
+          sold: 150 + i * 28,
+          image,
+          badge: i % 5 === 0 ? 'HOT' : i % 7 === 0 ? 'SALE' : 'NEW',
+          spec,
+          keywords
         });
-
-        categoryProductCount++;
-      });
-    }
+      }
+    });
   });
 
   return list;
 })();
 
 export default function StorePage() {
-  const [activeMainCat, setActiveMainCat] = useState<string>('fashion');
+  const [activeMainCat, setActiveMainCat] = useState<string>('all'); // 'all' = หน้าแรกสินค้าคละ
   const [activeSubCat, setActiveSubCat] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
@@ -245,18 +212,31 @@ export default function StorePage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<{ items: { product: ProductItem; quantity: number }[]; total: number } | null>(null);
 
+  // ดึงหมวดย่อยตามหมวดหลักที่เลือก
   const currentSubCategories = useMemo(() => {
+    if (activeMainCat === 'all') return [];
     const found = CATEGORY_STRUCTURE.find(c => c.id === activeMainCat);
     return found ? found.subs : [];
   }, [activeMainCat]);
 
+  // ระบบกรองสินค้า (หน้าแรกคละสินค้า / กรองตามหมวด / ค้นหาคีย์เวิร์ดอย่างฉลาด)
   const filteredProducts = useMemo(() => {
     return GENERATED_PRODUCTS.filter((item) => {
-      const matchCat = item.mainCategory === activeMainCat;
+      // 1. กรองตามหมวดหลัก (ถ้าเป็น 'all' คือแสดงทุกหมวดคละกัน)
+      const matchMain = activeMainCat === 'all' || item.mainCategory === activeMainCat;
+      
+      // 2. กรองตามหมวดย่อย
       const matchSub = activeSubCat === 'all' || item.subCategory === activeSubCat;
-      const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.subCategory.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchCat && matchSub && matchSearch;
+      
+      // 3. กรองตามคำค้นหา (ค้นหาจาก ชื่อ, สเปก, หมวดย่อย, คีย์เวิร์ด)
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch = !q || 
+        item.name.toLowerCase().includes(q) ||
+        item.spec.toLowerCase().includes(q) ||
+        item.subCategory.toLowerCase().includes(q) ||
+        item.keywords.some(k => k.toLowerCase().includes(q));
+
+      return matchMain && matchSub && matchSearch;
     });
   }, [activeMainCat, activeSubCat, searchQuery]);
 
@@ -358,7 +338,7 @@ export default function StorePage() {
       <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-6">
           
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => { setActiveSubCat('all'); setSearchQuery(''); }}>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => { setActiveMainCat('all'); setActiveSubCat('all'); setSearchQuery(''); }}>
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-rose-500 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-rose-500/30">
               L
             </div>
@@ -372,13 +352,13 @@ export default function StorePage() {
             </div>
           </div>
 
-          {/* ช่องค้นหาใหญ่ชัดเจน */}
+          {/* ช่องค้นหา Smart Keywords */}
           <div className="flex-1 max-w-xl relative hidden md:block">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="ค้นหา iPhone, MacBook, Estée Lauder, เสื้อผ้าน่ารักๆ..."
+              placeholder="ค้นหา iPhone, M3, หน้าฉ่ำ, สไตล์เกาหลี, เสื้อครอป, RTX 4070..."
               className="w-full bg-slate-800/90 text-slate-100 pl-12 pr-10 py-3.5 rounded-2xl text-base font-semibold border border-slate-700/80 focus:border-rose-500 focus:outline-none transition-all placeholder:text-slate-500 shadow-inner"
             />
             <Search className="w-5 h-5 text-slate-400 absolute left-4 top-4" />
@@ -396,12 +376,23 @@ export default function StorePage() {
       {/* 🟢 MAIN STORE SECTION */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
         
-        {/* 🔥 หมวดหมู่หลัก (ปรับขนาดตัวหนังสือใหญ่ เด่น หรูหรา) */}
+        {/* 🔥 หมวดหมู่หลัก (มีตัวเลือก "✨ สินค้าทั้งหมด (คละหมวด)") */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3 text-rose-400 text-sm font-black uppercase tracking-wider">
-            <Sparkles className="w-4 h-4" /> เลือกหมวดหมู่สินค้าที่คุณต้องการ (สินค้ามากกว่า 30+ รายการต่อหมวด)
+            <Sparkles className="w-4 h-4" /> เลือกหมวดหมู่สินค้า (มีตัวเลือกสินค้า 50+ รายการต่อหมวดย่อย)
           </div>
           <div className="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-none border-b border-slate-800/80">
+            <button
+              onClick={() => { setActiveMainCat('all'); setActiveSubCat('all'); }}
+              className={`px-7 py-3.5 rounded-2xl text-base sm:text-lg font-black whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 shadow-md ${
+                activeMainCat === 'all'
+                  ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 text-white shadow-lg scale-105 border border-amber-400/40'
+                  : 'bg-slate-900 text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              ✨ สินค้าทั้งหมด (คละหมวด)
+            </button>
+
             {CATEGORY_STRUCTURE.map((cat) => (
               <button
                 key={cat.id}
@@ -418,33 +409,45 @@ export default function StorePage() {
           </div>
         </div>
 
-        {/* 🏷️ หมวดย่อย (ปรับตัวหนังสือใหญ่ อ่านง่าย สมจริง) */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 overflow-x-auto pb-3 scrollbar-none">
-            <button
-              onClick={() => setActiveSubCat('all')}
-              className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-extrabold whitespace-nowrap transition-all cursor-pointer ${
-                activeSubCat === 'all'
-                  ? 'bg-white text-slate-950 shadow-md scale-102'
-                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
-              }`}
-            >
-              ทั้งหมด ({filteredProducts.length})
-            </button>
-            {currentSubCategories.map((sub) => (
+        {/* 🏷️ หมวดย่อย (จะโชว์เมื่อเลือกหมวดหลัก) */}
+        {currentSubCategories.length > 0 && (
+          <div className="mb-8 animate-fadeIn">
+            <div className="flex items-center gap-3 overflow-x-auto pb-3 scrollbar-none">
               <button
-                key={sub}
-                onClick={() => setActiveSubCat(sub)}
-                className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-bold whitespace-nowrap transition-all cursor-pointer ${
-                  activeSubCat === sub
-                    ? 'bg-rose-500 text-white shadow-md shadow-rose-500/25 scale-102 border border-rose-400'
-                    : 'bg-slate-900/90 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                onClick={() => setActiveSubCat('all')}
+                className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-extrabold whitespace-nowrap transition-all cursor-pointer ${
+                  activeSubCat === 'all'
+                    ? 'bg-white text-slate-950 shadow-md scale-102'
+                    : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
                 }`}
               >
-                {sub}
+                ทั้งหมดในหมวดนี้
               </button>
-            ))}
+              {currentSubCategories.map((sub) => (
+                <button
+                  key={sub}
+                  onClick={() => setActiveSubCat(sub)}
+                  className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-bold whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubCat === sub
+                      ? 'bg-rose-500 text-white shadow-md shadow-rose-500/25 scale-102 border border-rose-400'
+                      : 'bg-slate-900/90 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  }`}
+                >
+                  {sub} (50+)
+                </button>
+              ))}
+            </div>
           </div>
+        )}
+
+        {/* หัวข้อบอกสถานะหน้าสินค้าปัจจุบัน */}
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <Filter className="w-5 h-5 text-rose-400" />
+            {activeMainCat === 'all' ? 'สินค้าแนะนำคละหมวดหมู่ทั้งหมด' : CATEGORY_STRUCTURE.find(c => c.id === activeMainCat)?.name}
+            {activeSubCat !== 'all' && <span className="text-rose-400"> › {activeSubCat}</span>}
+          </h2>
+          <span className="text-sm font-bold text-slate-400">พบ {filteredProducts.length.toLocaleString()} รายการ</span>
         </div>
 
         {/* 🛍️ GRID ตารางสินค้า */}
@@ -482,7 +485,8 @@ export default function StorePage() {
                   <h3 className="font-black text-slate-100 text-base line-clamp-2 leading-snug group-hover:text-rose-400 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-xs text-slate-400 line-clamp-2 mt-1.5 font-normal leading-relaxed">
+                  {/* รายละเอียดสเปกยาว อ่านง่าย */}
+                  <p className="text-xs text-slate-400 line-clamp-3 mt-1.5 font-normal leading-relaxed">
                     {product.spec}
                   </p>
                 </div>
@@ -626,7 +630,7 @@ export default function StorePage() {
         </div>
       </div>
 
-      {/* 🟢 MODAL POPUP รายละเอียดสินค้า */}
+      {/* 🟢 MODAL POPUP รายละเอียดสินค้าอย่างละเอียด */}
       {selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-slate-900 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative border border-slate-800">
@@ -641,13 +645,27 @@ export default function StorePage() {
               <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
             </div>
 
-            <div className="p-6 space-y-5">
+            <div className="p-6 space-y-5 max-h-[45vh] overflow-y-auto">
               <div>
                 <span className="bg-rose-500/20 text-rose-400 text-xs font-black px-3 py-1 rounded-lg border border-rose-500/30">
                   {selectedProduct.subCategory}
                 </span>
                 <h2 className="text-xl font-black text-white mt-2.5 leading-snug">{selectedProduct.name}</h2>
-                <p className="text-sm text-slate-400 mt-1 leading-relaxed">{selectedProduct.spec}</p>
+                
+                {/* คำอธิบายยาวอย่างละเอียด */}
+                <div className="mt-3 bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
+                  <h4 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-1.5">รายละเอียดและคุณสมบัติสินค้า</h4>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal">{selectedProduct.spec}</p>
+                </div>
+              </div>
+
+              {/* Tag คำค้นหา */}
+              <div className="flex flex-wrap gap-1.5">
+                {selectedProduct.keywords.map((kw) => (
+                  <span key={kw} className="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-md font-medium">
+                    #{kw}
+                  </span>
+                ))}
               </div>
 
               <div className="flex items-center justify-between py-3.5 border-y border-slate-800">
