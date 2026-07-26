@@ -22,6 +22,7 @@ interface CartItem {
   image: string;
 }
 
+// ฐานข้อมูลสินค้าจำลอง (ปรับเป็นหมวดย่อยละ 50 รายการ!)
 const GENERATE_PRODUCTS = (): Product[] => {
   const categories = [
     { main: 'clothing', subs: ['เสื้อผ้าผู้หญิง', 'เสื้อผ้าผู้ชาย', 'เสื้อผ้าเด็ก'] },
@@ -45,7 +46,8 @@ const GENERATE_PRODUCTS = (): Product[] => {
 
   categories.forEach((cat) => {
     cat.subs.forEach((sub) => {
-      for (let i = 1; i <= 40; i++) {
+      // ปรับเป็น 50 ตัวเลือกต่อหมวดย่อย!
+      for (let i = 1; i <= 50; i++) {
         list.push({
           id: idCounter,
           name: `${sub} LALANA Premium Collection (แบบที่ ${i})`,
@@ -207,7 +209,7 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              🔥 สินค้าทั้งหมด
+              🔥 สินค้าทั้งหมด (450)
             </button>
             <button
               onClick={() => { setSelectedMainCategory('clothing'); setSelectedSubCategory('all'); }}
@@ -217,7 +219,7 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              👕 หมวดเสื้อผ้า
+              👕 หมวดเสื้อผ้า (150)
             </button>
             <button
               onClick={() => { setSelectedMainCategory('electronics'); setSelectedSubCategory('all'); }}
@@ -227,7 +229,7 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              🎧 หมวดไอที & สมาร์ตไอเทม
+              🎧 หมวดไอที & สมาร์ตไอเทม (150)
             </button>
             <button
               onClick={() => { setSelectedMainCategory('lifestyle'); setSelectedSubCategory('all'); }}
@@ -237,7 +239,7 @@ export default function Home() {
                   : 'bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800'
               }`}
             >
-              👟 หมวดไลฟ์สไตล์ & แฟชั่น
+              👟 หมวดไลฟ์สไตล์ & แฟชั่น (150)
             </button>
           </div>
 
@@ -267,7 +269,7 @@ export default function Home() {
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {sub} (40)
+                    {sub} (50)
                   </button>
                 ))}
               {selectedMainCategory === 'electronics' &&
@@ -281,7 +283,7 @@ export default function Home() {
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {sub} (40)
+                    {sub} (50)
                   </button>
                 ))}
               {selectedMainCategory === 'lifestyle' &&
@@ -295,7 +297,7 @@ export default function Home() {
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {sub} (40)
+                    {sub} (50)
                   </button>
                 ))}
             </div>
