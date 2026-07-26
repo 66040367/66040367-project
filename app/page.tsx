@@ -37,72 +37,463 @@ interface CartItem {
 
 // 🎯 คลังรูปภาพแยกเฉพาะแบบเจาะจง 100% ไม่ซ้ำ ไม่วนมั่ว
 const PRODUCT_DATA_SOURCE: Record<string, { name: string; images: string[] }[]> = {
-  // --- อุปกรณ์คอมพิวเตอร์ ---
-  'จอคอมพิวเตอร์': [
-    { name: 'จอคอม Gaming 27" 165Hz IPS QHD', images: ['https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80'] },
-    { name: 'จอคอม Curved Monitor 34" Ultrawide 4K', images: ['https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=600&q=80'] },
-    { name: 'จอคอมพิวเตอร์สเปกทำงาน 24" Frameless', images: ['https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80'] },
-    { name: 'จอคอม Dual Monitor Setup Ready 27"', images: ['https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600&q=80'] },
-    { name: 'จอคอม Gaming OLED 240Hz Response 0.03ms', images: ['https://images.unsplash.com/photo-1551645120-d70bfe84c826?w=600&q=80'] },
-  ],
-  'เคสคอมพิวเตอร์': [
-    { name: 'เคสคอม RGB Gaming Mid-Tower Glass Panel', images: ['https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80'] },
-    { name: 'เคสคอมพิวเตอร์ Custom Water Cooling Ready', images: ['https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80'] },
-    { name: 'เคสคอม Mini-ITX Compact Aluminum Build', images: ['https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80'] },
-    { name: 'เคสคอม White Edition tempered Glass RGB', images: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80'] },
-  ],
-  'คีย์บอร์ด': [
-    { name: 'คีย์บอร์ด Mechanical Wireless RGB Hotswap', images: ['https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80'] },
-    { name: 'คีย์บอร์ด Custom Mechanical Wooden Base', images: ['https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&q=80'] },
-    { name: 'คีย์บอร์ด Gaming TKL Red Switch Ultra Fast', images: ['https://images.unsplash.com/photo-1595225476474-87563907a212?w=600&q=80'] },
-    { name: 'คีย์บอร์ด Ergonomic Split Design', images: ['https://images.unsplash.com/photo-1541140134513-85a161dc4a00?w=600&q=80'] },
-  ],
-  'เมาส์': [
-    { name: 'เมาส์ Gaming Wireless Lightweight 60g', images: ['https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600&q=80'] },
-    { name: 'เมาส์ไร้สาย Ergonomic Vertical Mouse', images: ['https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&q=80'] },
-    { name: 'เมาส์เกมมิ่ง RGB High Precision Sensor', images: ['https://images.unsplash.com/photo-1629429408209-1f912961dbd8?w=600&q=80'] },
-  ],
-  'ไมโครโฟน': [
-    { name: 'ไมโครโฟน USB Condenser สำหรับสตรีมมิ่ง', images: ['https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80'] },
-    { name: 'ไมโครโฟน XLR Studio Qualityพร้อมขาตั้ง', images: ['https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600&q=80'] },
-    { name: 'ไมค์ตั้งโต๊ะ RGB สำหรับแคสเกมและพอดแคสต์', images: ['https://images.unsplash.com/photo-1614680376593-902f749f7051?w=600&q=80'] },
-  ],
+  export interface ProductItem {
+  id: number;
+  name: string;
+  category: string;
+  subCategory: string;
+  price: number;
+  originalPrice: number;
+  rating: number;
+  sold: number;
+  image: string;
+  badge?: 'HOT' | 'SALE' | 'NEW';
+  spec: string;
+}
 
-  // --- เสื้อผ้า ---
-  'เสื้อผ้าผู้หญิง': [
-    { name: 'เดรสยาวแฟชั่นเกาหลี พรีเมียมผ้านุ่ม', images: ['https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80'] },
-    { name: 'เสื้อไหมพรมคอวี สไตล์มินิมอล', images: ['https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80'] },
-    { name: 'ชุดเซ็ตเสื้อกับกระโปรงแฟชั่นฤดูร้อน', images: ['https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&q=80'] },
-    { name: 'เสื้อสูทเบลเซอร์ผู้หญิงสไตล์ลำลอง', images: ['https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=600&q=80'] },
-  ],
-  'เสื้อผ้าผู้ชาย': [
-    { name: 'เสื้อเชิ้ตแขนยาวคอตตอน พรีเมียมฟิต', images: ['https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&q=80'] },
-    { name: 'เสื้อสูทสากลผู้ชาย สมาร์ทลุค Slim Fit', images: ['https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80'] },
-    { name: 'เสื้อแจ็กเก็ตยีนส์ คลาสสิกสตรีทแวร์', images: ['https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600&q=80'] },
-    { name: 'เสื้อยืดคอกลม Oversize Cotton 100%', images: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&q=80'] },
-  ],
+export const TOP_PRODUCTS_DATA: ProductItem[] = [
+  // ==========================================
+  // 💻 หมวดหมู่: คอมพิวเตอร์ & IT ตัวท็อป
+  // ==========================================
+  
+  // --- จอคอมพิวเตอร์ (Monitor) ---
+  {
+    id: 101,
+    name: 'ASUS ROG Swift OLED PG32UCDM 31.5" 4K 240Hz',
+    category: 'electronics',
+    subCategory: 'จอคอม',
+    price: 49900,
+    originalPrice: 53900,
+    rating: 5.0,
+    sold: 142,
+    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80',
+    badge: 'HOT',
+    spec: 'QD-OLED 0.03ms, Type-C 90W, KVM Switch'
+  },
+  {
+    id: 102,
+    name: 'Samsung Odyssey OLED G9 49" Dual QHD 240Hz Curved',
+    category: 'electronics',
+    subCategory: 'จอคอม',
+    price: 52900,
+    originalPrice: 59900,
+    rating: 4.9,
+    sold: 89,
+    image: 'https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=800&q=80',
+    badge: 'SALE',
+    spec: '0.03ms GTG, Smart TV OS, Neo Quantum Processor'
+  },
+  {
+    id: 103,
+    name: 'LG UltraGear 27GS95QE-B 27" OLED QHD 240Hz',
+    category: 'electronics',
+    subCategory: 'จอคอม',
+    price: 29900,
+    originalPrice: 32900,
+    rating: 4.8,
+    sold: 210,
+    image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=800&q=80',
+    spec: 'G-Sync Compatible, DisplayHDR True Black 400'
+  },
 
-  // --- รองเท้า ---
-  'รองเท้าแฟชั่น': [
-    { name: 'รองเท้า Sneaker หนังสีขาว พรีเมียม', images: ['https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80'] },
-    { name: 'รองเท้าส้นสูงแฟชั่น หนังแท้', images: ['https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=80'] },
-    { name: 'รองเท้าวิ่ง Running Sports Pro Cushion', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80'] },
-  ],
+  // --- CPU ---
+  {
+    id: 110,
+    name: 'Intel Core i9-14900KS LGA1700 (6.2GHz Turbo)',
+    category: 'electronics',
+    subCategory: 'CPU',
+    price: 26900,
+    originalPrice: 28900,
+    rating: 4.9,
+    sold: 310,
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&q=80',
+    badge: 'HOT',
+    spec: '24 Cores (8P+16E) 32 Threads, 36MB Smart Cache'
+  },
+  {
+    id: 111,
+    name: 'AMD Ryzen 7 7800X3D AM5 (ตัวท็อปสายเกมมิ่งอันดับ 1)',
+    category: 'electronics',
+    subCategory: 'CPU',
+    price: 15900,
+    originalPrice: 17500,
+    rating: 5.0,
+    sold: 850,
+    image: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=800&q=80',
+    badge: 'HOT',
+    spec: '8 Cores 16 Threads, 3D V-Cache 96MB'
+  },
 
-  // --- ความงาม ---
-  'เครื่องสำอาง': [
-    { name: 'ชุดลิปสติก Matte Finish Long Lasting', images: ['https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80'] },
-    { name: 'พาเลตต์อายแชโดว์ 12 เฉดสีธรรมชาติ', images: ['https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80'] },
-  ],
-  'น้ำหอม': [
-    { name: 'น้ำหอม LALANA EDP Perfume Luxury Scent 100ml', images: ['https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&q=80'] },
-    { name: 'น้ำหอมขวดแก้วพรีเมียม กลิ่นหอมนุ่มสดชื่น', images: ['https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80'] },
-  ],
-  'สกินแคร์': [
-    { name: 'เซรั่มบำรุงผิวหน้าไฮยาบรูสท์ เข้มข้น 50ml', images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80'] },
-    { name: 'มอยส์เจอไรเซอร์ครีมสูตรอ่อนโยนสำหรับผิวแพ้ง่าย', images: ['https://images.unsplash.com/photo-1608248597261-833250005a76?w=600&q=80'] },
-  ]
-};
+  // --- แรม (RAM) ---
+  {
+    id: 120,
+    name: 'G.SKILL Trident Z5 RGB 64GB (32GBx2) DDR5 6400MHz Cl32',
+    category: 'electronics',
+    subCategory: 'แรม',
+    price: 9890,
+    originalPrice: 11200,
+    rating: 4.9,
+    sold: 430,
+    image: 'https://images.unsplash.com/photo-1562976540-1502c2145186?w=800&q=80',
+    spec: 'Intel XMP 3.0 Ready, Aluminum Heatspreader'
+  },
+  {
+    id: 121,
+    name: 'CORSAIR DOMINATOR TITANIUM RGB 32GB (16GBx2) DDR5 7200MHz',
+    category: 'electronics',
+    subCategory: 'แรม',
+    price: 8490,
+    originalPrice: 9500,
+    rating: 5.0,
+    sold: 190,
+    image: 'https://images.unsplash.com/photo-1541140134513-85a161dc4a00?w=800&q=80',
+    badge: 'NEW',
+    spec: 'DHX Cooling Technology, Custom Top Bars'
+  },
+
+  // --- เมาส์ (Mouse) ---
+  {
+    id: 130,
+    name: 'Logitech G PRO X SUPERLIGHT 2 Wireless Gaming Mouse',
+    category: 'electronics',
+    subCategory: 'เมาส์',
+    price: 5290,
+    originalPrice: 5990,
+    rating: 5.0,
+    sold: 1200,
+    image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&q=80',
+    badge: 'HOT',
+    spec: 'HERO 2 Sensor 32,000 DPI, น้ำหนักเบาพิเศษ 60g, 2000Hz Polling'
+  },
+  {
+    id: 131,
+    name: 'Razer Viper V3 Pro Wireless - Black Edition',
+    category: 'electronics',
+    subCategory: 'เมาส์',
+    price: 5690,
+    originalPrice: 6290,
+    rating: 4.9,
+    sold: 640,
+    image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80',
+    spec: 'Focus Pro 35K Gen-2 Optical Sensor, 8000Hz HyperPolling'
+  },
+
+  // --- ไมค์ (Microphone) ---
+  {
+    id: 140,
+    name: 'Shure SM7B Dynamic Studio Vocal Microphone',
+    category: 'electronics',
+    subCategory: 'ไมค์',
+    price: 16900,
+    originalPrice: 18500,
+    rating: 5.0,
+    sold: 520,
+    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80',
+    badge: 'HOT',
+    spec: 'Cardioid XLR Studio Standard, Air Suspension Shock Isolation'
+  },
+  {
+    id: 141,
+    name: 'Rode NT-USB+ Professional USB Microphone',
+    category: 'electronics',
+    subCategory: 'ไมค์',
+    price: 7290,
+    originalPrice: 8100,
+    rating: 4.8,
+    sold: 310,
+    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80',
+    spec: 'Revolution Preamp, High-power Headphone Output, USB-C'
+  },
+
+  // --- หูฟัง (Headphones) ---
+  {
+    id: 150,
+    name: 'Sony WH-1000XM5 Wireless Noise Canceling Headphones',
+    category: 'electronics',
+    subCategory: 'หูฟัง',
+    price: 12990,
+    originalPrice: 14900,
+    rating: 4.9,
+    sold: 1580,
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
+    badge: 'HOT',
+    spec: 'Auto NC Optimizer, 8 Mics for ANC, Battery 30 Hrs, LDAC'
+  },
+
+  // --- โน๊ตบุ๊ค (Laptop) ---
+  {
+    id: 160,
+    name: 'ASUS ROG Strix SCAR 18 (i9-14900HX / RTX 4090 / RAM 64GB / SSD 2TB)',
+    category: 'electronics',
+    subCategory: 'โน๊ตบุ๊ค',
+    price: 139900,
+    originalPrice: 149900,
+    rating: 5.0,
+    sold: 45,
+    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800&q=80',
+    badge: 'HOT',
+    spec: '18" ROG Nebula HDR 2.5K 240Hz Mini LED, Conductonaut Extreme Liquid Metal'
+  },
+
+  // --- โทรศัพท์ (Smartphone) ---
+  {
+    id: 170,
+    name: 'iPhone 15 Pro Max 1TB Titanium Black',
+    category: 'electronics',
+    subCategory: 'โทรศัพท์',
+    price: 63900,
+    originalPrice: 66900,
+    rating: 4.9,
+    sold: 2100,
+    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80',
+    badge: 'HOT',
+    spec: 'A17 Pro Chip, 5x Telephoto Camera, Aerospace-Grade Titanium'
+  },
+  {
+    id: 171,
+    name: 'Samsung Galaxy S24 Ultra 1TB Titanium Gray (พร้อม S-Pen)',
+    category: 'electronics',
+    subCategory: 'โทรศัพท์',
+    price: 62900,
+    originalPrice: 65900,
+    rating: 4.9,
+    sold: 1890,
+    image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&q=80',
+    badge: 'HOT',
+    spec: 'Snapdragon 8 Gen 3, Galaxy AI Built-in, 200MP Main Camera'
+  },
+
+  // --- คอมประกอบ IHAVECPU สเปกเทพ ---
+  {
+    id: 180,
+    name: 'คอมประกอบ iHAVECPU : Intel i9-14900K + RTX 4090 24GB + RAM 64GB DDR5 (ชุดน้ำ 3 ตอน)',
+    category: 'electronics',
+    subCategory: 'คอมประกอบ iHAVECPU',
+    price: 129000,
+    originalPrice: 139000,
+    rating: 5.0,
+    sold: 120,
+    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800&q=80',
+    badge: 'HOT',
+    spec: 'เคส Lian Li O11 Dynamic EVO, พาวเวอร์ซัพพลาย 1200W 80+ Gold ประกันศูนย์ไทย 3 ปี'
+  },
+
+  // ==========================================
+  // 💄 หมวดหมู่: เครื่องสำอาง & บิวตี้
+  // ==========================================
+  
+  // --- ลิปสติก (Lipstick) ---
+  {
+    id: 201,
+    name: 'Dior Addict Lip Glow Color Reviver Balm #001 Pink',
+    category: 'beauty',
+    subCategory: 'ลิป',
+    price: 1650,
+    originalPrice: 1800,
+    rating: 5.0,
+    sold: 4500,
+    image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800&q=80',
+    badge: 'HOT',
+    spec: 'ลิปมันเปลี่ยนสีในตำนาน ชุ่มชื้นยาวนาน 24 ชั่วโมง'
+  },
+  {
+    id: 202,
+    name: 'CHANEL Rouge Allure Velvet Luminous Matte #58 Rouge Vie',
+    category: 'beauty',
+    subCategory: 'ลิป',
+    price: 1850,
+    originalPrice: 2000,
+    rating: 4.9,
+    sold: 2300,
+    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
+    spec: 'เนื้อแมตต์กำมะหยี่ นุ่มลื่น สัมผัสเบาสบายปาก'
+  },
+
+  // --- บลัชออน (Blush) ---
+  {
+    id: 210,
+    name: 'Rare Beauty Soft Pinch Liquid Blush #Hope',
+    category: 'beauty',
+    subCategory: 'บลัชออน',
+    price: 1050,
+    originalPrice: 1200,
+    rating: 5.0,
+    sold: 3800,
+    image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=80',
+    badge: 'HOT',
+    spec: 'บลัชออนเนื้อลิควิด เกลี่ยง่าย ติดทนนานตลอดวัน'
+  },
+
+  // --- เซรั่ม (Serum) ---
+  {
+    id: 220,
+    name: 'Estée Lauder Advanced Night Repair Synchronized Multi-Recovery Complex 50ml',
+    category: 'beauty',
+    subCategory: 'เซรั่ม',
+    price: 4850,
+    originalPrice: 5300,
+    rating: 5.0,
+    sold: 5100,
+    image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80',
+    badge: 'HOT',
+    spec: 'เซรั่มฟื้นบำรุงผิวยามค่ำคืนอันดับ 1 ลดเลือนริ้วรอย'
+  },
+
+  // --- กันแดด (Sunscreen) ---
+  {
+    id: 230,
+    name: 'Anessa Perfect UV Sunscreen Skincare Milk SPF50+ PA++++ 60ml',
+    category: 'beauty',
+    subCategory: 'กันแดด',
+    price: 1050,
+    originalPrice: 1190,
+    rating: 4.9,
+    sold: 8900,
+    image: 'https://images.unsplash.com/photo-1608248597261-833250005a76?w=800&q=80',
+    badge: 'HOT',
+    spec: 'กันแดดสูตรน้ำนม กันน้ำ กันเหงื่อ ไม่เหนียวเหนอะหนะ'
+  },
+
+  // --- แผ่นมาส์กหน้า (Sheet Mask) ---
+  {
+    id: 240,
+    name: 'SK-II Facial Treatment Mask (กล่อง 6 แผ่น)',
+    category: 'beauty',
+    subCategory: 'แผ่นมาส์กหน้า',
+    price: 3550,
+    originalPrice: 3900,
+    rating: 5.0,
+    sold: 1200,
+    image: 'https://images.unsplash.com/photo-1567928269937-ae146e45b428?w=800&q=80',
+    spec: 'อุดมด้วย Pitera เข้มข้น ผิวกระจ่างใสทันทีหลังใช้'
+  },
+
+  // --- รองพื้น (Foundation) ---
+  {
+    id: 250,
+    name: 'YSL All Hours Foundation SPF39 PA+++ 25ml',
+    category: 'beauty',
+    subCategory: 'รองพื้น',
+    price: 2700,
+    originalPrice: 2900,
+    rating: 4.9,
+    sold: 2100,
+    image: 'https://images.unsplash.com/photo-1599733589046-10c005739ef9?w=800&q=80',
+    badge: 'HOT',
+    spec: 'ปกปิดระดับคัสตอม คุมมันยาวนาน 24 ชั่วโมง บางเบาเป็นธรรมชาติ'
+  },
+
+  // ==========================================
+  // 👗 หมวดหมู่: แฟชั่นผู้หญิง & กระเป๋า & รองเท้า
+  // ==========================================
+  
+  // --- กระเป๋า (Bags) ---
+  {
+    id: 301,
+    name: 'Mardi Mercredi Bag Classy Canvas Tote Black',
+    category: 'clothing',
+    subCategory: 'กระเป๋า',
+    price: 3290,
+    originalPrice: 3800,
+    rating: 4.8,
+    sold: 1400,
+    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80',
+    badge: 'HOT',
+    spec: 'กระเป๋าผ้าแคนวาสทรงสวย ดีไซน์ยอดฮิตจากเกาหลี'
+  },
+  {
+    id: 302,
+    name: 'Stand Oil Chubby Bag - Black',
+    category: 'clothing',
+    subCategory: 'กระเป๋า',
+    price: 4190,
+    originalPrice: 4600,
+    rating: 4.9,
+    sold: 980,
+    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80',
+    spec: 'กระเป๋าหนังทรงโบว์ลิ่งเรโทร มีช่องเก็บของด้านหน้า 2 ช่อง'
+  },
+
+  // --- เสื้อผ้า (Women Clothes) ---
+  {
+    id: 310,
+    name: 'Mardi Mercredi T-Shirt Flowermardi White Green',
+    category: 'clothing',
+    subCategory: 'เสื้อผ้า',
+    price: 1890,
+    originalPrice: 2200,
+    rating: 4.9,
+    sold: 3400,
+    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80',
+    badge: 'HOT',
+    spec: 'เสื้อยืดลายดอกไม้เอกลักษณ์ ผ้า Cotton 100% สวมใส่สบาย'
+  },
+
+  // --- รองเท้า (Shoes) ---
+  {
+    id: 320,
+    name: 'Adidas Samba OG Cloud White Core Black',
+    category: 'clothing',
+    subCategory: 'รองเท้า',
+    price: 3800,
+    originalPrice: 4200,
+    rating: 5.0,
+    sold: 6200,
+    image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80',
+    badge: 'HOT',
+    spec: 'รองเท้าสตรีทสไตล์คลาสสิก หนังแท้แต่งแถบหนังกลับ'
+  },
+
+  // ==========================================
+  // 🍱 หมวดหมู่: ของกิน & สแน็ค
+  // ==========================================
+  {
+    id: 401,
+    name: 'Royce Chocolate Potato Chip Chocolate (190g)',
+    category: 'food',
+    subCategory: 'ของกิน',
+    price: 395,
+    originalPrice: 450,
+    rating: 5.0,
+    sold: 4200,
+    image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80',
+    badge: 'HOT',
+    spec: 'มันฝรั่งทอดกรอบคลุกเคล้าช็อกโกแลตเข้มข้น นำเข้าจากฮอกไกโด'
+  },
+
+  // ==========================================
+  // 🧸 หมวดหมู่: ของเล่น & Art Toys
+  // ==========================================
+  {
+    id: 501,
+    name: 'POP MART LABUBU THE MONSTERS - Have a Seat Vinyl Plush Blind Box',
+    category: 'toys',
+    subCategory: 'ของเล่น',
+    price: 890,
+    originalPrice: 1200,
+    rating: 5.0,
+    sold: 9500,
+    image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&q=80',
+    badge: 'HOT',
+    spec: 'กล่องสุ่มพวงกุญแจตุ๊กตาลาบูบู้เวอร์ชันนั่ง แท้ 100%'
+  },
+
+  // ==========================================
+  // 🏠 หมวดหมู่: ของตกแต่งห้อง & Lifestyle
+  // ==========================================
+  {
+    id: 601,
+    name: 'โคมไฟตั้งโต๊ะ Sunset Lamp RGB เปลี่ยนสีผ่านแอปสมาร์ทโฟน',
+    category: 'home',
+    subCategory: 'ของตกแต่งห้อง',
+    price: 450,
+    originalPrice: 690,
+    rating: 4.8,
+    sold: 1800,
+    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80',
+    spec: 'ไฟสร้างบรรยากาศพระอาทิตย์ตก หมุนได้ 360 องศา ปรับความสว่างได้'
+  }
+];
 
 const GENERATE_PRODUCTS = (): Product[] => {
   let list: Product[] = [];
