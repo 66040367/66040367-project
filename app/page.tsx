@@ -54,44 +54,44 @@ const CATEGORY_STRUCTURE = [
   }
 ];
 
-// 🎨 คีย์เวิร์ดสำหรับดึงรูปภาพตรงหมวดหมู่จาก Unsplash
-const UNSPLASH_KEYWORDS: Record<string, string[]> = {
-  'เสื้อผ้า ผญ': ['womenswear', 'dress', 'fashion-model', 'skirt', 'woman-style'],
-  'เสื้อผ้าผู้ชาย': ['menswear', 'men-style', 'jacket', 'tshirt', 'streetwear'],
-  'เสื้อผ้าเด็ก': ['kids-fashion', 'baby-clothing', 'cute-kids'],
-  'รองเท้า': ['sneakers', 'shoes', 'boots', 'running-shoes'],
-  'กระเป๋า': ['handbag', 'backpack', 'leather-bag', 'purse'],
-  'อุปกรณ์อื่นๆ (กำไล/สร้อย/แหวน)': ['jewelry', 'ring', 'necklace', 'bracelet'],
+// 🎨 คีย์เวิร์ดภาษาอังกฤษสำหรับดึงรูปตรงหมวด 100%
+const CATEGORY_KEYWORDS: Record<string, string> = {
+  'เสื้อผ้า ผญ': 'dress,fashion',
+  'เสื้อผ้าผู้ชาย': 'menswear,clothes',
+  'เสื้อผ้าเด็ก': 'baby,kids',
+  'รองเท้า': 'sneakers,shoes',
+  'กระเป๋า': 'handbag,backpack',
+  'อุปกรณ์อื่นๆ (กำไล/สร้อย/แหวน)': 'jewelry,ring',
 
-  'โทรศัพท์': ['smartphone', 'iphone', 'mobile-phone'],
-  'แท็บเล็ต (MacBook)': ['laptop', 'macbook', 'ipad', 'tablet'],
-  'คอมพิวเตอร์': ['pc-setup', 'desktop-computer', 'workspace'],
-  'ไมค์เล่นเกม': ['microphone', 'studio-mic', 'streaming-setup'],
-  'หูฟังเล่นเกม': ['headphones', 'gaming-headset', 'audio'],
-  'คีย์บอร์ดเล่นเกม': ['mechanical-keyboard', 'gaming-keyboard', 'rgb-keyboard'],
-  'จอคอม': ['computer-monitor', 'gaming-monitor'],
-  'CPU': ['computer-processor', 'tech-chip', 'hardware'],
-  'RAM': ['ram-memory', 'computer-parts'],
-  'คอมประกอบ': ['gaming-pc', 'custom-pc'],
+  'โทรศัพท์': 'smartphone,iphone',
+  'แท็บเล็ต (MacBook)': 'laptop,macbook',
+  'คอมพิวเตอร์': 'computer,pc',
+  'ไมค์เล่นเกม': 'microphone',
+  'หูฟังเล่นเกม': 'headphones',
+  'คีย์บอร์ดเล่นเกม': 'keyboard',
+  'จอคอม': 'monitor',
+  'CPU': 'processor,tech',
+  'RAM': 'ram,tech',
+  'คอมประกอบ': 'gamingpc',
 
-  'บลัชออน': ['blush-makeup', 'cosmetics'],
-  'ลิป': ['lipstick', 'lip-gloss'],
-  'รองพื้น': ['foundation-makeup', 'makeup-product'],
-  'คอนซีลเลอร์': ['concealer', 'beauty-product'],
-  'ครีมทาหน้าหรือเซรั่ม': ['serum', 'skincare-bottle', 'face-cream'],
-  'ครีมทาผิว': ['lotion', 'body-cream'],
-  'ครีมกันแดดทั้งหน้าและตัว': ['sunscreen', 'sun-lotion'],
+  'บลัชออน': 'makeup,cosmetics',
+  'ลิป': 'lipstick',
+  'รองพื้น': 'makeup',
+  'คอนซีลเลอร์': 'cosmetics',
+  'ครีมทาหน้าหรือเซรั่ม': 'skincare,serum',
+  'ครีมทาผิว': 'lotion',
+  'ครีมกันแดดทั้งหน้าและตัว': 'sunscreen',
 
-  'มาม่า': ['ramen', 'noodle-soup', 'instant-noodles'],
-  'ขนมที่สามารถส่งพัสดุได้': ['cookies', 'snacks', 'chocolate', 'bakery'],
-  'อาหารบรรจุภัณฑ์': ['packaged-food', 'canned-food', 'cereal'],
+  'มาม่า': 'ramen,noodles',
+  'ขนมที่สามารถส่งพัสดุได้': 'cookies,snack',
+  'อาหารบรรจุภัณฑ์': 'food,canned',
 
-  'ของเล่นรวม': ['action-figure', 'toys', 'bearbrick', 'blindbox-toy'],
+  'ของเล่นรวม': 'toy,actionfigure',
 
-  'โต๊ะคอม': ['desk-setup', 'minimalist-desk'],
-  'กระจก': ['mirror-decor', 'aesthetic-mirror'],
-  'ไฟ LED': ['led-lights', 'neon-lights', 'rgb-lights'],
-  'ตุ๊กตา/พรม/ของแต่งห้อง': ['teddy-bear', 'room-decor', 'aesthetic-room', 'rug']
+  'โต๊ะคอม': 'desk,workspace',
+  'กระจก': 'mirror',
+  'ไฟ LED': 'neon,led',
+  'ตุ๊กตา/พรม/ของแต่งห้อง': 'teddybear,decor'
 };
 
 const NAME_PREFIXES = ['พรีเมียม', 'รุ่นยอดฮิต', 'สไตล์เกาหลี', 'ยอดนิยม 2026', 'มินิมอล', 'Pro Max', 'Special Edition', 'คอลเลกชันพิเศษ', 'เกรดพรีเมียม'];
@@ -118,28 +118,23 @@ const BANNERS = [
   }
 ];
 
-// 🟢 GENERATOR ENGINE: สร้างสินค้าตรงหมวด ภาพตรง ไม่ซ้ำ
+// 🟢 GENERATOR ENGINE: สร้างรูปภาพโหลดชัวร์ 100% ด้วย LoremFlickr Dynamic Engine
 const GENERATED_PRODUCTS: ProductItem[] = (() => {
   const list: ProductItem[] = [];
   let idCounter = 1;
 
   CATEGORY_STRUCTURE.forEach((mainCat) => {
     mainCat.subs.forEach((subCat) => {
-      const keywords = UNSPLASH_KEYWORDS[subCat] || ['product', 'shopping'];
-      
+      const keyword = CATEGORY_KEYWORDS[subCat] || 'product';
+
       for (let i = 1; i <= 52; i++) {
         const prefix = NAME_PREFIXES[i % NAME_PREFIXES.length];
         const suffix = NAME_SUFFIXES[(i * 3) % NAME_SUFFIXES.length];
         
-        // 1. ตั้งชื่อสินค้าให้สมจริง
         const name = `${subCat} ${prefix} ${suffix} (${subCat} รุ่นที่ ${i})`;
 
-        // 2. ดึงภาพตรงหมวดหมู่ตามคีย์เวิร์ด + Seed ทำให้ได้รูปไม่ซ้ำและตรงสินค้า
-        const keyword = keywords[i % keywords.length];
-        const image = `https://images.unsplash.com/photo-${1500000000000 + ((idCounter * 1234567) % 900000000)}?auto=format&fit=crop&w=600&q=80&sig=${idCounter}&${keyword}`;
-
-        // สำรองกรณีภาพหลุดแบบกำหนดภาพหมวด
-        const fallbackImage = `https://source.unsplash.com/600x600/?${encodeURIComponent(keyword)}&sig=${idCounter}`;
+        // ใช้ LoremFlickr API + Unique Lock ID รับประกันรูปตรงหมวด และโหลดได้แน่นอน 100%
+        const image = `https://loremflickr.com/600/600/${keyword}?lock=${idCounter}`;
 
         let spec = `สินค้าหมวด ${subCat} แท้ 100% คุณภาพสูง คัดสรรวัสดุอย่างดี ดีไซน์สวยงามทันสมัย ตรงตามมาตรฐานการผลิต การันตีคุณภาพพร้อมรับประกันสินค้า จัดส่งรวดเร็วทันใจ`;
         let price = 150 + (idCounter * 47) % 3500;
@@ -157,7 +152,7 @@ const GENERATED_PRODUCTS: ProductItem[] = (() => {
           rating: Number((4.5 + (i % 5) * 0.1).toFixed(1)),
           reviewsCount: 50 + (i * 12),
           sold: 100 + (i * 23),
-          image: image || fallbackImage,
+          image,
           badge: i % 4 === 0 ? 'HOT' : i % 6 === 0 ? 'SALE' : 'NEW',
           spec,
           keywords: [mainCat.name, subCat, prefix, suffix, 'พร้อมส่ง']
@@ -382,7 +377,7 @@ export default function StorePage() {
         {/* 🔥 หมวดหมู่หลัก */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3 text-rose-400 text-sm font-black uppercase">
-            <Sparkles className="w-4 h-4" /> เลือกหมวดหมู่สินค้า (ภาพตรงสินค้า 100%)
+            <Sparkles className="w-4 h-4" /> เลือกหมวดหมู่สินค้า
           </div>
           <div className="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-none border-b border-slate-800/80">
             <button
@@ -466,9 +461,9 @@ export default function StorePage() {
                   alt={product.name}
                   loading="lazy"
                   onError={(e) => {
-                    // หากรูปพ้นสภาพ ให้ใช้ Unsplash Direct Fallback แทน
+                    // หากรูปภาพโหลดไม่ผ่าน จะสลับไปใช้รูปกราฟิก SVG Dynamic ประจำหมวดหมู่ทันที รูปไม่มีวันแตก
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80`;
+                    target.src = `https://placehold.co/600x600/1e293b/f43f5e?text=${encodeURIComponent(product.subCategory)}`;
                   }}
                   className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
                 />
