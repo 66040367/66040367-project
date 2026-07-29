@@ -74,7 +74,6 @@ const PRODUCTS = [
     id: 1,
     name: 'Gentle Deep Cleansing Oil',
     category: 'คลีนซิ่งออยล์ & บาล์ม',
-    mainCat: 'cleansing',
     price: 890,
     rating: 4.9,
     reviews: 128,
@@ -86,7 +85,6 @@ const PRODUCTS = [
     id: 2,
     name: 'Calming Hydrating Toner Pad (70 Sheets)',
     category: 'โทนเนอร์แพด (Toner Pads)',
-    mainCat: 'toner',
     price: 650,
     rating: 4.8,
     reviews: 94,
@@ -98,7 +96,6 @@ const PRODUCTS = [
     id: 3,
     name: 'Botanical Shower Gel (Aroma Spa)',
     category: 'สบู่ก้อน & สบู่อาบน้ำเนื้อเจล',
-    mainCat: 'bodycare',
     price: 420,
     rating: 4.7,
     reviews: 56,
@@ -110,7 +107,6 @@ const PRODUCTS = [
     id: 4,
     name: 'Micro-Bubbling pH Balance Cleansing Foam',
     category: 'โฟม & เจลล้างหน้า',
-    mainCat: 'cleansing',
     price: 550,
     rating: 4.9,
     reviews: 210,
@@ -120,9 +116,8 @@ const PRODUCTS = [
   },
   {
     id: 5,
-    name: 'First Care Treatment Essence',
+    name: 'First Care Treatment Essence 150ml',
     category: 'น้ำตบ & เอสเซนส์บำรุงล้ำลึก',
-    mainCat: 'toner',
     price: 1250,
     rating: 5.0,
     reviews: 340,
@@ -134,7 +129,6 @@ const PRODUCTS = [
     id: 6,
     name: 'Nourishing Body Lotion With Shea Butter',
     category: 'โลชั่น & ครีมบำรุงผิวกาย',
-    mainCat: 'bodycare',
     price: 680,
     rating: 4.6,
     reviews: 82,
@@ -146,7 +140,6 @@ const PRODUCTS = [
     id: 7,
     name: 'Pure Vitamin C Glow Serum 30ml',
     category: 'เซรั่มวิตามินซี & ผิวกระจ่างใส',
-    mainCat: 'serum-moist',
     price: 990,
     rating: 4.8,
     reviews: 175,
@@ -158,7 +151,6 @@ const PRODUCTS = [
     id: 8,
     name: 'Invisible Watery Sunscreen SPF50+ PA++++',
     category: 'กันแดดเนื้อเอสเซนส์ / ครีม',
-    mainCat: 'sunscreen',
     price: 750,
     rating: 4.9,
     reviews: 290,
@@ -169,7 +161,7 @@ const PRODUCTS = [
 ];
 
 // ==========================================
-// 3. คอมโพเนนต์หลัก (Main Component)
+// 3. คอมโพเนนต์หลัก (Main Page)
 // ==========================================
 export default function EcommerceStore() {
   const [selectedSubCat, setSelectedSubCat] = useState('all');
@@ -181,26 +173,26 @@ export default function EcommerceStore() {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [notification, setNotification] = useState('');
 
-  // ฟังก์ชันแสดงข้อความแจ้งเตือนเมื่อเพิ่มสินค้า
+  // แสดง Toast แจ้งเตือน
   const showToast = (msg) => {
     setNotification(msg);
     setTimeout(() => setNotification(''), 2500);
   };
 
-  // เพิ่มลงตะกร้า
+  // เพิ่มสินค้าลงตะกร้า
   const addToCart = (product) => {
     setCart((prev) => [...prev, product]);
     showToast(`เพิ่ม "${product.name}" ลงในตะกร้าเรียบร้อย!`);
   };
 
-  // สลับการถูกใจสินค้า
+  // กดถูกใจสินค้า
   const toggleFavorite = (productId) => {
     setFavorites((prev) => 
       prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]
     );
   };
 
-  // กรองสินค้าตามเงื่อนไขที่เลือก
+  // ระบบกรองและเรียงลำดับสินค้า
   const filteredProducts = useMemo(() => {
     return PRODUCTS.filter((product) => {
       const matchesSubCat = selectedSubCat === 'all' || product.category === selectedSubCat;
@@ -212,14 +204,14 @@ export default function EcommerceStore() {
       if (sortBy === 'price-low') return a.price - b.price;
       if (sortBy === 'price-high') return b.price - a.price;
       if (sortBy === 'rating') return b.rating - a.rating;
-      return b.reviews - a.reviews; // Popularity default
+      return b.reviews - a.reviews;
     });
   }, [selectedSubCat, selectedSkinType, searchQuery, sortBy]);
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-stone-800 font-sans antialiased selection:bg-amber-100">
+    <div className="min-h-screen bg-[#FAF9F6] text-stone-800 font-sans antialiased">
       
-      {/* Notification Toast */}
+      {/* Toast Notification */}
       {notification && (
         <div className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white text-xs px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-stone-700 animate-bounce">
           <Check size={16} className="text-emerald-400" />
@@ -227,29 +219,27 @@ export default function EcommerceStore() {
         </div>
       )}
 
-      {/* Top Announcement Bar */}
+      {/* Top Banner */}
       <div className="bg-stone-900 text-stone-300 text-[11px] py-2 text-center tracking-wider uppercase font-light">
         ✨ สั่งซื้อครบ 1,200 บาท ส่งฟรีทั่วประเทศ | รับฟรีของแถมทดลองทุกคำสั่งซื้อ
       </div>
 
-      {/* Header & Navigation */}
+      {/* Header / Navbar */}
       <header className="sticky top-0 z-40 bg-[#FAF9F6]/90 backdrop-blur-md border-b border-stone-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
-          {/* Logo */}
           <div className="flex items-center gap-6">
             <button 
-              className="lg:hidden p-2 text-stone-700 hover:text-black"
+              className="lg:hidden p-2 text-stone-700"
               onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
             >
               <Menu size={22} />
             </button>
-            <a href="#" className="text-2xl font-serif font-bold tracking-widest text-stone-900 flex items-center gap-1">
+            <a href="#" className="text-2xl font-serif font-bold tracking-widest text-stone-900">
               LUXE<span className="font-light text-amber-800">SKIN</span>
             </a>
           </div>
 
-          {/* Navigation Links */}
           <nav className="hidden lg:flex items-center gap-8 text-xs uppercase tracking-widest font-medium text-stone-600">
             <a href="#" className="hover:text-amber-800 transition">หน้าแรก</a>
             <a href="#" className="text-amber-900 font-bold border-b border-amber-900 pb-0.5">สินค้าทั้งหมด</a>
@@ -257,7 +247,6 @@ export default function EcommerceStore() {
             <a href="#" className="hover:text-amber-800 transition">เกี่ยวกับแบรนด์</a>
           </nav>
 
-          {/* Right Section: Search & Cart */}
           <div className="flex items-center gap-4">
             <div className="relative hidden sm:block">
               <input 
@@ -270,7 +259,6 @@ export default function EcommerceStore() {
               <Search className="absolute left-3 top-2.5 text-stone-400" size={14} />
             </div>
 
-            {/* Cart Icon */}
             <button className="relative p-2.5 text-stone-800 hover:text-black transition bg-white rounded-full border border-stone-200 shadow-sm">
               <ShoppingBag size={18} />
               {cart.length > 0 && (
@@ -283,10 +271,10 @@ export default function EcommerceStore() {
         </div>
       </header>
 
-      {/* Main Container */}
+      {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Breadcrumb & Section Title */}
+        {/* Title Section */}
         <div className="mb-8">
           <div className="flex items-center gap-2 text-xs text-stone-400 mb-2">
             <span>หน้าแรก</span>
@@ -303,7 +291,6 @@ export default function EcommerceStore() {
               </p>
             </div>
 
-            {/* Sort Dropdown */}
             <div className="flex items-center gap-2 text-xs text-stone-600 bg-white px-4 py-2 rounded-xl border border-stone-200 shadow-sm">
               <SlidersHorizontal size={14} />
               <span>เรียงตาม:</span>
@@ -321,23 +308,22 @@ export default function EcommerceStore() {
           </div>
         </div>
 
-        {/* Content Layout: Sidebar + Product Grid */}
+        {/* Sidebar + Product Grid Layout */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           
-          {/* Sidebar / Filters (Desktop & Mobile Drawer) */}
+          {/* Sidebar Filter */}
           <aside className={`
             fixed lg:relative inset-0 z-50 lg:z-auto bg-stone-900/50 lg:bg-transparent
             ${mobileFilterOpen ? 'block' : 'hidden lg:block'} lg:w-72 w-full flex-shrink-0
           `}>
             <div className="bg-white lg:bg-transparent h-full lg:h-auto w-80 lg:w-full p-6 lg:p-0 overflow-y-auto space-y-8">
               
-              {/* Mobile Close Header */}
               <div className="flex lg:hidden justify-between items-center pb-4 border-b border-stone-200">
                 <h3 className="font-serif font-bold text-lg">ตัวกรองสินค้า</h3>
                 <button onClick={() => setMobileFilterOpen(false)}><X size={20} /></button>
               </div>
 
-              {/* All Categories Filter */}
+              {/* Categories */}
               <div className="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm space-y-6">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-stone-900 flex items-center gap-2">
@@ -384,7 +370,7 @@ export default function EcommerceStore() {
                 </div>
               </div>
 
-              {/* Skin Type Filter */}
+              {/* Filter by Skin Type */}
               <div className="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-stone-900">
                   กรองตามสภาพผิว
@@ -402,49 +388,15 @@ export default function EcommerceStore() {
                       <span>{type}</span>
                     </label>
                   ))}
-                  {selectedSkinType !== 'all' && (
-                    <button 
-                      onClick={() => setSelectedSkinType('all')}
-                      className="text-[11px] text-amber-800 pt-2 block hover:underline"
-                    >
-                      แสดงสภาพผิวทั้งหมด
-                    </button>
-                  )}
                 </div>
               </div>
 
             </div>
           </aside>
 
-          {/* Product Grid Area */}
+          {/* Product Grid */}
           <div className="flex-1 w-full">
             
-            {/* Active Filter Badges */}
-            {(selectedSubCat !== 'all' || selectedSkinType !== 'all' || searchQuery) && (
-              <div className="mb-6 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-stone-400">ตัวกรองที่เลือก:</span>
-                {selectedSubCat !== 'all' && (
-                  <span className="bg-amber-50 text-amber-900 text-xs px-3 py-1 rounded-full border border-amber-200 flex items-center gap-1">
-                    {selectedSubCat}
-                    <X size={12} className="cursor-pointer" onClick={() => setSelectedSubCat('all')} />
-                  </span>
-                )}
-                {selectedSkinType !== 'all' && (
-                  <span className="bg-amber-50 text-amber-900 text-xs px-3 py-1 rounded-full border border-amber-200 flex items-center gap-1">
-                    {selectedSkinType}
-                    <X size={12} className="cursor-pointer" onClick={() => setSelectedSkinType('all')} />
-                  </span>
-                )}
-                {searchQuery && (
-                  <span className="bg-stone-100 text-stone-800 text-xs px-3 py-1 rounded-full border border-stone-300 flex items-center gap-1">
-                    "{searchQuery}"
-                    <X size={12} className="cursor-pointer" onClick={() => setSearchQuery('')} />
-                  </span>
-                )}
-              </div>
-            )}
-
-            {/* Product Items Count */}
             {filteredProducts.length === 0 ? (
               <div className="bg-white rounded-2xl p-12 text-center border border-stone-200">
                 <p className="text-stone-500 text-sm mb-4">ไม่พบสินค้าที่ตรงกับเงื่อนไขที่คุณค้นหา</p>
@@ -462,20 +414,15 @@ export default function EcommerceStore() {
                     key={product.id}
                     className="group bg-white rounded-2xl border border-stone-200/70 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                   >
-                    {/* Image Box */}
                     <div className="relative aspect-square bg-stone-100 overflow-hidden">
                       <img 
                         src={product.image} 
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                       />
-                      
-                      {/* Badge */}
                       <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-stone-900 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full border border-stone-200/60 shadow-sm">
                         {product.badge}
                       </span>
-
-                      {/* Favorite Button */}
                       <button 
                         onClick={() => toggleFavorite(product.id)}
                         className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full text-stone-600 hover:text-red-500 transition shadow-sm"
@@ -487,7 +434,6 @@ export default function EcommerceStore() {
                       </button>
                     </div>
 
-                    {/* Info Box */}
                     <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                       <div>
                         <div className="flex items-center justify-between text-[11px] text-stone-400 mb-1">
@@ -499,7 +445,6 @@ export default function EcommerceStore() {
                           {product.name}
                         </h3>
 
-                        {/* Rating */}
                         <div className="flex items-center gap-1 mt-2">
                           <Star size={12} className="fill-amber-400 text-amber-400" />
                           <span className="text-xs font-semibold text-stone-800">{product.rating}</span>
@@ -507,7 +452,6 @@ export default function EcommerceStore() {
                         </div>
                       </div>
 
-                      {/* Price & Action */}
                       <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
                         <div>
                           <span className="text-[10px] text-stone-400 block uppercase tracking-wider">ราคา</span>
@@ -532,14 +476,14 @@ export default function EcommerceStore() {
 
         </div>
 
-        {/* Feature Highlights */}
+        {/* Highlights Section */}
         <section className="mt-20 border-t border-stone-200/80 pt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="flex flex-col items-center space-y-2">
             <div className="p-3 bg-white rounded-full border border-stone-200 text-amber-800">
               <Sparkles size={20} />
             </div>
             <h4 className="text-xs font-bold uppercase tracking-wider">ส่วนผสมออร์แกนิก 100%</h4>
-            <p className="text-xs text-stone-500 max-w-xs">ผ่านการทดสอบโดยผู้เชี่ยวชาญด้านผิวหนัง อ่อนโยน ปลอดภัยไร้สารเคมีอันตราย</p>
+            <p className="text-xs text-stone-500 max-w-xs">ผ่านการทดสอบโดยผู้เชี่ยวชาญด้านผิวหนัง อ่อนโยน ปลอดภัย</p>
           </div>
 
           <div className="flex flex-col items-center space-y-2">
@@ -547,7 +491,7 @@ export default function EcommerceStore() {
               <ShieldCheck size={20} />
             </div>
             <h4 className="text-xs font-bold uppercase tracking-wider">ของแท้การันตีรับประกัน</h4>
-            <p className="text-xs text-stone-500 max-w-xs">สินค้าส่งตรงจากแบรนด์ผู้ผลิตอย่างเป็นทางการ เชื่อถือได้ 100%</p>
+            <p className="text-xs text-stone-500 max-w-xs">ส่งตรงจากแบรนด์ผู้ผลิตอย่างเป็นทางการ เชื่อถือได้ 100%</p>
           </div>
 
           <div className="flex flex-col items-center space-y-2">
@@ -555,7 +499,7 @@ export default function EcommerceStore() {
               <RefreshCw size={20} />
             </div>
             <h4 className="text-xs font-bold uppercase tracking-wider">เปลี่ยนคืนง่ายภายใน 14 วัน</h4>
-            <p className="text-xs text-stone-500 max-w-xs">หากแพ้หรือสินค้ามีปัญหา สามารถแจ้งเปลี่ยนหรือขอคืนเงินได้สะดวกสบาย</p>
+            <p className="text-xs text-stone-500 max-w-xs">หากแพ้หรือสินค้ามีปัญหา สามารถแจ้งเปลี่ยนคืนได้สะดวก</p>
           </div>
         </section>
 
@@ -567,7 +511,7 @@ export default function EcommerceStore() {
           <div className="space-y-3">
             <span className="text-white text-lg font-serif font-bold tracking-widest block">LUXESKIN</span>
             <p className="leading-relaxed text-stone-400">
-              แบรนด์ผลิตภัณฑ์ดูแลผิวพรีเมียม ตอบโจทย์ทุกความต้องการของผิว ด้วยสารสกัดธรรมชาติและนวัตกรรมชั้นสูง
+              แบรนด์ผลิตภัณฑ์ดูแลผิวพรีเมียม ตอบโจทย์ทุกสภาพผิวด้วยนวัตกรรมและสารสกัดธรรมชาติ
             </p>
           </div>
 
@@ -577,30 +521,28 @@ export default function EcommerceStore() {
               <li><a href="#" className="hover:text-white transition">คลีนซิ่งและทำความสะอาด</a></li>
               <li><a href="#" className="hover:text-white transition">น้ำตบและโทนเนอร์แพด</a></li>
               <li><a href="#" className="hover:text-white transition">เซรั่มบำรุงเข้มข้น</a></li>
-              <li><a href="#" className="hover:text-white transition">สบู่อาบน้ำและสครับผิวกาย</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold uppercase tracking-wider mb-4">ช่วยเหลือ & บริการ</h4>
+            <h4 className="text-white font-semibold uppercase tracking-wider mb-4">บริการลูกค้า</h4>
             <ul className="space-y-2.5">
               <li><a href="#" className="hover:text-white transition">ตรวจสอบสถานะพัสดุ</a></li>
               <li><a href="#" className="hover:text-white transition">นโยบายการจัดส่งสินค้า</a></li>
-              <li><a href="#" className="hover:text-white transition">การรับประกันและคืนสินค้า</a></li>
-              <li><a href="#" className="hover:text-white transition">คำถามที่พบบ่อย (FAQ)</a></li>
+              <li><a href="#" className="hover:text-white transition">การคืนสินค้า/รับประกัน</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold uppercase tracking-wider mb-4">รับสิทธิพิเศษก่อนใคร</h4>
-            <p className="mb-3 text-stone-400">สมัครสมาชิกเพื่อรับข่าวสารและส่วนลด 10% สำหรับออเดอร์แรก</p>
+            <h4 className="text-white font-semibold uppercase tracking-wider mb-4">ติดตามข่าวสาร</h4>
+            <p className="mb-3 text-stone-400">สมัครสมาชิกเพื่อรับข่าวสารและส่วนลดพิเศษสำหรับออเดอร์แรก</p>
             <div className="flex gap-2">
               <input 
                 type="email" 
                 placeholder="กรอกอีเมลของคุณ" 
-                className="bg-stone-800 text-white px-3.5 py-2.5 rounded-xl w-full text-xs focus:outline-none focus:ring-1 focus:ring-amber-500" 
+                className="bg-stone-800 text-white px-3.5 py-2.5 rounded-xl w-full text-xs focus:outline-none" 
               />
-              <button className="bg-amber-800 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-amber-700 transition flex-shrink-0">
+              <button className="bg-amber-800 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-amber-700 transition">
                 สมัคร
               </button>
             </div>
