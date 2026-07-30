@@ -23,6 +23,12 @@ interface CartItem {
   quantity: number;
 }
 
+interface ProductItemDef {
+  name: string;
+  basePrice: number;
+  image: string;
+}
+
 // --- CONSTANTS & CONFIGURATIONS ---
 const MAIN_CATEGORIES = [
   { id: 'all', name: '🔥 ทั้งหมด', subs: [] },
@@ -61,174 +67,118 @@ const MAIN_CATEGORIES = [
 const LOCATIONS = ['กรุงเทพมหานคร', 'สมุทรปราการ', 'นนทบุรี', 'เชียงใหม่', 'ชลบุรี', 'ปทุมธานี', 'ภูเก็ต'];
 const BADGES = ['367 VIP', 'MALL', 'BEST SELLER', 'HOT DEAL', 'ส่งฟรี', 'ลด 50%', 'ถูกชัวร์'];
 
-// --- UNSPLASH HIGH-RES UNIQUE IMAGE POOL PER SUBCATEGORY ---
-const CATEGORY_IMAGE_POOLS: Record<string, string[]> = {
-  'โทรศัพท์มือถือ': [
-    'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9',
-    'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd',
-    'https://images.unsplash.com/photo-1565849904461-04a58ad377e0',
-    'https://images.unsplash.com/photo-1580910051074-3eb694886505',
-    'https://images.unsplash.com/photo-1533228876829-65c94e7b5025',
-    'https://images.unsplash.com/photo-1574944985070-8f3ebc6b7682',
-    'https://images.unsplash.com/photo-1512499617640-c74ae3a79d37',
-    'https://images.unsplash.com/photo-1567581935884-3349723552ca'
-  ],
-  'คอมพิวเตอร์': [
-    'https://images.unsplash.com/photo-1587831990711-23ca6441447b',
-    'https://images.unsplash.com/photo-1593640408182-31c70c8268f5',
-    'https://images.unsplash.com/photo-1550745165-9bc0b252726f',
-    'https://images.unsplash.com/photo-1547082299-de196ea013d6',
-    'https://images.unsplash.com/photo-1587202372775-e229f172b9d7',
-    'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea'
-  ],
-  'โน๊ตบุ๊ค': [
-    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8',
-    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853',
-    'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2',
-    'https://images.unsplash.com/photo-1603302576837-37561b2e2302',
-    'https://images.unsplash.com/photo-1541807084-5c52b6b3adef',
-    'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed'
-  ],
-  'แท็บเล็ต & ไอแพด': [
-    'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0',
-    'https://images.unsplash.com/photo-1561154464-82e9adf32764',
-    'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9',
-    'https://images.unsplash.com/photo-1542751371-adc38448a05e',
-    'https://images.unsplash.com/photo-1569770218135-bea267ed7e84'
-  ],
-  'แก็ดเจ็ต & อุปกรณ์เสริม': [
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
-    'https://images.unsplash.com/photo-1622445268465-84288046d581',
-    'https://images.unsplash.com/photo-1546435770-a3e426bf472b',
-    'https://images.unsplash.com/photo-1583394838336-acd977736f90',
-    'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf',
-    'https://images.unsplash.com/photo-1519389950473-47ba0277781c'
-  ],
-  'เซรั่ม & มอยส์เจอไรเซอร์': [
-    'https://images.unsplash.com/photo-1620916566398-39f1143ab7be',
-    'https://images.unsplash.com/photo-1608248597261-833244722510',
-    'https://images.unsplash.com/photo-1571781926291-c477ebfd024b',
-    'https://images.unsplash.com/photo-1512290900673-700200827233',
-    'https://images.unsplash.com/photo-1617897903246-719242758050',
-    'https://images.unsplash.com/photo-1556228720-195a672e8a03'
-  ],
-  'กันแดด & คลีนซิ่ง': [
-    'https://images.unsplash.com/photo-1556228720-195a672e8a03',
-    'https://images.unsplash.com/photo-1617897903246-719242758050',
-    'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908',
-    'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881',
-    'https://images.unsplash.com/photo-1608248597261-833244722510'
-  ],
-  'เครื่องสำอาง & ลิปสติก': [
-    'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e',
-    'https://images.unsplash.com/photo-1586495777744-4413f21062fa',
-    'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
-    'https://images.unsplash.com/photo-1512496015851-a90fb38ba796',
-    'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e'
-  ],
-  'บำรุงผิวกาย & น้ำหอม': [
-    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539',
-    'https://images.unsplash.com/photo-1547887537-6158d64c35b3',
-    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75',
-    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138',
-    'https://images.unsplash.com/photo-1523293182086-7651a899d37f',
-    'https://images.unsplash.com/photo-1594035910387-fea47794261f'
-  ],
-  'เสื้อยืด & เสื้อครอป': [
-    'https://images.unsplash.com/photo-1521572267360-ee0c2909d518',
-    'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c',
-    'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a',
-    'https://images.unsplash.com/photo-1618354691373-d851c5c3a990',
-    'https://images.unsplash.com/photo-1576995853123-5a10305d93c0'
-  ],
-  'กางเกง & ยีนส์': [
-    'https://images.unsplash.com/photo-1541099649105-f69ad21f3246',
-    'https://images.unsplash.com/photo-1582552938357-32b906df40cb',
-    'https://images.unsplash.com/photo-1562157873-818bc0726f68',
-    'https://images.unsplash.com/photo-1591195853828-11db59a44f6b'
-  ],
-  'แจ็กเก็ต & ฮู้ดดี้': [
-    'https://images.unsplash.com/photo-1551028719-00167b16eac5',
-    'https://images.unsplash.com/photo-1591047139829-d91aecb6caea',
-    'https://images.unsplash.com/photo-1544441893-675973e31985',
-    'https://images.unsplash.com/photo-1578632767115-351597cf2477'
-  ],
-  'กระเป๋า & รองเท้า': [
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
-    'https://images.unsplash.com/photo-1548036328-c9fa89d128fa',
-    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519',
-    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a',
-    'https://images.unsplash.com/photo-1584917865442-de89df76afd3'
-  ],
-  'โคมไฟ & ไฟแต่งห้อง': [
-    'https://images.unsplash.com/photo-1507473885765-e6ed057f782c',
-    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38',
-    'https://images.unsplash.com/photo-1540932239986-30128078f3c5',
-    'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9'
-  ],
-  'เครื่องหอม & อโรม่า': [
-    'https://images.unsplash.com/photo-1603006905003-be475563bc59',
-    'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108',
-    'https://images.unsplash.com/photo-1615397349754-cfa2066a298e'
-  ],
-  'เฟอร์นิเจอร์ & ชั้นวาง': [
-    'https://images.unsplash.com/photo-1538688525198-9b88f6f53126',
-    'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92',
-    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7',
-    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc'
-  ],
-  'เครื่องครัว & แก้วน้ำ': [
-    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd',
-    'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61',
-    'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7'
-  ],
-  'เมาส์ & คีย์บอร์ด': [
-    'https://images.unsplash.com/photo-1587829741301-dc798b83add3',
-    'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7',
-    'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46',
-    'https://images.unsplash.com/photo-1626218174358-7769486c4b79'
-  ],
-  'หูฟัง & ไมโครโฟน': [
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
-    'https://images.unsplash.com/photo-1590658268037-6bf12165a8df',
-    'https://images.unsplash.com/photo-1546435770-a3e426bf472b',
-    'https://images.unsplash.com/photo-1598550476439-6847785fcea6',
-    'https://images.unsplash.com/photo-1583394838336-acd977736f90',
-    'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b',
-    'https://images.unsplash.com/photo-1484704849700-f032a568e944',
-    'https://images.unsplash.com/photo-1520170350707-b2da59518561'
-  ],
-  'จอมอนิเตอร์ & โต๊ะเก้าอี้': [
-    'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf',
-    'https://images.unsplash.com/photo-1542751371-adc38448a05e',
-    'https://images.unsplash.com/photo-1593640408182-31c70c8268f5',
-    'https://images.unsplash.com/photo-1585792180666-f7347c490ee2'
-  ],
-  'อุปกรณ์ออกกำลังกาย': [
-    'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2',
-    'https://images.unsplash.com/photo-1517838277536-f5f99be501cd',
-    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48',
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
-  ],
-  'แคมปิ้ง & เต็นท์': [
-    'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4',
-    'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d',
-    'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7'
-  ],
-  'รองเท้า & เสื้อผ้ากีฬา': [
-    'https://images.unsplash.com/photo-1511556532299-8f662fc26c06',
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a'
-  ]
-};
-
-const getUniqueProductImage = (subCat: string, productIndex: number, id: number): string => {
-  const pool = CATEGORY_IMAGE_POOLS[subCat];
-  if (pool && pool.length > 0) {
-    const baseImg = pool[productIndex % pool.length];
-    return `${baseImg}?w=600&auto=format&fit=crop&q=80`;
+// --- REALISTIC PRODUCTS DATA MAPPING (BOUND IMAGE + ACCURATE REAL-WORLD PRICE) ---
+const PRODUCT_TEMPLATES: Record<string, Record<string, ProductItemDef[]>> = {
+  it: {
+    'โทรศัพท์มือถือ': [
+      { name: 'Xiaomi 14 Ultra 5G Leica Lens', basePrice: 40990, image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97' },
+      { name: 'iPhone 15 Pro Max 256GB', basePrice: 48900, image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569' },
+      { name: 'Samsung Galaxy S24 Ultra', basePrice: 43900, image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf' },
+      { name: 'Google Pixel 8 Pro', basePrice: 32900, image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd' }
+    ],
+    'คอมพิวเตอร์': [
+      { name: 'PC เกมมิ่ง Intel Core i7 RTX 4070', basePrice: 42500, image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b' },
+      { name: 'คอมประกอบ Ryzen 7 RTX 4060Ti', basePrice: 32900, image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5' },
+      { name: 'Mini PC Workstation Ultra', basePrice: 18500, image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f' }
+    ],
+    'โน๊ตบุ๊ค': [
+      { name: 'MacBook Pro M3 Max 16 นิ้ว', basePrice: 89900, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
+      { name: 'MacBook Air M3 13 นิ้ว', basePrice: 39900, image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853' },
+      { name: 'ASUS ROG Zephyrus G16 Gaming', basePrice: 65900, image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302' }
+    ],
+    'แท็บเล็ต & ไอแพด': [
+      { name: 'iPad Pro 11 นิ้ว ชิป M4 Ultra', basePrice: 39900, image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0' },
+      { name: 'iPad Air 6 ชิป M2 128GB', basePrice: 21900, image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764' },
+      { name: 'Samsung Galaxy Tab S9 Ultra', basePrice: 38900, image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9' }
+    ],
+    'แก็ดเจ็ต & อุปกรณ์เสริม': [
+      { name: 'แท่นวางไอแพดปรับระดับได้ Aluminum Holder', basePrice: 390, image: 'https://images.unsplash.com/photo-1586105251261-72a756497a11' },
+      { name: 'USB-C HUB 7-in-1 Aluminum Adapter', basePrice: 690, image: 'https://images.unsplash.com/photo-1622445268465-84288046d581' },
+      { name: 'สายชาร์จ Fast Charge 100W Braided Cable', basePrice: 290, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90' },
+      { name: 'พาวเวอร์แบงค์ 30000mAh MagSafe Wireless', basePrice: 1290, image: 'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf' }
+    ]
+  },
+  gaming: {
+    'เมาส์ & คีย์บอร์ด': [
+      { name: 'Mechanical Gaming Keyboard Tri-Mode RGB', basePrice: 2490, image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3' },
+      { name: 'Ultra-Lightweight Gaming Mouse 8K Hz', basePrice: 1890, image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7' },
+      { name: 'Custom Keycaps PBT Double Shot Set', basePrice: 890, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46' }
+    ],
+    'หูฟัง & ไมโครโฟน': [
+      { name: 'USB Condenser Streaming Microphone Pro', basePrice: 1590, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df' },
+      { name: 'หูฟังเกมมิ่ง 7.1 Surround Wireless Headset', basePrice: 2490, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e' },
+      { name: 'หูฟังไร้สาย Gaming Earbuds Low Latency 40ms', basePrice: 990, image: 'https://images.unsplash.com/photo-1590658006821-04f4008d5717' },
+      { name: 'ไมโครโฟน Dynamic Podcast XLR/USB', basePrice: 3290, image: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6' },
+      { name: 'Studio Monitor Headphone Professional', basePrice: 2890, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90' }
+    ],
+    'จอมอนิเตอร์ & โต๊ะเก้าอี้': [
+      { name: 'Gaming Monitor 27" 240Hz IPS 1ms', basePrice: 7900, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf' },
+      { name: 'Ergonomic Gaming Chair PU Leather', basePrice: 4500, image: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0' }
+    ]
+  },
+  beauty: {
+    'เซรั่ม & มอยส์เจอไรเซอร์': [
+      { name: 'Aura Hyaluron Intense Serum 50ml', basePrice: 490, image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be' },
+      { name: 'Vitamin C Booster Glow Drop 30ml', basePrice: 390, image: 'https://images.unsplash.com/photo-1608248597261-833244722510' }
+    ],
+    'กันแดด & คลีนซิ่ง': [
+      { name: 'Sunscreen Light Watery Essence SPF50+', basePrice: 350, image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03' },
+      { name: 'Cleansing Oil Deep Cleanse 200ml', basePrice: 420, image: 'https://images.unsplash.com/photo-1617897903246-719242758050' }
+    ],
+    'เครื่องสำอาง & ลิปสติก': [
+      { name: 'Velvet Matte Longlasting Lipstick', basePrice: 290, image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa' },
+      { name: 'Cushion Glowing Skin SPF50 PA++++', basePrice: 590, image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e' }
+    ],
+    'บำรุงผิวกาย & น้ำหอม': [
+      { name: 'Eau De Parfum Luxury Unisex 50ml', basePrice: 1290, image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539' },
+      { name: 'Perfume Body Lotion Rose Scent 250ml', basePrice: 380, image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3' }
+    ]
+  },
+  fashion: {
+    'เสื้อยืด & เสื้อครอป': [
+      { name: 'Oversized Streetwear Premium Cotton Tee', basePrice: 350, image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518' },
+      { name: 'Minimalist Crop Top Ribbed Soft Touch', basePrice: 250, image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c' }
+    ],
+    'กางเกง & ยีนส์': [
+      { name: 'Straight Leg Vintage Denim Jeans', basePrice: 890, image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246' },
+      { name: 'Cargo Tactical Pants Multi-Pocket', basePrice: 650, image: 'https://images.unsplash.com/photo-1582552938357-32b906df40cb' }
+    ],
+    'แจ็กเก็ต & ฮู้ดดี้': [
+      { name: 'Zip-Up Fleece Hoodie Heavyweight', basePrice: 790, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5' },
+      { name: 'Denim Jacket Vintage Classic Blue', basePrice: 1190, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea' }
+    ],
+    'กระเป๋า & รองเท้า': [
+      { name: 'White Leather Sneaker Classic Style', basePrice: 1890, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff' },
+      { name: 'Leather Crossbody Minimal Bag', basePrice: 990, image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa' }
+    ]
+  },
+  home: {
+    'โคมไฟ & ไฟแต่งห้อง': [
+      { name: 'Minimalist Desk Lamp Touch Dimmer', basePrice: 450, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c' },
+      { name: 'RGB Sunset Projection Lamp', basePrice: 290, image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38' }
+    ],
+    'เครื่องหอม & อโรม่า': [
+      { name: 'Aroma Soy Wax Candle Lavender 200g', basePrice: 320, image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59' }
+    ],
+    'เฟอร์นิเจอร์ & ชั้นวาง': [
+      { name: 'Ergonomic Monitor Stand Solid Wood', basePrice: 690, image: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126' }
+    ],
+    'เครื่องครัว & แก้วน้ำ': [
+      { name: 'Stainless Tumbler Vacuum Keep Cold 900ml', basePrice: 390, image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd' }
+    ]
+  },
+  sports: {
+    'อุปกรณ์ออกกำลังกาย': [
+      { name: 'Adjustable Dumbbell 24kg Quick Select', basePrice: 3200, image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2' },
+      { name: 'Yoga Mat NBR 10mm Anti-Slip Eco', basePrice: 450, image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd' }
+    ],
+    'แคมปิ้ง & เต็นท์': [
+      { name: 'Automatic Tent 4-Person Waterproof', basePrice: 1890, image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4' }
+    ],
+    'รองเท้า & เสื้อผ้ากีฬา': [
+      { name: 'Marathon Carbon Plate Running Shoes', basePrice: 2900, image: 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06' }
+    ]
   }
-  return `https://picsum.photos/seed/product_${id}/600/600`;
 };
 
 // --- REALISTIC 360 PRODUCTS GENERATOR ---
@@ -236,57 +186,11 @@ const generate350Products = (): Product[] => {
   const products: Product[] = [];
   let idCounter = 1;
   const subCategoryCounters: Record<string, number> = {};
-
-  const templates: Record<string, Record<string, string[]>> = {
-    it: {
-      'โทรศัพท์มือถือ': ['iPhone 15 Pro Max', 'Samsung Galaxy S24 Ultra', 'Xiaomi 14 Ultra', 'OPPO Find X7 Pro', 'Vivo X100 Pro', 'Google Pixel 8 Pro', 'OnePlus 12', 'ROG Phone 8 Pro'],
-      'คอมพิวเตอร์': ['PC เกมมิ่ง Core i7 RTX 4070', 'คอมประกอบ Ryzen 7 RTX 4060Ti', 'Mini PC Workstation Pro', 'PC สำนักงาน Ultra SSD 512GB'],
-      'โน๊ตบุ๊ค': ['MacBook Pro M3 Max 16 นิ้ว', 'MacBook Air M3 13 นิ้ว', 'ASUS ROG Zephyrus G16', 'Lenovo Legion Pro 5', 'Dell XPS 15 OLED', 'Acer Predator Helios'],
-      'แท็บเล็ต & ไอแพด': ['iPad Pro 11 นิ้ว M4', 'iPad Air 6 M2', 'Samsung Galaxy Tab S9 Ultra', 'Xiaomi Pad 6 Max', 'iPad Mini 6 Cellular'],
-      'แก็ดเจ็ต & อุปกรณ์เสริม': ['USB-C HUB 7-in-1 Aluminum', 'แท่นวางไอแพดปรับระดับได้', 'สายชาร์จ Fast Charge 100W', 'พาวเวอร์แบงค์ 30000mAh Magsafe', 'หูฟังไร้สาย ANC Bluetooth 5.4']
-    },
-    beauty: {
-      'เซรั่ม & มอยส์เจอไรเซอร์': ['Aura Hyaluron Intense Serum 50ml', 'Vitamin C Booster Glow Drop', 'Retinol Night Repair Cream', 'Centella Soothing Barrier Gel'],
-      'กันแดด & คลีนซิ่ง': ['Sunscreen Light Watery Essence SPF50+', 'Cleansing Oil Deep Cleanse 200ml', 'Micellar Water Sensitive Skin', 'Physical Sunscreen Stick Matte'],
-      'เครื่องสำอาง & ลิปสติก': ['Velvet Matte Longlasting Lipstick', 'Cushion Glowing Skin SPF50 PA++++', 'Eyeliner Water-Proof Black', 'Blush On Shimmer Peach Soft'],
-      'บำรุงผิวกาย & น้ำหอม': ['Perfume Body Lotion Rose Scent', 'Eau De Parfum Luxury Unisex 50ml', 'Body Scrub Organic Coffee Blend', 'Hand Cream Sheabutter Extra Moisture']
-    },
-    fashion: {
-      'เสื้อยืด & เสื้อครอป': ['Oversized Streetwear Premium Cotton Tee', 'Minimalist Crop Top Ribbed', 'Vintage Graphic Washed T-Shirt', 'Polo Shirt Slim Fit Smart Casual'],
-      'กางเกง & ยีนส์': ['Straight Leg Vintage Denim Jeans', 'Cargo Tactical Pants Multi-Pocket', 'Chino Trousers Slim Fit', 'Casual Shorts Organic Cotton'],
-      'แจ็กเก็ต & ฮู้ดดี้': ['Zip-Up Fleece Hoodie Heavyweight', 'Denim Jacket Vintage Classic Blue', 'Bomber Jacket Streetwear Style', 'Windbreaker Waterproof Sport Outdoor'],
-      'กระเป๋า & รองเท้า': ['Leather Crossbody Minimal Bag', 'Canvas Tote Bag Large Capacity', 'White Leather Sneaker Classic', 'Carbon Plate Running Shoes Ultra Light']
-    },
-    home: {
-      'โคมไฟ & ไฟแต่งห้อง': ['Minimalist Desk Lamp Touch Dimmer', 'RGB Sunset Projection Atmosphere Lamp', 'Nordic Floor Lamp Warm Light', 'Smart LED Strip Light WiFi App Control'],
-      'เครื่องหอม & อโรม่า': ['Aroma Soy Wax Candle Lavender 200g', 'Essential Oil Diffuser Ultrasonic', 'Reed Diffuser Luxury Hotel Scent'],
-      'เฟอร์นิเจอร์ & ชั้นวาง': ['Ergonomic Monitor Stand Solid Wood', 'Foldable Storage Box Clear Front 55L', 'Nordic Round Coffee Table', 'Minimal Bookshelf 4-Tier White'],
-      'เครื่องครัว & แก้วน้ำ': ['Stainless Tumbler Vacuum 900ml', 'Non-Stick Frying Pan Granite 28cm', 'Electric Glass Kettle Fast Boil', 'French Coffee Press Stainless Filter']
-    },
-    gaming: {
-      'เมาส์ & คีย์บอร์ด': ['RGB Mechanical Keyboard Wireless Tri-Mode', 'Ultra-Lightweight Gaming Mouse 8K Hz', 'Custom Keycaps PBT Double Shot Set', 'Gaming Mousepad XXL Control Edition'],
-      'หูฟัง & ไมโครโฟน': [
-        '7.1 Surround Gaming Headset Wireless', 
-        'USB Condenser Streaming Microphone', 
-        'Wireless Gaming Earbuds Low Latency 40ms',
-        'Studio Monitor Headphone Professional',
-        'RGB Gaming Headset Stand with USB Hub',
-        'Dynamic Podcast Microphone XLR/USB'
-      ],
-      'จอมอนิเตอร์ & โต๊ะเก้าอี้': ['Gaming Monitor 27" 240Hz IPS 1ms', 'Ergonomic Gaming Chair PU Leather', 'Electric Height Adjustable Desk 140cm']
-    },
-    sports: {
-      'อุปกรณ์ออกกำลังกาย': ['Resistance Bands 5-Level Set latex', 'Adjustable Dumbbell 24kg Quick Select', 'Yoga Mat NBR 10mm Anti-Slip Eco'],
-      'แคมปิ้ง & เต็นท์': ['Automatic Tent 4-Person Waterproof', 'Camping Chair Foldable Ultra Compact', 'Portable Gas Stove Outdoor Brass'],
-      'รองเท้า & เสื้อผ้ากีฬา': ['Marathon Carbon Shoes Pro', 'Quick-Dry Sport T-Shirt Breathable', 'Gym Training Shorts with Phone Pocket']
-    }
-  };
-
-  const mainCatKeys = Object.keys(templates);
+  const mainCatKeys = Object.keys(PRODUCT_TEMPLATES);
 
   for (let i = 0; i < 360; i++) {
     const mainCat = mainCatKeys[i % mainCatKeys.length];
-    const subCatMap = templates[mainCat];
+    const subCatMap = PRODUCT_TEMPLATES[mainCat];
     const subCatKeys = Object.keys(subCatMap);
     const subCat = subCatKeys[i % subCatKeys.length];
 
@@ -297,37 +201,36 @@ const generate350Products = (): Product[] => {
     }
 
     const itemIndexInSub = subCategoryCounters[subCat];
-    const nameList = subCatMap[subCat];
-    const baseName = nameList[itemIndexInSub % nameList.length];
+    const itemList = subCatMap[subCat];
+    const templateItem = itemList[itemIndexInSub % itemList.length];
 
     const modelVariant = `(รุ่นปี 2026 / Edition ${itemIndexInSub + 1})`;
-    const fullTitle = `${baseName} ${modelVariant}`;
+    const fullTitle = `${templateItem.name} ${modelVariant}`;
 
-    let basePrice = 220 + ((i * 173) % 34000);
-    if (mainCat === 'it' || mainCat === 'gaming') basePrice += 2800;
-
-    const discountRatio = 1.20 + ((i % 5) * 0.07);
-    const originalPrice = Math.round(basePrice * discountRatio);
+    // คำนวณราคาแบบสมจริง อ้างอิงจาก basePrice ของสินค้าแต่ละชิ้นโดยเฉพาะ
+    const priceVariation = ((i % 5) * 50) - 100;
+    const finalPrice = Math.max(150, templateItem.basePrice + priceVariation);
+    const originalPrice = Math.round(finalPrice * 1.25);
 
     const rating = Number((4.7 + ((i % 4) * 0.1)).toFixed(1));
     const reviewCount = (i * 43 + 95) % 1800 + 20;
     const soldCount = (i * 47 + 150) % 9800 + 200;
 
-    const uniqueImg = getUniqueProductImage(subCat, itemIndexInSub, idCounter);
+    const imgUrl = `${templateItem.image}?w=600&auto=format&fit=crop&q=80`;
 
     products.push({
       id: idCounter,
       name: fullTitle,
       mainCategory: mainCat,
       subCategory: subCat,
-      price: basePrice,
+      price: finalPrice,
       originalPrice: originalPrice,
       rating: rating,
       reviewCount: reviewCount,
       soldCount: soldCount,
       badge: BADGES[i % BADGES.length],
       location: LOCATIONS[i % LOCATIONS.length],
-      image: uniqueImg
+      image: imgUrl
     });
 
     idCounter++;
@@ -365,13 +268,11 @@ export default function Shop367Page() {
     payment: 'promptpay'
   });
 
-  // Get Subcategories
   const currentSubCategories = useMemo(() => {
     const found = MAIN_CATEGORIES.find(c => c.id === selectedMainCat);
     return found ? found.subs : [];
   }, [selectedMainCat]);
 
-  // Filter & Sort Products
   const filteredAndSortedProducts = useMemo(() => {
     let result = ALL_PRODUCTS.filter(item => {
       const matchMain = selectedMainCat === 'all' || item.mainCategory === selectedMainCat;
@@ -393,7 +294,6 @@ export default function Shop367Page() {
     return result;
   }, [selectedMainCat, selectedSubCat, searchQuery, sortBy]);
 
-  // Pagination Logic
   const totalPages = Math.ceil(filteredAndSortedProducts.length / itemsPerPage) || 1;
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
@@ -411,7 +311,6 @@ export default function Shop367Page() {
     setCurrentPage(1);
   };
 
-  // Cart Functions
   const addToCart = (product: Product) => {
     setCart(prev => {
       const existing = prev.find(item => item.product.id === product.id);
@@ -439,7 +338,6 @@ export default function Shop367Page() {
     });
   };
 
-  // Coupon
   const handleApplyCoupon = () => {
     if (couponCode.toUpperCase() === '367VIP') {
       setAppliedDiscount(200);
@@ -457,7 +355,6 @@ export default function Shop367Page() {
   const subtotalCartPrice = useMemo(() => cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [cart]);
   const finalCartPrice = Math.max(0, subtotalCartPrice - appliedDiscount);
 
-  // Submit Order
   const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setGeneratedOrderId(`367-TH-${Math.floor(100000 + Math.random() * 900000)}`);
@@ -562,7 +459,6 @@ export default function Shop367Page() {
             ))}
           </div>
 
-          {/* Subcategories */}
           {currentSubCategories.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto mt-3 pt-2.5 border-t border-slate-800/60">
               <span className="text-xs font-black text-indigo-400 uppercase tracking-wider whitespace-nowrap mr-1">หมวดย่อย:</span>
@@ -587,9 +483,6 @@ export default function Shop367Page() {
       {/* Hero Banner */}
       <section className="max-w-7xl mx-auto px-4 mt-6">
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-indigo-950 via-slate-900 to-violet-950 border border-indigo-800/50 shadow-2xl p-6 sm:p-10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
           <div className="relative z-10 space-y-3 max-w-2xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs sm:text-sm font-black px-3.5 py-1 rounded-full uppercase tracking-widest">
               <span>🔥 367 MEGA GRAND SALE 2026</span>
@@ -598,30 +491,19 @@ export default function Shop367Page() {
               ช้อปสินค้าตรงปก <span className="bg-gradient-to-r from-indigo-400 via-emerald-400 to-violet-400 bg-clip-text text-transparent">ลดสูงสุด 70%</span>
             </h2>
             <p className="text-slate-300 text-sm sm:text-base font-medium">
-              สินค้าคุณภาพมาตรฐานระดับพรีเมียมกว่า 360+ รายการ พร้อมโปรส่งฟรีและโค้ดลดเพิ่ม
+              สินค้าตรงรุ่นรูปภาพสมจริง การันตีราคามาตรฐานจากโรงงาน
             </p>
-
-            <div className="flex flex-wrap gap-3 justify-center md:justify-start pt-2">
-              <div className="bg-slate-950/70 border border-slate-800 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-emerald-400 flex items-center gap-1.5">
-                <span>🎫 ใช้โค้ด: <strong>367VIP</strong></span>
-                <span className="text-slate-400 font-normal">(ลดเพิ่ม ฿200)</span>
-              </div>
-              <div className="bg-slate-950/70 border border-slate-800 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-indigo-300 flex items-center gap-1">
-                <span>🚚 จัดส่งฟรีทุกออเดอร์</span>
-              </div>
-            </div>
           </div>
 
           <div className="relative z-10 bg-slate-950/80 border border-slate-800 p-5 rounded-2xl text-center w-full md:w-auto min-w-[240px] shadow-xl">
-            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">สิทธิพิเศษสำหรับวันนี้</p>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">สิทธิพิเศษวันนี้</p>
             <p className="text-2xl font-black text-emerald-400 font-mono">แจกส่วนลด ฿200</p>
-            <p className="text-xs text-slate-400 mt-1">กดรับโค้ดไปใส่ที่หน้าชำระเงินได้ทันที</p>
             <button 
               onClick={() => {
                 setCouponCode('367VIP');
                 setIsCartOpen(true);
               }}
-              className="mt-4 w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-black text-sm rounded-xl shadow-lg shadow-indigo-600/40 transition active:scale-95"
+              className="mt-4 w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 text-white font-black text-sm rounded-xl shadow-lg transition"
             >
               รับโค้ดส่วนลด 367VIP &gt;
             </button>
@@ -631,8 +513,6 @@ export default function Shop367Page() {
 
       {/* Product Grid Section */}
       <main className="max-w-7xl mx-auto px-4 mt-8">
-        
-        {/* Header Filter Info */}
         <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800 shadow-xl mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 backdrop-blur-md">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
@@ -640,26 +520,24 @@ export default function Shop367Page() {
               {selectedSubCat !== 'ทั้งหมด' && <span className="text-indigo-400 font-medium text-xl"> &gt; {selectedSubCat}</span>}
             </h1>
             <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">
-              พบสินค้าตรงปกทั้งสิ้น <span className="font-bold text-emerald-400 font-mono text-base">{filteredAndSortedProducts.length}</span> รายการ
+              พบสินค้าตรงปก <span className="font-bold text-emerald-400 font-mono text-base">{filteredAndSortedProducts.length}</span> รายการ
             </p>
           </div>
 
-          {/* Sort Controls */}
           <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
             <span className="text-xs font-bold text-slate-400 uppercase whitespace-nowrap">จัดเรียง:</span>
             {[
               { id: 'popular', label: 'ยอดนิยม' },
               { id: 'sales', label: 'ขายดีสุด' },
               { id: 'price-asc', label: 'ราคาต่ำ-สูง' },
-              { id: 'price-desc', label: 'ราคาสูง-ต่ำ' },
-              { id: 'rating', label: 'คะแนนสูงสุด' }
+              { id: 'price-desc', label: 'ราคาสูง-ต่ำ' }
             ].map(btn => (
               <button
                 key={btn.id}
                 onClick={() => setSortBy(btn.id)}
                 className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
                   sortBy === btn.id
-                    ? 'bg-indigo-500 text-slate-950 font-black shadow-md shadow-indigo-500/30'
+                    ? 'bg-indigo-500 text-slate-950 font-black'
                     : 'bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60'
                 }`}
               >
@@ -678,7 +556,6 @@ export default function Shop367Page() {
                 className="bg-slate-900 rounded-2xl border border-slate-800/90 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-950/60 hover:border-indigo-500/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Product Image Container */}
                   <div className="relative aspect-square bg-slate-950 overflow-hidden">
                     <img
                       src={product.image}
@@ -686,21 +563,18 @@ export default function Shop367Page() {
                       loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    
-                    {/* Badges */}
-                    <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
+                    <div className="absolute top-2.5 left-2.5">
                       {product.badge && (
-                        <span className="bg-emerald-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md shadow-md tracking-wider uppercase">
+                        <span className="bg-emerald-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md shadow-md uppercase">
                           {product.badge}
                         </span>
                       )}
                     </div>
                   </div>
 
-                  {/* Product Details */}
                   <div className="p-3.5 sm:p-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-xs font-bold text-indigo-300 bg-indigo-950 border border-indigo-800/60 px-2.5 py-0.5 rounded-full inline-block">
+                      <span className="text-xs font-bold text-indigo-300 bg-indigo-950 border border-indigo-800/60 px-2.5 py-0.5 rounded-full">
                         {product.subCategory}
                       </span>
                       <span className="text-xs text-slate-500 font-mono">
@@ -708,26 +582,20 @@ export default function Shop367Page() {
                       </span>
                     </div>
 
-                    {/* Product Name */}
                     <h3 className="text-sm sm:text-base font-bold text-slate-100 line-clamp-2 h-11 leading-snug group-hover:text-indigo-300 transition-colors">
                       {product.name}
                     </h3>
 
-                    {/* Rating & Reviews */}
                     <div className="flex items-center justify-between mt-3 text-xs sm:text-sm text-slate-300 font-medium">
                       <div className="flex items-center gap-1 text-amber-400 font-bold bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
                         <span>★</span>
                         <span>{product.rating}</span>
-                        <span className="text-slate-400 font-normal text-xs">
-                          ({product.reviewCount.toLocaleString()} รีวิว)
-                        </span>
                       </div>
                       <span className="text-xs text-slate-400">ขายแล้ว {product.soldCount.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Price & Action Button */}
                 <div className="p-3.5 sm:p-4 pt-0">
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
@@ -739,17 +607,14 @@ export default function Shop367Page() {
                   </div>
 
                   <div className="flex justify-between items-center mt-3 pt-2 border-t border-slate-800/60">
-                    <span className="text-xs text-slate-400 flex items-center gap-0.5 truncate max-w-[100px]">
+                    <span className="text-xs text-slate-400 truncate max-w-[100px]">
                       📍 {product.location}
                     </span>
 
                     <button
                       onClick={() => addToCart(product)}
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-3.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all active:scale-95 flex items-center gap-1.5 text-xs sm:text-sm"
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-3.5 rounded-xl transition shadow-md flex items-center gap-1 text-xs sm:text-sm"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4"/>
-                      </svg>
                       <span>ใส่ตะกร้า</span>
                     </button>
                   </div>
@@ -759,47 +624,27 @@ export default function Shop367Page() {
           </div>
         ) : (
           <div className="bg-slate-900 rounded-2xl p-12 text-center border border-slate-800 my-8">
-            <p className="text-xl font-bold text-slate-300">ไม่พบสินค้าที่คุณกำลังค้นหา</p>
-            <button
-              onClick={() => handleMainCatChange('all')}
-              className="mt-4 px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/30"
-            >
-              ดูสินค้าทั้งหมดในร้าน
-            </button>
+            <p className="text-xl font-bold text-slate-300">ไม่พบสินค้าที่คุณค้นหา</p>
           </div>
         )}
 
-        {/* Pagination Controls */}
+        {/* Pagination */}
         {totalPages > 1 && (
           <div className="mt-12 flex justify-center items-center gap-2 sm:gap-3">
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              className="px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs sm:text-sm font-bold text-slate-300 hover:bg-slate-800 disabled:opacity-30 transition"
+              className="px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs sm:text-sm font-bold text-slate-300 disabled:opacity-30"
             >
               &lt; ย้อนกลับ
             </button>
-
-            <div className="flex gap-1.5 overflow-x-auto max-w-[220px] sm:max-w-none py-1">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-10 h-10 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                    currentPage === page
-                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/40 font-black'
-                      : 'bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
-
+            <span className="text-sm font-bold text-slate-400 px-3">
+              หน้า {currentPage} / {totalPages}
+            </span>
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              className="px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs sm:text-sm font-bold text-slate-300 hover:bg-slate-800 disabled:opacity-30 transition"
+              className="px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs sm:text-sm font-bold text-slate-300 disabled:opacity-30"
             >
               ถัดไป &gt;
             </button>
@@ -812,58 +657,26 @@ export default function Shop367Page() {
       {isCartOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex justify-end">
           <div className="w-full max-w-md bg-slate-900 h-full shadow-2xl flex flex-col justify-between border-l border-slate-800">
-            
-            <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 text-white">
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-black">ตะกร้าสินค้า (367 Official)</span>
-                <span className="bg-emerald-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-full">
-                  {totalCartItems}
-                </span>
-              </div>
-              <button 
-                onClick={() => setIsCartOpen(false)}
-                className="text-slate-400 hover:text-white font-bold text-xl px-2"
-              >
-                ✕
-              </button>
+            <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+              <span className="text-lg font-black text-white">ตะกร้าสินค้า ({totalCartItems})</span>
+              <button onClick={() => setIsCartOpen(false)} className="text-slate-400 hover:text-white font-bold text-xl">✕</button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {cart.length > 0 ? (
-                cart.map((item) => (
-                  <div key={item.product.id} className="flex gap-3 p-3 bg-slate-950/80 rounded-xl border border-slate-800 items-center">
-                    <img
-                      src={item.product.image}
-                      alt={item.product.name}
-                      className="w-16 h-16 object-cover rounded-lg bg-slate-900 border border-slate-800"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-slate-200 truncate">{item.product.name}</h4>
-                      <p className="text-base font-black text-emerald-400 font-mono mt-0.5">฿{item.product.price.toLocaleString()}</p>
-                      
-                      <div className="flex items-center gap-2 mt-2">
-                        <button
-                          onClick={() => updateQuantity(item.product.id, -1)}
-                          className="w-6 h-6 bg-slate-800 border border-slate-700 rounded text-slate-300 font-bold text-xs flex items-center justify-center hover:bg-slate-700"
-                        >
-                          -
-                        </button>
-                        <span className="font-bold text-xs px-1 text-slate-100">{item.quantity}</span>
-                        <button
-                          onClick={() => updateQuantity(item.product.id, 1)}
-                          className="w-6 h-6 bg-slate-800 border border-slate-700 rounded text-slate-300 font-bold text-xs flex items-center justify-center hover:bg-slate-700"
-                        >
-                          +
-                        </button>
-                      </div>
+              {cart.map((item) => (
+                <div key={item.product.id} className="flex gap-3 p-3 bg-slate-950/80 rounded-xl border border-slate-800 items-center">
+                  <img src={item.product.image} alt={item.product.name} className="w-16 h-16 object-cover rounded-lg" />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-200 truncate">{item.product.name}</h4>
+                    <p className="text-base font-black text-emerald-400 font-mono">฿{item.product.price.toLocaleString()}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <button onClick={() => updateQuantity(item.product.id, -1)} className="w-6 h-6 bg-slate-800 rounded text-xs font-bold">-</button>
+                      <span className="text-xs font-bold text-slate-100">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.product.id, 1)} className="w-6 h-6 bg-slate-800 rounded text-xs font-bold">+</button>
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="text-center py-24 text-slate-500 font-medium text-base">
-                  ไม่มีสินค้าในตะกร้า
                 </div>
-              )}
+              ))}
             </div>
 
             {cart.length > 0 && (
@@ -873,50 +686,21 @@ export default function Shop367Page() {
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="ใส่โค้ดส่วนลด..."
                       value={couponCode}
                       onChange={e => setCouponCode(e.target.value)}
-                      className="flex-1 px-3 py-2 text-xs sm:text-sm bg-slate-950 border border-slate-700 rounded-lg focus:outline-none focus:border-indigo-500 font-mono font-bold uppercase text-slate-100"
+                      className="flex-1 px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-white uppercase font-mono font-bold"
                     />
-                    <button
-                      onClick={handleApplyCoupon}
-                      className="px-3.5 py-2 bg-indigo-600 text-white font-bold text-xs sm:text-sm rounded-lg hover:bg-indigo-500 transition shadow-sm"
-                    >
-                      ใช้โค้ด
-                    </button>
+                    <button onClick={handleApplyCoupon} className="px-3.5 py-2 bg-indigo-600 text-white font-bold text-xs rounded-lg">ใช้โค้ด</button>
                   </div>
-                  {couponMessage && (
-                    <p className={`text-xs font-bold mt-1.5 ${couponMessage.isError ? 'text-red-400' : 'text-emerald-400'}`}>
-                      {couponMessage.text}
-                    </p>
-                  )}
+                  {couponMessage && <p className={`text-xs font-bold mt-1 ${couponMessage.isError ? 'text-red-400' : 'text-emerald-400'}`}>{couponMessage.text}</p>}
                 </div>
 
-                <div className="space-y-1.5 text-xs sm:text-sm">
-                  <div className="flex justify-between text-slate-400">
-                    <span>ยอดรวมสินค้า:</span>
-                    <span>฿{subtotalCartPrice.toLocaleString()}</span>
-                  </div>
-                  {appliedDiscount > 0 && (
-                    <div className="flex justify-between text-emerald-400 font-bold">
-                      <span>ส่วนลดคูปอง:</span>
-                      <span>-฿{appliedDiscount.toLocaleString()}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between text-slate-400">
-                    <span>ค่าจัดส่ง:</span>
-                    <span className="text-emerald-400 font-bold">ฟรี (฿0)</span>
-                  </div>
-                  <div className="flex justify-between items-center text-base sm:text-lg font-black pt-2 border-t border-slate-800 text-white">
-                    <span>ยอดชำระสุทธิ:</span>
-                    <span className="text-2xl text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</span>
-                  </div>
+                <div className="flex justify-between items-center text-lg font-black text-white pt-2 border-t border-slate-800">
+                  <span>ยอดชำระสุทธิ:</span>
+                  <span className="text-2xl text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</span>
                 </div>
 
-                <button
-                  onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-black text-base rounded-xl shadow-lg shadow-indigo-600/40 transition"
-                >
+                <button onClick={() => setIsCheckoutOpen(true)} className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-xl">
                   ชำระเงินทันที &gt;
                 </button>
               </div>
@@ -927,81 +711,39 @@ export default function Shop367Page() {
 
       {/* Checkout Modal */}
       {isCheckoutOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden p-6 relative border border-slate-800 text-slate-100">
-            <button 
-              onClick={() => setIsCheckoutOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-xl"
-            >
-              ✕
-            </button>
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 w-full max-w-lg rounded-2xl p-6 relative border border-slate-800 text-slate-100">
+            <button onClick={() => setIsCheckoutOpen(false)} className="absolute top-4 right-4 text-slate-400 text-xl font-bold">✕</button>
 
             {orderSuccess ? (
               <div className="text-center py-6">
-                <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
-                  ✓
-                </div>
+                <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3">✓</div>
                 <h3 className="text-2xl font-black text-white">สั่งซื้อสินค้าสำเร็จ!</h3>
-                <p className="text-slate-400 text-xs sm:text-sm mt-1">หมายเลขคำสั่งซื้อ: <span className="font-bold text-emerald-400 font-mono">{generatedOrderId}</span></p>
-                
-                <div className="mt-5 p-4 bg-slate-950 rounded-2xl border border-slate-800 text-left space-y-2 text-xs sm:text-sm">
-                  <div className="flex justify-between text-slate-400">
-                    <span>ผู้รับ:</span>
-                    <span className="font-bold text-slate-200">{formData.name}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400">
-                    <span>เบอร์โทร:</span>
-                    <span className="font-bold text-slate-200">{formData.phone}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400">
-                    <span>วิธีชำระเงิน:</span>
-                    <span className="font-bold text-indigo-400 uppercase">{formData.payment}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400 pt-2 border-t border-slate-800">
-                    <span>ยอดชำระสำเร็จ:</span>
-                    <span className="font-black text-emerald-400 text-base font-mono">฿{finalCartPrice.toLocaleString()}</span>
-                  </div>
-                </div>
-
-                <p className="text-xs text-slate-500 mt-5">ระบบกำลังเตรียมจัดส่งสินค้า ขอบคุณที่อุดหนุน 367 Store ครับ</p>
-                
+                <p className="text-slate-400 text-sm mt-1">หมายเลขสั่งซื้อ: <span className="font-mono text-emerald-400 font-bold">{generatedOrderId}</span></p>
                 <button
                   onClick={() => {
                     setCart([]);
-                    setAppliedDiscount(0);
-                    setCouponCode('');
                     setOrderSuccess(false);
                     setIsCheckoutOpen(false);
                     setIsCartOpen(false);
                   }}
-                  className="mt-5 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold rounded-xl transition border border-slate-700"
+                  className="mt-6 w-full py-3 bg-slate-800 text-white font-bold rounded-xl"
                 >
                   กลับสู่หน้าหลัก
                 </button>
               </div>
             ) : (
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                <h3 className="text-xl font-black text-white border-b border-slate-800 pb-3">สั่งซื้อสินค้า (367 Official Store)</h3>
-
-                <div className="max-h-28 overflow-y-auto space-y-1.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs sm:text-sm">
-                  {cart.map((c) => (
-                    <div key={c.product.id} className="flex justify-between font-medium">
-                      <span className="truncate max-w-[240px] text-slate-300">{c.product.name} x {c.quantity}</span>
-                      <span className="font-bold text-emerald-400 font-mono">฿{(c.product.price * c.quantity).toLocaleString()}</span>
-                    </div>
-                  ))}
-                </div>
-
+                <h3 className="text-xl font-black text-white border-b border-slate-800 pb-3">สั่งซื้อสินค้า</h3>
                 <div className="space-y-3 text-xs sm:text-sm">
                   <div>
-                    <label className="font-bold text-slate-300 block mb-1">ชื่อ-นามสกุล ผู้รับ *</label>
+                    <label className="font-bold text-slate-300 block mb-1">ชื่อ-นามสกุล *</label>
                     <input
                       type="text"
                       required
-                      placeholder="เช่น สมชาย ใจดี"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 font-medium text-slate-100"
+                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
                     />
                   </div>
                   <div>
@@ -1009,10 +751,9 @@ export default function Shop367Page() {
                     <input
                       type="tel"
                       required
-                      placeholder="081-234-5678"
                       value={formData.phone}
                       onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 font-medium text-slate-100"
+                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
                     />
                   </div>
                   <div>
@@ -1020,35 +761,16 @@ export default function Shop367Page() {
                     <textarea
                       required
                       rows={2}
-                      placeholder="บ้านเลขที่, แขวง/ตำบล, เขต/อำเภอ, จังหวัด, รหัสไปรษณีย์"
                       value={formData.address}
                       onChange={e => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 font-medium text-slate-100"
+                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
                     />
-                  </div>
-                  <div>
-                    <label className="font-bold text-slate-300 block mb-1">วิธีการชำระเงิน</label>
-                    <select
-                      value={formData.payment}
-                      onChange={e => setFormData({ ...formData, payment: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl font-bold focus:outline-none focus:border-indigo-500 text-slate-100"
-                    >
-                      <option value="promptpay">พร้อมเพย์ / โอนเงิน (PromptPay)</option>
-                      <option value="cod">เก็บเงินปลายทาง (COD)</option>
-                      <option value="card">บัตรเครดิต / บัตรเดบิต</option>
-                    </select>
                   </div>
                 </div>
 
                 <div className="pt-3 border-t border-slate-800 flex justify-between items-center">
-                  <div>
-                    <p className="text-xs text-slate-500">ยอดชำระสุทธิ</p>
-                    <p className="text-2xl font-black text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</p>
-                  </div>
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-indigo-600/30 transition"
-                  >
+                  <span className="text-2xl font-black text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</span>
+                  <button type="submit" className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm rounded-xl">
                     ยืนยันการสั่งซื้อ
                   </button>
                 </div>
