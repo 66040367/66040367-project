@@ -67,7 +67,7 @@ const MAIN_CATEGORIES = [
 const LOCATIONS = ['กรุงเทพมหานคร', 'สมุทรปราการ', 'นนทบุรี', 'เชียงใหม่', 'ชลบุรี', 'ปทุมธานี', 'ภูเก็ต'];
 const BADGES = ['367 VIP', 'MALL', 'BEST SELLER', 'HOT DEAL', 'ส่งฟรี', 'ลด 50%', 'ถูกชัวร์'];
 
-// --- REALISTIC PRODUCTS DATA MAPPING (BOUND IMAGE + ACCURATE REAL-WORLD PRICE) ---
+// --- ACCURATE PRODUCT TEMPLATES WITH STRICTLY MATCHED IMAGES ---
 const PRODUCT_TEMPLATES: Record<string, Record<string, ProductItemDef[]>> = {
   it: {
     'โทรศัพท์มือถือ': [
@@ -78,84 +78,67 @@ const PRODUCT_TEMPLATES: Record<string, Record<string, ProductItemDef[]>> = {
     ],
     'คอมพิวเตอร์': [
       { name: 'PC เกมมิ่ง Intel Core i7 RTX 4070', basePrice: 42500, image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b' },
-      { name: 'คอมประกอบ Ryzen 7 RTX 4060Ti', basePrice: 32900, image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5' },
-      { name: 'Mini PC Workstation Ultra', basePrice: 18500, image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f' }
+      { name: 'Mini PC Workstation Ultra', basePrice: 18500, image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5' }
     ],
     'โน๊ตบุ๊ค': [
       { name: 'MacBook Pro M3 Max 16 นิ้ว', basePrice: 89900, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
-      { name: 'MacBook Air M3 13 นิ้ว', basePrice: 39900, image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853' },
-      { name: 'ASUS ROG Zephyrus G16 Gaming', basePrice: 65900, image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302' }
+      { name: 'ASUS ROG Zephyrus Gaming Laptop', basePrice: 65900, image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302' }
     ],
     'แท็บเล็ต & ไอแพด': [
       { name: 'iPad Pro 11 นิ้ว ชิป M4 Ultra', basePrice: 39900, image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0' },
-      { name: 'iPad Air 6 ชิป M2 128GB', basePrice: 21900, image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764' },
       { name: 'Samsung Galaxy Tab S9 Ultra', basePrice: 38900, image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9' }
     ],
     'แก็ดเจ็ต & อุปกรณ์เสริม': [
-      { name: 'แท่นวางไอแพดปรับระดับได้ Aluminum Holder', basePrice: 390, image: 'https://images.unsplash.com/photo-1586105251261-72a756497a11' },
-      { name: 'USB-C HUB 7-in-1 Aluminum Adapter', basePrice: 690, image: 'https://images.unsplash.com/photo-1622445268465-84288046d581' },
-      { name: 'สายชาร์จ Fast Charge 100W Braided Cable', basePrice: 290, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90' },
-      { name: 'พาวเวอร์แบงค์ 30000mAh MagSafe Wireless', basePrice: 1290, image: 'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf' }
+      { name: 'แท่นวางไอแพดปรับระดับได้ Aluminum Holder', basePrice: 490, image: 'https://images.unsplash.com/photo-1544816155-12df9643f363' },
+      { name: 'USB-C HUB 7-in-1 Aluminum Adapter', basePrice: 790, image: 'https://images.unsplash.com/photo-1616440342981-d243a4dbbf51' },
+      { name: 'สายชาร์จ Fast Charge 100W Braided Cable', basePrice: 390, image: 'https://images.unsplash.com/photo-1609592807980-877473064373' },
+      { name: 'พาวเวอร์แบงค์ 30000mAh Fast Charge', basePrice: 1290, image: 'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf' }
     ]
   },
   gaming: {
     'เมาส์ & คีย์บอร์ด': [
-      { name: 'Mechanical Gaming Keyboard Tri-Mode RGB', basePrice: 2490, image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3' },
-      { name: 'Ultra-Lightweight Gaming Mouse 8K Hz', basePrice: 1890, image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7' },
-      { name: 'Custom Keycaps PBT Double Shot Set', basePrice: 890, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46' }
+      { name: 'Mechanical Gaming Keyboard RGB', basePrice: 2490, image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3' },
+      { name: 'Ultra-Lightweight Gaming Mouse', basePrice: 1890, image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7' }
     ],
     'หูฟัง & ไมโครโฟน': [
       { name: 'USB Condenser Streaming Microphone Pro', basePrice: 1590, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df' },
-      { name: 'หูฟังเกมมิ่ง 7.1 Surround Wireless Headset', basePrice: 2490, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e' },
-      { name: 'หูฟังไร้สาย Gaming Earbuds Low Latency 40ms', basePrice: 990, image: 'https://images.unsplash.com/photo-1590658006821-04f4008d5717' },
-      { name: 'ไมโครโฟน Dynamic Podcast XLR/USB', basePrice: 3290, image: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6' },
-      { name: 'Studio Monitor Headphone Professional', basePrice: 2890, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90' }
+      { name: 'หูฟังเกมมิ่ง 7.1 Surround Wireless Headset', basePrice: 2490, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e' }
     ],
     'จอมอนิเตอร์ & โต๊ะเก้าอี้': [
-      { name: 'Gaming Monitor 27" 240Hz IPS 1ms', basePrice: 7900, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf' },
-      { name: 'Ergonomic Gaming Chair PU Leather', basePrice: 4500, image: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0' }
+      { name: 'Gaming Monitor 27" 240Hz IPS 1ms', basePrice: 7900, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf' }
     ]
   },
   beauty: {
     'เซรั่ม & มอยส์เจอไรเซอร์': [
-      { name: 'Aura Hyaluron Intense Serum 50ml', basePrice: 490, image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be' },
-      { name: 'Vitamin C Booster Glow Drop 30ml', basePrice: 390, image: 'https://images.unsplash.com/photo-1608248597261-833244722510' }
+      { name: 'Aura Hyaluron Intense Serum 50ml', basePrice: 490, image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be' }
     ],
     'กันแดด & คลีนซิ่ง': [
-      { name: 'Sunscreen Light Watery Essence SPF50+', basePrice: 350, image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03' },
-      { name: 'Cleansing Oil Deep Cleanse 200ml', basePrice: 420, image: 'https://images.unsplash.com/photo-1617897903246-719242758050' }
+      { name: 'Sunscreen Light Watery Essence SPF50+', basePrice: 350, image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03' }
     ],
     'เครื่องสำอาง & ลิปสติก': [
-      { name: 'Velvet Matte Longlasting Lipstick', basePrice: 290, image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa' },
-      { name: 'Cushion Glowing Skin SPF50 PA++++', basePrice: 590, image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e' }
+      { name: 'Velvet Matte Longlasting Lipstick', basePrice: 290, image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa' }
     ],
     'บำรุงผิวกาย & น้ำหอม': [
-      { name: 'Eau De Parfum Luxury Unisex 50ml', basePrice: 1290, image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539' },
-      { name: 'Perfume Body Lotion Rose Scent 250ml', basePrice: 380, image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3' }
+      { name: 'Eau De Parfum Luxury Unisex 50ml', basePrice: 1290, image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539' }
     ]
   },
   fashion: {
     'เสื้อยืด & เสื้อครอป': [
-      { name: 'Oversized Streetwear Premium Cotton Tee', basePrice: 350, image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518' },
-      { name: 'Minimalist Crop Top Ribbed Soft Touch', basePrice: 250, image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c' }
+      { name: 'Oversized Streetwear Premium Cotton Tee', basePrice: 350, image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518' }
     ],
     'กางเกง & ยีนส์': [
-      { name: 'Straight Leg Vintage Denim Jeans', basePrice: 890, image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246' },
-      { name: 'Cargo Tactical Pants Multi-Pocket', basePrice: 650, image: 'https://images.unsplash.com/photo-1582552938357-32b906df40cb' }
+      { name: 'Straight Leg Vintage Denim Jeans', basePrice: 890, image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246' }
     ],
     'แจ็กเก็ต & ฮู้ดดี้': [
-      { name: 'Zip-Up Fleece Hoodie Heavyweight', basePrice: 790, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5' },
-      { name: 'Denim Jacket Vintage Classic Blue', basePrice: 1190, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea' }
+      { name: 'Zip-Up Fleece Hoodie Heavyweight', basePrice: 790, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5' }
     ],
     'กระเป๋า & รองเท้า': [
-      { name: 'White Leather Sneaker Classic Style', basePrice: 1890, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff' },
-      { name: 'Leather Crossbody Minimal Bag', basePrice: 990, image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa' }
+      { name: 'White Leather Sneaker Classic Style', basePrice: 1890, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff' }
     ]
   },
   home: {
     'โคมไฟ & ไฟแต่งห้อง': [
-      { name: 'Minimalist Desk Lamp Touch Dimmer', basePrice: 450, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c' },
-      { name: 'RGB Sunset Projection Lamp', basePrice: 290, image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38' }
+      { name: 'Minimalist Desk Lamp Touch Dimmer', basePrice: 450, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c' }
     ],
     'เครื่องหอม & อโรม่า': [
       { name: 'Aroma Soy Wax Candle Lavender 200g', basePrice: 320, image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59' }
@@ -181,7 +164,7 @@ const PRODUCT_TEMPLATES: Record<string, Record<string, ProductItemDef[]>> = {
   }
 };
 
-// --- REALISTIC 360 PRODUCTS GENERATOR ---
+// --- GENERATE 360 PRODUCTS WITH GUARANTEED MATCHING IMAGES ---
 const generate350Products = (): Product[] => {
   const products: Product[] = [];
   let idCounter = 1;
@@ -207,8 +190,7 @@ const generate350Products = (): Product[] => {
     const modelVariant = `(รุ่นปี 2026 / Edition ${itemIndexInSub + 1})`;
     const fullTitle = `${templateItem.name} ${modelVariant}`;
 
-    // คำนวณราคาแบบสมจริง อ้างอิงจาก basePrice ของสินค้าแต่ละชิ้นโดยเฉพาะ
-    const priceVariation = ((i % 5) * 50) - 100;
+    const priceVariation = ((i % 5) * 40) - 80;
     const finalPrice = Math.max(150, templateItem.basePrice + priceVariation);
     const originalPrice = Math.round(finalPrice * 1.25);
 
@@ -265,7 +247,7 @@ export default function Shop367Page() {
     name: '',
     phone: '',
     address: '',
-    payment: 'promptpay'
+    payment: 'promptpay' // 'promptpay' | 'card' | 'bank' | 'cod'
   });
 
   const currentSubCategories = useMemo(() => {
@@ -371,9 +353,9 @@ export default function Shop367Page() {
             <span className="bg-indigo-500 text-slate-950 font-black px-2.5 py-0.5 rounded-full text-xs uppercase tracking-wider shadow-sm shadow-indigo-500/50">
               367 OFFICIAL
             </span>
-            <span className="text-xs sm:text-sm font-medium">⚡ สินค้าภาพตรงปก | ใช้โค้ดส่วนลด <strong className="text-emerald-400 font-mono bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">367VIP</strong> ลดทันที ฿200</span>
+            <span className="text-xs sm:text-sm font-medium">⚡ สินค้าภาพตรงปก 100% | ใช้โค้ด <strong className="text-emerald-400 font-mono bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">367VIP</strong> ลดทันที ฿200</span>
           </div>
-          <span className="hidden md:inline text-xs sm:text-sm text-indigo-300/80 font-mono">การันตีของแท้ 100% | จัดส่งฟรีทั่วประเทศ</span>
+          <span className="hidden md:inline text-xs sm:text-sm text-indigo-300/80 font-mono">การันตีของแท้ | ชำระเงินได้หลายช่องทาง</span>
         </div>
       </div>
 
@@ -491,7 +473,7 @@ export default function Shop367Page() {
               ช้อปสินค้าตรงปก <span className="bg-gradient-to-r from-indigo-400 via-emerald-400 to-violet-400 bg-clip-text text-transparent">ลดสูงสุด 70%</span>
             </h2>
             <p className="text-slate-300 text-sm sm:text-base font-medium">
-              สินค้าตรงรุ่นรูปภาพสมจริง การันตีราคามาตรฐานจากโรงงาน
+              สินค้าการันตีภาพตรงปก ชำระเงินได้หลายช่องทางตามต้องการ
             </p>
           </div>
 
@@ -709,17 +691,28 @@ export default function Shop367Page() {
         </div>
       )}
 
-      {/* Checkout Modal */}
+      {/* Checkout Modal with Payment Options (No QR Code) */}
       {isCheckoutOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 w-full max-w-lg rounded-2xl p-6 relative border border-slate-800 text-slate-100">
-            <button onClick={() => setIsCheckoutOpen(false)} className="absolute top-4 right-4 text-slate-400 text-xl font-bold">✕</button>
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-slate-900 w-full max-w-lg rounded-2xl p-6 relative border border-slate-800 text-slate-100 my-8 shadow-2xl">
+            <button onClick={() => setIsCheckoutOpen(false)} className="absolute top-4 right-4 text-slate-400 text-xl font-bold hover:text-white">✕</button>
 
             {orderSuccess ? (
               <div className="text-center py-6">
-                <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3">✓</div>
+                <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-emerald-500/30">✓</div>
                 <h3 className="text-2xl font-black text-white">สั่งซื้อสินค้าสำเร็จ!</h3>
                 <p className="text-slate-400 text-sm mt-1">หมายเลขสั่งซื้อ: <span className="font-mono text-emerald-400 font-bold">{generatedOrderId}</span></p>
+                
+                <div className="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-left text-xs space-y-1">
+                  <p className="text-slate-300 font-bold">ช่องทางชำระเงินที่เลือก:</p>
+                  <p className="text-indigo-400 font-medium">
+                    {formData.payment === 'promptpay' && '📱 สแกนจ่าย / พร้อมเพย์'}
+                    {formData.payment === 'card' && '💳 บัตรเครดิต / เดบิต'}
+                    {formData.payment === 'bank' && '🏦 โอนผ่านบัญชีธนาคาร'}
+                    {formData.payment === 'cod' && '🚚 เก็บเงินปลายทาง (COD)'}
+                  </p>
+                </div>
+
                 <button
                   onClick={() => {
                     setCart([]);
@@ -727,23 +720,28 @@ export default function Shop367Page() {
                     setIsCheckoutOpen(false);
                     setIsCartOpen(false);
                   }}
-                  className="mt-6 w-full py-3 bg-slate-800 text-white font-bold rounded-xl"
+                  className="mt-6 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition"
                 >
                   กลับสู่หน้าหลัก
                 </button>
               </div>
             ) : (
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                <h3 className="text-xl font-black text-white border-b border-slate-800 pb-3">สั่งซื้อสินค้า</h3>
+                <h3 className="text-xl font-black text-white border-b border-slate-800 pb-3 flex items-center gap-2">
+                  <span>🛍️</span> ชำระเงิน & จัดส่ง
+                </h3>
+
+                {/* Contact & Address Form */}
                 <div className="space-y-3 text-xs sm:text-sm">
                   <div>
                     <label className="font-bold text-slate-300 block mb-1">ชื่อ-นามสกุล *</label>
                     <input
                       type="text"
                       required
+                      placeholder="เช่น สมชาย ใจดี"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
+                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
                   <div>
@@ -751,9 +749,10 @@ export default function Shop367Page() {
                     <input
                       type="tel"
                       required
+                      placeholder="เช่น 0812345678"
                       value={formData.phone}
                       onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
+                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
                   <div>
@@ -761,16 +760,120 @@ export default function Shop367Page() {
                     <textarea
                       required
                       rows={2}
+                      placeholder="บ้านเลขที่, ถนน, แขวง/ตำบล, เขต/อำเภอ, จังหวัด, รหัสไปรษณีย์"
                       value={formData.address}
                       onChange={e => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
+                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
+                {/* Payment Methods Selection (NO QR CODE RENDERED) */}
+                <div className="pt-2">
+                  <label className="font-bold text-slate-200 block mb-2 text-xs sm:text-sm">เลือกช่องทางการชำระเงิน *</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    
+                    {/* PromptPay Option */}
+                    <label 
+                      onClick={() => setFormData({ ...formData, payment: 'promptpay' })}
+                      className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between transition ${
+                        formData.payment === 'promptpay'
+                          ? 'bg-indigo-950/80 border-indigo-500 text-white font-bold'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📱</span>
+                        <span>สแกนจ่าย / พร้อมเพย์</span>
+                      </div>
+                      <input type="radio" name="payment" checked={formData.payment === 'promptpay'} readOnly className="accent-indigo-500" />
+                    </label>
+
+                    {/* Credit Card Option */}
+                    <label 
+                      onClick={() => setFormData({ ...formData, payment: 'card' })}
+                      className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between transition ${
+                        formData.payment === 'card'
+                          ? 'bg-indigo-950/80 border-indigo-500 text-white font-bold'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>💳</span>
+                        <span>บัตรเครดิต / เดบิต</span>
+                      </div>
+                      <input type="radio" name="payment" checked={formData.payment === 'card'} readOnly className="accent-indigo-500" />
+                    </label>
+
+                    {/* Bank Transfer Option */}
+                    <label 
+                      onClick={() => setFormData({ ...formData, payment: 'bank' })}
+                      className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between transition ${
+                        formData.payment === 'bank'
+                          ? 'bg-indigo-950/80 border-indigo-500 text-white font-bold'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🏦</span>
+                        <span>โอนผ่านบัญชีธนาคาร</span>
+                      </div>
+                      <input type="radio" name="payment" checked={formData.payment === 'bank'} readOnly className="accent-indigo-500" />
+                    </label>
+
+                    {/* Cash on Delivery Option */}
+                    <label 
+                      onClick={() => setFormData({ ...formData, payment: 'cod' })}
+                      className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between transition ${
+                        formData.payment === 'cod'
+                          ? 'bg-indigo-950/80 border-indigo-500 text-white font-bold'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>🚚</span>
+                        <span>เก็บเงินปลายทาง (COD)</span>
+                      </div>
+                      <input type="radio" name="payment" checked={formData.payment === 'cod'} readOnly className="accent-indigo-500" />
+                    </label>
+
+                  </div>
+
+                  {/* Payment Details Text Box (Without QR Code Image) */}
+                  <div className="mt-3 p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300">
+                    {formData.payment === 'promptpay' && (
+                      <div>
+                        <p className="font-bold text-indigo-400 mb-0.5">ชำระผ่าน PromptPay / Mobile Banking</p>
+                        <p className="text-slate-400">เลขพร้อมเพย์: <strong className="text-white font-mono">0836700000</strong> (บริษัท 367 สโตร์ จำกัด)</p>
+                      </div>
+                    )}
+                    {formData.payment === 'card' && (
+                      <div>
+                        <p className="font-bold text-indigo-400 mb-0.5">ชำระผ่าน บัตรเครดิต / เดบิต</p>
+                        <p className="text-slate-400">รองรับ Visa, Mastercard, JCB (ไม่มีค่าธรรมเนียม)</p>
+                      </div>
+                    )}
+                    {formData.payment === 'bank' && (
+                      <div>
+                        <p className="font-bold text-indigo-400 mb-0.5">โอนผ่านบัญชีธนาคาร</p>
+                        <p className="text-slate-400">กสิกรไทย (KBank): <strong className="text-white font-mono">367-1-00367-9</strong></p>
+                      </div>
+                    )}
+                    {formData.payment === 'cod' && (
+                      <div>
+                        <p className="font-bold text-emerald-400 mb-0.5">บริการเก็บเงินปลายทาง</p>
+                        <p className="text-slate-400">ชำระเงินกับพนักงานขนส่งเมื่อได้รับสินค้าหน้าบ้าน</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="pt-3 border-t border-slate-800 flex justify-between items-center">
-                  <span className="text-2xl font-black text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</span>
-                  <button type="submit" className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm rounded-xl">
+                  <div>
+                    <span className="text-xs text-slate-400 block">ยอดชำระสุทธิ</span>
+                    <span className="text-2xl font-black text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</span>
+                  </div>
+                  <button type="submit" className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm rounded-xl shadow-lg transition">
                     ยืนยันการสั่งซื้อ
                   </button>
                 </div>
