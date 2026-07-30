@@ -11,7 +11,7 @@ interface Product {
   price: number;
   originalPrice: number;
   rating: number;
-  soldCount: string;
+  soldCount: number;
   badge?: string;
   location: string;
   image: string;
@@ -57,388 +57,118 @@ const MAIN_CATEGORIES = [
   }
 ];
 
-// --- EXTENDED PRODUCTS CATALOG (30+ ITEMS) ---
-const PRODUCTS_DATA: Product[] = [
-  // --- IT & GADGETS ---
-  {
-    id: 1,
-    name: 'iPhone 15 Pro Max 256GB เครื่องศูนย์ไทย TH ประกันศูนย์ 1 ปีเต็ม',
-    mainCategory: 'it',
-    subCategory: 'โทรศัพท์มือถือ',
-    price: 41900,
-    originalPrice: 48900,
-    rating: 4.9,
-    soldCount: '2.1พัน+',
-    badge: 'HOT',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500&q=80'
-  },
-  {
-    id: 2,
-    name: 'Samsung Galaxy S24 Ultra AI 5G กล้อง 200MP ซูม 100 เท่า',
-    mainCategory: 'it',
-    subCategory: 'โทรศัพท์มือถือ',
-    price: 39900,
-    originalPrice: 46900,
-    rating: 4.9,
-    soldCount: '1.8พัน+',
-    badge: 'MALL',
-    location: 'สมุทรปราการ',
-    image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&q=80'
-  },
-  {
-    id: 3,
-    name: 'iPad Pro 11 นิ้ว M4 ชิปความเร็วสูง หน้าจอ Tandem OLED ชัดสมจริง',
-    mainCategory: 'it',
-    subCategory: 'แท็บเล็ต & ไอแพด',
-    price: 35900,
-    originalPrice: 39900,
-    rating: 5.0,
-    soldCount: '920+',
-    badge: 'ส่งฟรี',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80'
-  },
-  {
-    id: 4,
-    name: 'iPad Air 6 รุ่นใหม่ 11 นิ้ว ชิป M2 รองรับ Apple Pencil Pro',
-    mainCategory: 'it',
-    subCategory: 'แท็บเล็ต & ไอแพด',
-    price: 21900,
-    originalPrice: 24900,
-    rating: 4.8,
-    soldCount: '3.4พัน+',
-    badge: 'BEST',
-    location: 'ชลบุรี',
-    image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=500&q=80'
-  },
-  {
-    id: 5,
-    name: 'MacBook Air M3 13 นิ้ว SSD 256GB เครื่องบางเบา แบตอึด 18 ชม.',
-    mainCategory: 'it',
-    subCategory: 'โน๊ตบุ๊ค',
-    price: 34900,
-    originalPrice: 39900,
-    rating: 4.9,
-    soldCount: '1.5พัน+',
-    badge: 'MALL',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&q=80'
-  },
-  {
-    id: 6,
-    name: 'ASUS ROG Zephyrus G16 โน๊ตบุ๊คเกมมิ่ง RTX 4070 จอ 240Hz',
-    mainCategory: 'it',
-    subCategory: 'โน๊ตบุ๊ค',
-    price: 59900,
-    originalPrice: 65900,
-    rating: 4.8,
-    soldCount: '450+',
-    badge: 'ลด 10%',
-    location: 'นนทบุรี',
-    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500&q=80'
-  },
-  {
-    id: 7,
-    name: 'คอมพิวเตอร์ตั้งโต๊ะจัดเซ็ต Core i7 Gen 14 + RTX 4060Ti พร้อมใช้งาน',
-    mainCategory: 'it',
-    subCategory: 'คอมพิวเตอร์',
-    price: 29900,
-    originalPrice: 35900,
-    rating: 4.9,
-    soldCount: '780+',
-    badge: 'RECOMMEND',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=500&q=80'
-  },
-  {
-    id: 8,
-    name: 'USB 3.0 / Type-C HUB Adapter 4 ใน 1 แท่นต่อขยายโน๊ตบุ๊คและไอแพด',
-    mainCategory: 'it',
-    subCategory: 'แก็ดเจ็ต & อุปกรณ์เสริม',
-    price: 159,
-    originalPrice: 450,
-    rating: 4.8,
-    soldCount: '12พัน+',
-    badge: 'ถูกชัวร์',
-    location: 'สมุทรปราการ',
-    image: 'https://images.unsplash.com/photo-1544652478-6653e09f18a2?w=500&q=80'
-  },
-  {
-    id: 9,
-    name: 'แท่นวางโน๊ตบุ๊ค อะลูมิเนียม ปรับความสูงได้ 7 ระดับ พกพาสะดวก',
-    mainCategory: 'it',
-    subCategory: 'แก็ดเจ็ต & อุปกรณ์เสริม',
-    price: 129,
-    originalPrice: 320,
-    rating: 4.9,
-    soldCount: '9.2พัน+',
-    badge: 'ส่งฟรี',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500&q=80'
-  },
+const LOCATIONS = ['กรุงเทพมหานคร', 'สมุทรปราการ', 'นนทบุรี', 'เชียงใหม่', 'ชลบุรี', 'ปทุมธานี', 'ภูเก็ต'];
+const BADGES = ['367 VIP', 'MALL', 'BEST', 'HOT', 'ส่งฟรี', 'ลด 50%', 'ถูกชัวร์'];
 
-  // --- BEAUTY & SKINCARE ---
-  {
-    id: 10,
-    name: 'Aura Hyaluron Concentrated Serum 50ml เติมความชุ่มชื้น ผิวฉ่ำวาว',
-    mainCategory: 'beauty',
-    subCategory: 'เซรั่ม & มอยส์เจอไรเซอร์',
-    price: 380,
-    originalPrice: 890,
-    rating: 4.9,
-    soldCount: '6.5พัน+',
-    badge: 'BEST SELLER',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80'
-  },
-  {
-    id: 11,
-    name: 'UV Defense Sunscreen SPF50+ PA++++ เนื้อบางเบา คุมมัน กันน้ำ',
-    mainCategory: 'beauty',
-    subCategory: 'กันแดด & คลีนซิ่ง',
-    price: 290,
-    originalPrice: 550,
-    rating: 4.8,
-    soldCount: '15พัน+',
-    badge: 'MALL',
-    location: 'เชียงใหม่',
-    image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=500&q=80'
-  },
-  {
-    id: 12,
-    name: 'Velvet Matte Lipstick ลิปสติกเนื้อแมตต์กำมะหยี่ ติดทนนาน ไม่ตกร่อง',
-    mainCategory: 'beauty',
-    subCategory: 'เครื่องสำอาง & ลิปสติก',
-    price: 199,
-    originalPrice: 390,
-    rating: 4.9,
-    soldCount: '8.1พัน+',
-    badge: 'HOT',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&q=80'
-  },
-  {
-    id: 13,
-    name: 'Luxury Rose Body Lotion & Eau De Parfum เซ็ตโลชั่นบำรุงผิวและน้ำหอม',
-    mainCategory: 'beauty',
-    subCategory: 'บำรุงผิวกาย & น้ำหอม',
-    price: 590,
-    originalPrice: 1200,
-    rating: 4.9,
-    soldCount: '2.3พัน+',
-    badge: 'PREMIUM',
-    location: 'ปทุมธานี',
-    image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=500&q=80'
-  },
+// --- REALISTIC 350+ PRODUCTS GENERATOR ---
+const generate350Products = (): Product[] => {
+  const products: Product[] = [];
+  let idCounter = 1;
 
-  // --- FASHION ---
-  {
-    id: 14,
-    name: 'Oversized Cotton T-Shirt เสื้อยืดสตรีทสไตล์ ทรงหลวม ผ้าคอตตอน 100%',
-    mainCategory: 'fashion',
-    subCategory: 'เสื้อยืด & เสื้อครอป',
-    price: 180,
-    originalPrice: 350,
-    rating: 4.8,
-    soldCount: '11พัน+',
-    badge: 'HOT',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&q=80'
-  },
-  {
-    id: 15,
-    name: 'Vintage Straight Denim Jeans กางเกงยีนส์ทรงกระบอกตรง สไตล์วินเทจ',
-    mainCategory: 'fashion',
-    subCategory: 'กางเกง & ยีนส์',
-    price: 490,
-    originalPrice: 890,
-    rating: 4.7,
-    soldCount: '4.2พัน+',
-    badge: 'MALL',
-    location: 'สมุทรปราการ',
-    image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&q=80'
-  },
-  {
-    id: 16,
-    name: 'Urban Street Hoodie เสื้อแจ็กเก็ตฮู้ดดี้ผ้านุ่ม กันหนาว กันลม ใส่สบาย',
-    mainCategory: 'fashion',
-    subCategory: 'แจ็กเก็ต & ฮู้ดดี้',
-    price: 390,
-    originalPrice: 790,
-    rating: 4.8,
-    soldCount: '3.1พัน+',
-    badge: 'RECOMMEND',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&q=80'
-  },
-  {
-    id: 17,
-    name: 'Minimalist Leather Canvas Bag กระเป๋าหนังผสมผ้าแคนวาส ทรงสวย',
-    mainCategory: 'fashion',
-    subCategory: 'กระเป๋า & รองเท้า',
-    price: 320,
-    originalPrice: 650,
-    rating: 4.9,
-    soldCount: '5.6พัน+',
-    badge: 'ส่งฟรี',
-    location: 'ชลบุรี',
-    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=80'
-  },
+  const templates: Record<string, Record<string, string[]>> = {
+    it: {
+      'โทรศัพท์มือถือ': ['iPhone 15 Pro Max', 'Samsung Galaxy S24 Ultra', 'Xiaomi 14 Ultra', 'OPPO Find X7', 'Vivo X100 Pro', 'Realme GT5', 'Google Pixel 8 Pro', 'OnePlus 12', 'ROG Phone 8'],
+      'คอมพิวเตอร์': ['PC เกมมิ่ง Core i7 RTX 4070', 'คอมประกอบ Ryzen 7 RTX 4060Ti', 'Mini PC Workstation', 'PC สำนักงาน Core i5 SSD 512GB'],
+      'โน๊ตบุ๊ค': ['MacBook Pro M3 Max 16 นิ้ว', 'MacBook Air M3 13 นิ้ว', 'ASUS ROG Zephyrus G16', 'Lenovo Legion Pro 5', 'Dell XPS 15 OLED', 'Acer Predator Helios'],
+      'แท็บเล็ต & ไอแพด': ['iPad Pro 11 นิ้ว M4', 'iPad Air 6 M2', 'Samsung Galaxy Tab S9 Ultra', 'Xiaomi Pad 6 Max', 'iPad Mini 6'],
+      'แก็ดเจ็ต & อุปกรณ์เสริม': ['USB-C HUB 7-in-1', 'แท่นวางไอแพดอะลูมิเนียม', 'สายชาร์จ Fast Charge 100W', 'พาวเวอร์แบงค์ 30000mAh Magsafe', 'หูฟังบลูทูธ ANC']
+    },
+    beauty: {
+      'เซรั่ม & มอยส์เจอไรเซอร์': ['Aura Hyaluron Serum 50ml', 'Vitamin C Booster Drop', 'Retinol Night Repair Cream', 'Centella Soothing Gel'],
+      'กันแดด & คลีนซิ่ง': ['Sunscreen Light Essence SPF50+', 'Cleansing Oil Deep Cleanse', 'Micellar Water Sensitive', 'Physical Sunscreen Stick'],
+      'เครื่องสำอาง & ลิปสติก': ['Velvet Matte Lipstick', 'Cushion Glowing Skin SPF50', 'Eyeliner Water-Proof', 'Blush On Shimmer'],
+      'บำรุงผิวกาย & น้ำหอม': ['Perfume Body Lotion Rose Scent', 'Eau De Parfum Luxury 50ml', 'Body Scrub Coffee Organic', 'Hand Cream Sheabutter']
+    },
+    fashion: {
+      'เสื้อยืด & เสื้อครอป': ['Oversized Streetwear T-Shirt', 'Minimalist Cotton Crop Top', 'Vintage Graphic Tee', 'Polo Shirt Slim Fit'],
+      'กางเกง & ยีนส์': ['Straight Leg Denim Jeans', 'Cargo Pants Tactical', 'Chino Trousers Slim', 'Shorts Casual Cotton'],
+      'แจ็กเก็ต & ฮู้ดดี้': ['Zip-Up Hoodie Fleece', 'Denim Jacket Vintage Blue', 'Bomber Jacket Street Style', 'Windbreaker Sport'],
+      'กระเป๋า & รองเท้า': ['Leather Crossbody Bag', 'Canvas Tote Bag Large', 'White Sneaker Classic', 'Running Shoes Lightweight']
+    },
+    home: {
+      'โคมไฟ & ไฟแต่งห้อง': ['Minimalist Desk Lamp Touch', 'RGB Sunset Projection Lamp', 'Nordic Floor Lamp Warm', 'LED Strip Smart WiFi'],
+      'เครื่องหอม & อโรม่า': ['Aroma Soy Wax Candle 200g', 'Essential Oil Diffuser Ultrasonic', 'Reed Diffuser Luxury Hotel'],
+      'เฟอร์นิเจอร์ & ชั้นวาง': ['Ergonomic Monitor Stand Wood', 'Foldable Storage Box 55L', 'Nordic Coffee Table', 'Bookshelf 4-Tier'],
+      'เครื่องครัว & แก้วน้ำ': ['Stainless Tumbler 900ml', 'Non-Stick Frying Pan 28cm', 'Electric Kettle Fast Boil', 'Coffee Press French']
+    },
+    gaming: {
+      'เมาส์ & คีย์บอร์ด': ['RGB Mechanical Keyboard Wireless', 'Ultra-Lightweight Gaming Mouse 8K', 'Custom Keycaps PBT Set'],
+      'หูฟัง & ไมโครโฟน': ['7.1 Surround Gaming Headset', 'USB Condenser Streaming Mic', 'Wireless Gaming Earbuds Low Latency'],
+      'จอมอนิเตอร์ & โต๊ะเก้าอี้': ['Gaming Monitor 27" 240Hz IPS', 'Ergonomic Gaming Chair PU Leather', 'Electric Standing Desk 140cm']
+    },
+    sports: {
+      'อุปกรณ์ออกกำลังกาย': ['Resistance Bands 5-Level Set', 'Adjustable Dumbbell 24kg', 'Yoga Mat NBR 10mm Anti-Slip'],
+      'แคมปิ้ง & เต็นท์': ['Automatic Tent 4-Person Waterproof', 'Camping Chair Foldable Compact', 'Portable Gas Stove Outdoor'],
+      'รองเท้า & เสื้อผ้ากีฬา': ['Marathon Running Shoes Carbon Plate', 'Quick-Dry Sport T-Shirt', 'Gym Shorts with Pocket']
+    }
+  };
 
-  // --- HOME & LIFESTYLE ---
-  {
-    id: 18,
-    name: 'Minimalist LED Desk Lamp โคมไฟอ่านหนังสือ ปรับแสงได้ 3 โหมด ถนอมสายตา',
-    mainCategory: 'home',
-    subCategory: 'โคมไฟ & ไฟแต่งห้อง',
-    price: 250,
-    originalPrice: 590,
-    rating: 4.9,
-    soldCount: '7.8พัน+',
-    badge: 'MALL',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&q=80'
-  },
-  {
-    id: 19,
-    name: 'Aroma Scented Soy Candle เทียนหอมไขถั่วเหลืองธรรมชาติ สร้างบรรยากาศผ่อนคลาย',
-    mainCategory: 'home',
-    subCategory: 'เครื่องหอม & อโรม่า',
-    price: 159,
-    originalPrice: 320,
-    rating: 4.9,
-    soldCount: '4.5พัน+',
-    badge: 'BEST',
-    location: 'เชียงใหม่',
-    image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&q=80'
-  },
-  {
-    id: 20,
-    name: 'Wooden Desktop Organizer ชั้นวางจอคอมอเนกประสงค์ พร้อมช่องเก็บของ',
-    mainCategory: 'home',
-    subCategory: 'เฟอร์นิเจอร์ & ชั้นวาง',
-    price: 290,
-    originalPrice: 600,
-    rating: 4.8,
-    soldCount: '12พัน+',
-    badge: 'ถูกชัวร์',
-    location: 'นนทบุรี',
-    image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=500&q=80'
-  },
-  {
-    id: 21,
-    name: 'Stainless Tumbler 900ml แก้วน้ำเก็บความเย็น-ร้อน ไร้หยดน้ำเกาะ',
-    mainCategory: 'home',
-    subCategory: 'เครื่องครัว & แก้วน้ำ',
-    price: 220,
-    originalPrice: 450,
-    rating: 4.9,
-    soldCount: '18พัน+',
-    badge: 'HOT',
-    location: 'สมุทรปราการ',
-    image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500&q=80'
-  },
+  const mainCatKeys = Object.keys(templates);
 
-  // --- GAMING GEAR ---
-  {
-    id: 22,
-    name: 'RGB Mechanical Gaming Keyboard คีย์บอร์ดเกมมิ่ง ไฟ RGB สวิตช์ไทย',
-    mainCategory: 'gaming',
-    subCategory: 'เมาส์ & คีย์บอร์ด',
-    price: 690,
-    originalPrice: 1290,
-    rating: 4.8,
-    soldCount: '9.4พัน+',
-    badge: 'MALL',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=500&q=80'
-  },
-  {
-    id: 23,
-    name: '7.1 Surround Gaming Headset หูฟังเกมมิ่งพร้อมไมโครโฟนตัดเสียงรบกวน',
-    mainCategory: 'gaming',
-    subCategory: 'หูฟัง & ไมโครโฟน',
-    price: 550,
-    originalPrice: 1100,
-    rating: 4.8,
-    soldCount: '6.1พัน+',
-    badge: 'BEST',
-    location: 'สมุทรสาคร',
-    image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&q=80'
-  },
-  {
-    id: 24,
-    name: 'Gaming Monitor 27 นิ้ว FHD 240Hz 1ms จอโค้งเพื่อการเล่นเกมลื่นไหล',
-    mainCategory: 'gaming',
-    subCategory: 'จอมอนิเตอร์ & โต๊ะเก้าอี้',
-    price: 4990,
-    originalPrice: 6900,
-    rating: 4.9,
-    soldCount: '1.2พัน+',
-    badge: 'RECOMMEND',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500&q=80'
-  },
+  // Generate around 360 products deterministically
+  for (let i = 0; i < 360; i++) {
+    const mainCat = mainCatKeys[i % mainCatKeys.length];
+    const subCatMap = templates[mainCat];
+    const subCatKeys = Object.keys(subCatMap);
+    const subCat = subCatKeys[i % subCatKeys.length];
+    const nameList = subCatMap[subCat];
+    const baseName = nameList[i % nameList.length];
 
-  // --- SPORTS & OUTDOORS ---
-  {
-    id: 25,
-    name: 'Resistance Bands Set เซ็ตสายยางยืดออกกำลังกาย 5 ระดับ พร้อมถุงพกพา',
-    mainCategory: 'sports',
-    subCategory: 'อุปกรณ์ออกกำลังกาย',
-    price: 149,
-    originalPrice: 350,
-    rating: 4.8,
-    soldCount: '14พัน+',
-    badge: 'ถูกชัวร์',
-    location: 'กรุงเทพมหานคร',
-    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=500&q=80'
-  },
-  {
-    id: 26,
-    name: 'Automatic Camping Tent เต็นท์สนามกางอัตโนมัติ กันน้ำ กัน UV สำหรับ 3-4 คน',
-    mainCategory: 'sports',
-    subCategory: 'แคมปิ้ง & เต็นท์',
-    price: 890,
-    originalPrice: 1890,
-    rating: 4.9,
-    soldCount: '3.8พัน+',
-    badge: 'ส่งฟรี',
-    location: 'เชียงใหม่',
-    image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&q=80'
-  },
-  {
-    id: 27,
-    name: 'Lightweight Running Shoes รองเท้าวิ่งและออกกำลังกาย ระบายอากาศได้ดี',
-    mainCategory: 'sports',
-    subCategory: 'รองเท้า & เสื้อผ้ากีฬา',
-    price: 450,
-    originalPrice: 990,
-    rating: 4.8,
-    soldCount: '7.5พัน+',
-    badge: 'HOT',
-    location: 'ชลบุรี',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80'
+    const modelVariant = `(รุ่นปี 2026 / Ver. ${(i % 5) + 1})`;
+    const fullTitle = `${baseName} ${modelVariant} - ประกันศูนย์แท้ 100%`;
+
+    // Dynamic price calculation
+    let basePrice = 150 + ((i * 137) % 35000);
+    if (mainCat === 'it' || mainCat === 'gaming') basePrice += 2000;
+
+    const discountRatio = 1.15 + ((i % 4) * 0.1);
+    const originalPrice = Math.round(basePrice * discountRatio);
+
+    // Seed-based photo URL from Picsum (Guarantees 350+ 100% UNIQUE high-quality images)
+    const imageUrl = `https://picsum.photos/seed/367store-${idCounter}/500/500`;
+
+    products.push({
+      id: idCounter,
+      name: fullTitle,
+      mainCategory: mainCat,
+      subCategory: subCat,
+      price: basePrice,
+      originalPrice: originalPrice,
+      rating: Number((4.5 + ((i % 6) * 0.1)).toFixed(1)),
+      soldCount: (i * 23 + 45) % 8500 + 120,
+      badge: BADGES[i % BADGES.length],
+      location: LOCATIONS[i % LOCATIONS.length],
+      image: imageUrl
+    });
+
+    idCounter++;
   }
-];
 
-// SVG Fallback URI (Indigo Palette Theme)
-const FALLBACK_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500"><rect width="500" height="500" fill="%23EEF2FF"/><text x="50%" y="45%" font-family="sans-serif" font-size="28" font-weight="bold" fill="%234F46E5" text-anchor="middle">367 Official Store</text><text x="50%" y="55%" font-family="sans-serif" font-size="18" fill="%236B7280" text-anchor="middle">สินค้าคุณภาพ พร้อมจัดส่ง</text></svg>`;
+  return products;
+};
+
+const ALL_PRODUCTS = generate350Products();
 
 export default function Shop367Page() {
   const [selectedMainCat, setSelectedMainCat] = useState<string>('all');
   const [selectedSubCat, setSelectedSubCat] = useState<string>('ทั้งหมด');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('popular'); // popular, sales, price-asc, price-desc, rating
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 20;
 
-  // Cart & Order Modal States
+  // Cart & Coupon States
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+  const [couponCode, setCouponCode] = useState<string>('');
+  const [appliedDiscount, setAppliedDiscount] = useState<number>(0);
+  const [couponMessage, setCouponMessage] = useState<{ text: string; isError: boolean } | null>(null);
+
+  // Checkout Modal State
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
   const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
   const [generatedOrderId, setGeneratedOrderId] = useState<string>('');
 
-  // Checkout Form State
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -446,21 +176,53 @@ export default function Shop367Page() {
     payment: 'promptpay'
   });
 
-  // Subcategories Memo
+  // Get Subcategories
   const currentSubCategories = useMemo(() => {
     const found = MAIN_CATEGORIES.find(c => c.id === selectedMainCat);
     return found ? found.subs : [];
   }, [selectedMainCat]);
 
-  // Filtered Products
-  const filteredProducts = useMemo(() => {
-    return PRODUCTS_DATA.filter(item => {
+  // Filter & Sort Products
+  const filteredAndSortedProducts = useMemo(() => {
+    let result = ALL_PRODUCTS.filter(item => {
       const matchMain = selectedMainCat === 'all' || item.mainCategory === selectedMainCat;
       const matchSub = selectedSubCat === 'ทั้งหมด' || item.subCategory === selectedSubCat;
       const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchMain && matchSub && matchSearch;
     });
-  }, [selectedMainCat, selectedSubCat, searchQuery]);
+
+    // Sorting
+    if (sortBy === 'sales') {
+      result.sort((a, b) => b.soldCount - a.soldCount);
+    } else if (sortBy === 'price-asc') {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'price-desc') {
+      result.sort((a, b) => b.price - a.price);
+    } else if (sortBy === 'rating') {
+      result.sort((a, b) => b.rating - a.rating);
+    }
+
+    return result;
+  }, [selectedMainCat, selectedSubCat, searchQuery, sortBy]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / itemsPerPage) || 1;
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredAndSortedProducts.slice(start, start + itemsPerPage);
+  }, [filteredAndSortedProducts, currentPage]);
+
+  // Handle Category Change Reset Page
+  const handleMainCatChange = (catId: string) => {
+    setSelectedMainCat(catId);
+    setSelectedSubCat('ทั้งหมด');
+    setCurrentPage(1);
+  };
+
+  const handleSubCatChange = (subCat: string) => {
+    setSelectedSubCat(subCat);
+    setCurrentPage(1);
+  };
 
   // Cart Functions
   const addToCart = (product: Product) => {
@@ -490,35 +252,52 @@ export default function Shop367Page() {
     });
   };
 
-  const totalCartItems = useMemo(() => cart.reduce((sum, item) => sum + item.quantity, 0), [cart]);
-  const totalCartPrice = useMemo(() => cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [cart]);
+  // Coupon Application
+  const handleApplyCoupon = () => {
+    if (couponCode.toUpperCase() === '367VIP') {
+      setAppliedDiscount(200);
+      setCouponMessage({ text: 'ใช้ส่วนลด 367VIP (-฿200) สำเร็จ!', isError: false });
+    } else if (couponCode.toUpperCase() === 'FREE50') {
+      setAppliedDiscount(50);
+      setCouponMessage({ text: 'ใช้โค้ดส่วนลด (-฿50) สำเร็จ!', isError: false });
+    } else {
+      setAppliedDiscount(0);
+      setCouponMessage({ text: 'โค้ดส่วนลดไม่ถูกต้องหรือหมดอายุ', isError: true });
+    }
+  };
 
-  // Submit Order
+  const totalCartItems = useMemo(() => cart.reduce((sum, item) => sum + item.quantity, 0), [cart]);
+  const subtotalCartPrice = useMemo(() => cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [cart]);
+  const finalCartPrice = Math.max(0, subtotalCartPrice - appliedDiscount);
+
+  // Submit Order Function
   const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setGeneratedOrderId(`367-${Math.floor(100000 + Math.random() * 900000)}`);
     setOrderSuccess(true);
     setTimeout(() => {
       setCart([]);
+      setAppliedDiscount(0);
+      setCouponCode('');
       setOrderSuccess(false);
       setIsCheckoutOpen(false);
       setIsCartOpen(false);
-    }, 3500);
+    }, 4000);
   };
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-800 font-sans pb-24">
       
-      {/* 🔮 Top Banner Bar - Midnight & Emerald */}
+      {/* 🔮 Top Announcement Bar - Midnight Cyber */}
       <div className="bg-slate-900 text-slate-200 text-xs sm:text-sm py-2 px-4 font-medium border-b border-indigo-900/50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="bg-indigo-600 text-white font-black px-2 py-0.5 rounded text-[11px] uppercase tracking-wider">
-              367 VIP
+            <span className="bg-indigo-600 text-white font-black px-2 py-0.5 rounded text-[11px] uppercase tracking-wider shadow">
+              367 OFFICIAL
             </span>
-            <span>⚡ สั่งซื้อวันนี้ รับคูปองส่วนลดสูงสุด 500 บาท + ส่งฟรีทั่วประเทศ</span>
+            <span>⚡ สินค้าพร้อมส่งกว่า 350+ รายการ | โค้ดส่วนลดพิเศษ <strong className="text-emerald-400 font-mono">367VIP</strong> ลดทันที ฿200</span>
           </div>
-          <span className="hidden md:inline text-xs text-slate-400">ร้านค้าทางการ 367 Flagship Store</span>
+          <span className="hidden md:inline text-xs text-slate-400">การันตีของแท้ 100% | จัดส่งไวใน 24 ชม.</span>
         </div>
       </div>
 
@@ -526,10 +305,10 @@ export default function Shop367Page() {
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
           
-          {/* Cyber Indigo Logo "367 Shop" */}
+          {/* Cyber Indigo Logo "367 STORE" */}
           <div 
             className="flex items-center gap-3 cursor-pointer select-none group"
-            onClick={() => { setSelectedMainCat('all'); setSelectedSubCat('ทั้งหมด'); setSearchQuery(''); }}
+            onClick={() => handleMainCatChange('all')}
           >
             <div className="w-12 h-12 bg-gradient-to-tr from-indigo-700 via-indigo-600 to-violet-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform">
               367
@@ -539,7 +318,7 @@ export default function Shop367Page() {
                 367 <span className="text-indigo-600">STORE</span>
               </span>
               <span className="text-[10px] bg-slate-900 text-emerald-400 font-bold px-2 py-0.5 rounded mt-1 inline-block tracking-widest uppercase">
-                Official Premium
+                350+ CATALOG
               </span>
             </div>
           </div>
@@ -549,9 +328,12 @@ export default function Shop367Page() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="ค้นหาสินค้าในร้าน 367..."
+                placeholder="ค้นหาสินค้าจาก 350+ รายการ..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="w-full pl-10 pr-24 py-2.5 text-sm sm:text-base bg-slate-100 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-600 focus:outline-none transition-all placeholder:text-slate-400 font-medium"
               />
               <svg className="w-5 h-5 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -563,7 +345,7 @@ export default function Shop367Page() {
             </div>
           </div>
 
-          {/* Cart Button */}
+          {/* Cart Drawer Trigger */}
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold px-4 py-2.5 rounded-2xl transition shadow-sm"
@@ -589,10 +371,7 @@ export default function Shop367Page() {
             {MAIN_CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => {
-                  setSelectedMainCat(cat.id);
-                  setSelectedSubCat('ทั้งหมด');
-                }}
+                onClick={() => handleMainCatChange(cat.id)}
                 className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
                   selectedMainCat === cat.id
                     ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
@@ -604,14 +383,14 @@ export default function Shop367Page() {
             ))}
           </div>
 
-          {/* Subcategories Pill Navigation */}
+          {/* Subcategories */}
           {currentSubCategories.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto mt-3 pt-2 border-t border-slate-100">
               <span className="text-xs font-bold text-indigo-400 uppercase whitespace-nowrap mr-1">หมวดย่อย:</span>
               {currentSubCategories.map((sub) => (
                 <button
                   key={sub}
-                  onClick={() => setSelectedSubCat(sub)}
+                  onClick={() => handleSubCatChange(sub)}
                   className={`px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                     selectedSubCat === sub
                       ? 'bg-indigo-100 text-indigo-700 border border-indigo-300 font-bold'
@@ -626,41 +405,65 @@ export default function Shop367Page() {
         </div>
       </nav>
 
-      {/* 🛍️ Main Product Grid */}
+      {/* 🛍️ Main Product Grid Section */}
       <main className="max-w-7xl mx-auto px-4 mt-8">
         
-        <div className="mb-6 flex justify-between items-end">
+        {/* Sorting & Filter Header Bar */}
+        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-black text-slate-900">
               {MAIN_CATEGORIES.find(c => c.id === selectedMainCat)?.name}
               {selectedSubCat !== 'ทั้งหมด' && <span className="text-indigo-600"> &gt; {selectedSubCat}</span>}
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-              คัดสรรสินค้าคุณภาพ {filteredProducts.length} รายการสำหรับคุณ
+              แสดงสินค้า {paginatedProducts.length} จากทั้งหมด <span className="font-bold text-indigo-600">{filteredAndSortedProducts.length}</span> รายการ
             </p>
+          </div>
+
+          {/* Sort Controls */}
+          <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
+            <span className="text-xs font-bold text-slate-400 uppercase whitespace-nowrap">จัดเรียง:</span>
+            {[
+              { id: 'popular', label: 'ยอดนิยม' },
+              { id: 'sales', label: 'ขายดีสุด' },
+              { id: 'price-asc', label: 'ราคาต่ำ-สูง' },
+              { id: 'price-desc', label: 'ราคาสูง-ต่ำ' },
+              { id: 'rating', label: 'คะแนนสูงสุด' }
+            ].map(btn => (
+              <button
+                key={btn.id}
+                onClick={() => setSortBy(btn.id)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                  sortBy === btn.id
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                {btn.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {/* Product Cards Grid */}
+        {paginatedProducts.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-            {filteredProducts.map((product) => (
+            {paginatedProducts.map((product) => (
               <div
                 key={product.id}
                 className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Product Image */}
-                  <div className="relative aspect-square bg-slate-50 overflow-hidden">
+                  {/* Product Image with Unique Seed */}
+                  <div className="relative aspect-square bg-slate-100 overflow-hidden">
                     <img
                       src={product.image}
                       alt={product.name}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = FALLBACK_SVG;
-                      }}
                     />
                     
-                    {/* Unique Badges */}
+                    {/* Badges */}
                     <div className="absolute top-2 left-2 flex flex-col gap-1">
                       {product.badge && (
                         <span className="bg-emerald-500 text-white text-[10px] font-black px-2 py-0.5 rounded shadow-sm tracking-wider">
@@ -668,12 +471,12 @@ export default function Shop367Page() {
                         </span>
                       )}
                       <span className="bg-slate-900 text-indigo-300 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">
-                        367 VIP
+                        #367-{product.id}
                       </span>
                     </div>
                   </div>
 
-                  {/* Info Box */}
+                  {/* Product Details */}
                   <div className="p-3 sm:p-4">
                     <span className="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full inline-block mb-1.5">
                       {product.subCategory}
@@ -687,12 +490,12 @@ export default function Shop367Page() {
                         <span>★</span>
                         <span>{product.rating}</span>
                       </div>
-                      <span>ขายแล้ว {product.soldCount}</span>
+                      <span>ขายแล้ว {product.soldCount.toLocaleString()} ชิ้น</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Price & Add to Cart */}
+                {/* Price & Action Button */}
                 <div className="p-3 sm:p-4 pt-0">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-lg sm:text-xl font-black text-indigo-600">
@@ -710,12 +513,12 @@ export default function Shop367Page() {
 
                     <button
                       onClick={() => addToCart(product)}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-2 rounded-xl shadow transition-all active:scale-95"
-                      title="เพิ่มลงตะกร้า"
+                      className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-2 rounded-xl shadow transition-all active:scale-95 flex items-center gap-1 text-xs px-3"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4"/>
                       </svg>
+                      <span className="hidden sm:inline">ใส่ตะกร้า</span>
                     </button>
                   </div>
                 </div>
@@ -726,21 +529,59 @@ export default function Shop367Page() {
           <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 my-8">
             <p className="text-lg font-bold text-slate-700">ไม่พบสินค้าที่คุณกำลังค้นหา</p>
             <button
-              onClick={() => { setSelectedMainCat('all'); setSelectedSubCat('ทั้งหมด'); setSearchQuery(''); }}
+              onClick={() => handleMainCatChange('all')}
               className="mt-4 px-5 py-2 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-700 transition"
             >
               ดูสินค้าทั้งหมดในร้าน
             </button>
           </div>
         )}
+
+        {/* 📖 Pagination Navigation */}
+        {totalPages > 1 && (
+          <div className="mt-10 flex justify-center items-center gap-2">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 transition"
+            >
+              &lt; ย้อนกลับ
+            </button>
+
+            <div className="flex gap-1 overflow-x-auto max-w-[200px] sm:max-w-none py-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-all ${
+                    currentPage === page
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                      : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 transition"
+            >
+              ถัดไป &gt;
+            </button>
+          </div>
+        )}
+
       </main>
 
-      {/* 🛒 Shopping Cart Drawer */}
+      {/* 🛒 High-End Cart Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex justify-end">
           <div className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between">
             
-            {/* Cart Header */}
+            {/* Header */}
             <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-900 text-white">
               <div className="flex items-center gap-2">
                 <span className="text-lg font-black">ตะกร้าสินค้า (367 Store)</span>
@@ -756,7 +597,7 @@ export default function Shop367Page() {
               </button>
             </div>
 
-            {/* Cart Items List */}
+            {/* Cart Product List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {cart.length > 0 ? (
                 cart.map((item) => (
@@ -765,7 +606,6 @@ export default function Shop367Page() {
                       src={item.product.image}
                       alt={item.product.name}
                       className="w-16 h-16 object-cover rounded-lg bg-white border"
-                      onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_SVG; }}
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="text-xs font-bold text-slate-800 truncate">{item.product.name}</h4>
@@ -796,18 +636,61 @@ export default function Shop367Page() {
               )}
             </div>
 
-            {/* Checkout Action */}
+            {/* Coupon & Total Price Summary */}
             {cart.length > 0 && (
               <div className="p-4 border-t border-slate-200 bg-white space-y-3">
-                <div className="flex justify-between items-center text-base font-black">
-                  <span>ราคารวมทั้งหมด:</span>
-                  <span className="text-xl text-indigo-600">฿{totalCartPrice.toLocaleString()}</span>
+                {/* Coupon Code Input */}
+                <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <span className="text-xs font-bold text-slate-700 block mb-1">โค้ดส่วนลด (ลองใช้: 367VIP)</span>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="ใส่โค้ดส่วนลด..."
+                      value={couponCode}
+                      onChange={e => setCouponCode(e.target.value)}
+                      className="flex-1 px-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 font-mono font-bold uppercase"
+                    />
+                    <button
+                      onClick={handleApplyCoupon}
+                      className="px-3 py-1.5 bg-slate-900 text-white font-bold text-xs rounded-lg hover:bg-slate-800 transition"
+                    >
+                      ใช้โค้ด
+                    </button>
+                  </div>
+                  {couponMessage && (
+                    <p className={`text-[11px] font-bold mt-1.5 ${couponMessage.isError ? 'text-red-500' : 'text-emerald-600'}`}>
+                      {couponMessage.text}
+                    </p>
+                  )}
                 </div>
+
+                {/* Receipt Breakdown */}
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between text-slate-500">
+                    <span>ยอดรวมสินค้า:</span>
+                    <span>฿{subtotalCartPrice.toLocaleString()}</span>
+                  </div>
+                  {appliedDiscount > 0 && (
+                    <div className="flex justify-between text-emerald-600 font-bold">
+                      <span>ส่วนลดคูปอง:</span>
+                      <span>-฿{appliedDiscount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-slate-500">
+                    <span>ค่าจัดส่ง:</span>
+                    <span className="text-emerald-600 font-bold">ฟรี (฿0)</span>
+                  </div>
+                  <div className="flex justify-between items-center text-base font-black pt-2 border-t border-slate-100">
+                    <span>ยอดชำระสุทธิ:</span>
+                    <span className="text-xl text-indigo-600">฿{finalCartPrice.toLocaleString()}</span>
+                  </div>
+                </div>
+
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
                   className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-base rounded-xl shadow-lg transition"
                 >
-                  ดำเนินการสั่งซื้อ &gt;
+                  ชำระเงิน &gt;
                 </button>
               </div>
             )}
@@ -815,7 +698,7 @@ export default function Shop367Page() {
         </div>
       )}
 
-      {/* 📄 Checkout Modal */}
+      {/* 📄 Checkout Modal & Order Confirmation */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden p-6 relative border border-slate-100">
@@ -828,18 +711,31 @@ export default function Shop367Page() {
 
             {orderSuccess ? (
               <div className="text-center py-8">
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-3">
+                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
                   ✓
                 </div>
-                <h3 className="text-xl font-black text-slate-900">สั่งซื้อสินค้าสำเร็จ!</h3>
-                <p className="text-slate-500 text-sm mt-1">หมายเลขคำสั่งซื้อ: <span className="font-bold text-indigo-600">{generatedOrderId}</span></p>
-                <p className="text-xs text-slate-400 mt-2">ขอบคุณที่วางใจเลือกอุดหนุนร้าน 367 Store ครับ</p>
+                <h3 className="text-2xl font-black text-slate-900">สั่งซื้อสินค้าสำเร็จ!</h3>
+                <p className="text-slate-500 text-sm mt-1">หมายเลขคำสั่งซื้อ: <span className="font-bold text-indigo-600 font-mono">{generatedOrderId}</span></p>
+                
+                {/* QR Code Placeholder for PromptPay */}
+                {formData.payment === 'promptpay' && (
+                  <div className="mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 inline-block">
+                    <p className="text-xs font-bold text-slate-600 mb-2">สแกน QR Code เพื่อชำระเงิน (จำลอง)</p>
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=367STORE-PAYMENT-${finalCartPrice}`}
+                      alt="PromptPay QR Code"
+                      className="w-32 h-32 mx-auto rounded-lg border bg-white p-1"
+                    />
+                  </div>
+                )}
+
+                <p className="text-xs text-slate-400 mt-4">ขอบคุณที่วางใจอุดหนุนร้าน 367 Store ครับ</p>
               </div>
             ) : (
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                <h3 className="text-xl font-black text-slate-900 border-b pb-3">ยืนยันคำสั่งซื้อ (367 Official)</h3>
+                <h3 className="text-xl font-black text-slate-900 border-b pb-3">สั่งซื้อสินค้า (367 Official Store)</h3>
 
-                {/* Items Summary */}
+                {/* Item List Summary */}
                 <div className="max-h-28 overflow-y-auto space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
                   {cart.map((c) => (
                     <div key={c.product.id} className="flex justify-between font-medium">
@@ -859,7 +755,7 @@ export default function Shop367Page() {
                       placeholder="เช่น สมชาย ใจดี"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600"
+                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600 font-medium"
                     />
                   </div>
                   <div>
@@ -870,7 +766,7 @@ export default function Shop367Page() {
                       placeholder="081-234-5678"
                       value={formData.phone}
                       onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600"
+                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600 font-medium"
                     />
                   </div>
                   <div>
@@ -881,7 +777,7 @@ export default function Shop367Page() {
                       placeholder="บ้านเลขที่, แขวง/ตำบล, เขต/อำเภอ, จังหวัด, รหัสไปรษณีย์"
                       value={formData.address}
                       onChange={e => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600"
+                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600 font-medium"
                     />
                   </div>
                   <div>
@@ -901,13 +797,13 @@ export default function Shop367Page() {
                 <div className="pt-3 border-t flex justify-between items-center">
                   <div>
                     <p className="text-[10px] text-slate-400">ยอดชำระสุทธิ</p>
-                    <p className="text-xl font-black text-indigo-600">฿{totalCartPrice.toLocaleString()}</p>
+                    <p className="text-xl font-black text-indigo-600">฿{finalCartPrice.toLocaleString()}</p>
                   </div>
                   <button
                     type="submit"
                     className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl shadow-md transition"
                   >
-                    ยืนยันการชำระเงิน
+                    ยืนยันการสั่งซื้อ
                   </button>
                 </div>
               </form>
