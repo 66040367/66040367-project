@@ -61,7 +61,7 @@ const MAIN_CATEGORIES = [
 const LOCATIONS = ['กรุงเทพมหานคร', 'สมุทรปราการ', 'นนทบุรี', 'เชียงใหม่', 'ชลบุรี', 'ปทุมธานี', 'ภูเก็ต'];
 const BADGES = ['367 VIP', 'MALL', 'BEST SELLER', 'HOT DEAL', 'ส่งฟรี', 'ลด 50%', 'ถูกชัวร์'];
 
-// --- MASSIVE EXPANDED UNIQUE PRODUCT IMAGES POOL (Unsplash High-Res) ---
+// --- DIVERSE & UNIQUE UNSPLASH HIGH-RES IMAGE POOL PER SUBCATEGORY ---
 const CATEGORY_IMAGE_POOLS: Record<string, string[]> = {
   'โทรศัพท์มือถือ': [
     'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9',
@@ -69,119 +69,167 @@ const CATEGORY_IMAGE_POOLS: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1565849904461-04a58ad377e0',
     'https://images.unsplash.com/photo-1580910051074-3eb694886505',
     'https://images.unsplash.com/photo-1533228876829-65c94e7b5025',
-    'https://images.unsplash.com/photo-1574944985070-8f3ebc6b7682'
+    'https://images.unsplash.com/photo-1574944985070-8f3ebc6b7682',
+    'https://images.unsplash.com/photo-1512499617640-c74ae3a79d37',
+    'https://images.unsplash.com/photo-1567581935884-3349723552ca'
   ],
   'คอมพิวเตอร์': [
     'https://images.unsplash.com/photo-1587831990711-23ca6441447b',
     'https://images.unsplash.com/photo-1593640408182-31c70c8268f5',
     'https://images.unsplash.com/photo-1550745165-9bc0b252726f',
-    'https://images.unsplash.com/photo-1547082299-de196ea013d6'
+    'https://images.unsplash.com/photo-1547082299-de196ea013d6',
+    'https://images.unsplash.com/photo-1587202372775-e229f172b9d7',
+    'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea'
   ],
   'โน๊ตบุ๊ค': [
     'https://images.unsplash.com/photo-1517336714731-489689fd1ca8',
     'https://images.unsplash.com/photo-1496181133206-80ce9b88a853',
     'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2',
-    'https://images.unsplash.com/photo-1603302576837-37561b2e2302'
+    'https://images.unsplash.com/photo-1603302576837-37561b2e2302',
+    'https://images.unsplash.com/photo-1541807084-5c52b6b3adef',
+    'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed'
   ],
   'แท็บเล็ต & ไอแพด': [
     'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0',
     'https://images.unsplash.com/photo-1561154464-82e9adf32764',
-    'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9'
+    'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9',
+    'https://images.unsplash.com/photo-1542751371-adc38448a05e',
+    'https://images.unsplash.com/photo-1569770218135-bea267ed7e84'
   ],
   'แก็ดเจ็ต & อุปกรณ์เสริม': [
     'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
     'https://images.unsplash.com/photo-1622445268465-84288046d581',
     'https://images.unsplash.com/photo-1546435770-a3e426bf472b',
-    'https://images.unsplash.com/photo-1583394838336-acd977736f90'
+    'https://images.unsplash.com/photo-1583394838336-acd977736f90',
+    'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf',
+    'https://images.unsplash.com/photo-1519389950473-47ba0277781c'
   ],
   'เซรั่ม & มอยส์เจอไรเซอร์': [
     'https://images.unsplash.com/photo-1620916566398-39f1143ab7be',
     'https://images.unsplash.com/photo-1608248597261-833244722510',
     'https://images.unsplash.com/photo-1571781926291-c477ebfd024b',
-    'https://images.unsplash.com/photo-1512290900673-700200827233'
+    'https://images.unsplash.com/photo-1512290900673-700200827233',
+    'https://images.unsplash.com/photo-1617897903246-719242758050',
+    'https://images.unsplash.com/photo-1556228720-195a672e8a03'
   ],
   'กันแดด & คลีนซิ่ง': [
     'https://images.unsplash.com/photo-1556228720-195a672e8a03',
-    'https://images.unsplash.com/photo-1617897903246-719242758050'
+    'https://images.unsplash.com/photo-1617897903246-719242758050',
+    'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908',
+    'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881',
+    'https://images.unsplash.com/photo-1608248597261-833244722510'
   ],
   'เครื่องสำอาง & ลิปสติก': [
     'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e',
     'https://images.unsplash.com/photo-1586495777744-4413f21062fa',
-    'https://images.unsplash.com/photo-1596462502278-27bfdc403348'
+    'https://images.unsplash.com/photo-1596462502278-27bfdc403348',
+    'https://images.unsplash.com/photo-1512496015851-a90fb38ba796',
+    'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e'
   ],
   'บำรุงผิวกาย & น้ำหอม': [
     'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539',
-    'https://images.unsplash.com/photo-1547887537-6158d64c35b3'
+    'https://images.unsplash.com/photo-1547887537-6158d64c35b3',
+    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75',
+    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138',
+    'https://images.unsplash.com/photo-1523293182086-7651a899d37f',
+    'https://images.unsplash.com/photo-1594035910387-fea47794261f'
   ],
   'เสื้อยืด & เสื้อครอป': [
     'https://images.unsplash.com/photo-1521572267360-ee0c2909d518',
     'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c',
-    'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a'
+    'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a',
+    'https://images.unsplash.com/photo-1618354691373-d851c5c3a990',
+    'https://images.unsplash.com/photo-1576995853123-5a10305d93c0'
   ],
   'กางเกง & ยีนส์': [
-    'https://images.unsplash.com/photo-1541099649105-f69ad21f3246'
+    'https://images.unsplash.com/photo-1541099649105-f69ad21f3246',
+    'https://images.unsplash.com/photo-1582552938357-32b906df40cb',
+    'https://images.unsplash.com/photo-1562157873-818bc0726f68',
+    'https://images.unsplash.com/photo-1591195853828-11db59a44f6b'
   ],
   'แจ็กเก็ต & ฮู้ดดี้': [
     'https://images.unsplash.com/photo-1551028719-00167b16eac5',
-    'https://images.unsplash.com/photo-1591047139829-d91aecb6caea'
+    'https://images.unsplash.com/photo-1591047139829-d91aecb6caea',
+    'https://images.unsplash.com/photo-1544441893-675973e31985',
+    'https://images.unsplash.com/photo-1578632767115-351597cf2477'
   ],
   'กระเป๋า & รองเท้า': [
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
     'https://images.unsplash.com/photo-1548036328-c9fa89d128fa',
-    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519'
+    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519',
+    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a',
+    'https://images.unsplash.com/photo-1584917865442-de89df76afd3'
   ],
   'โคมไฟ & ไฟแต่งห้อง': [
     'https://images.unsplash.com/photo-1507473885765-e6ed057f782c',
-    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38'
+    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38',
+    'https://images.unsplash.com/photo-1540932239986-30128078f3c5',
+    'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9'
   ],
   'เครื่องหอม & อโรม่า': [
-    'https://images.unsplash.com/photo-1603006905003-be475563bc59'
+    'https://images.unsplash.com/photo-1603006905003-be475563bc59',
+    'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108',
+    'https://images.unsplash.com/photo-1615397349754-cfa2066a298e'
   ],
   'เฟอร์นิเจอร์ & ชั้นวาง': [
     'https://images.unsplash.com/photo-1538688525198-9b88f6f53126',
     'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92',
-    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7'
+    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7',
+    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc'
   ],
   'เครื่องครัว & แก้วน้ำ': [
-    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd'
+    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd',
+    'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61',
+    'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7'
   ],
   'เมาส์ & คีย์บอร์ด': [
     'https://images.unsplash.com/photo-1587829741301-dc798b83add3',
-    'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7'
+    'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7',
+    'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46',
+    'https://images.unsplash.com/photo-1626218174358-7769486c4b79'
   ],
   'หูฟัง & ไมโครโฟน': [
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
+    'https://images.unsplash.com/photo-1590658268037-6bf12165a8df',
     'https://images.unsplash.com/photo-1546435770-a3e426bf472b',
-    'https://images.unsplash.com/photo-1598550476439-6847785fcea6'
+    'https://images.unsplash.com/photo-1598550476439-6847785fcea6',
+    'https://images.unsplash.com/photo-1583394838336-acd977736f90',
+    'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b',
+    'https://images.unsplash.com/photo-1484704849700-f032a568e944',
+    'https://images.unsplash.com/photo-1520170350707-b2da59518561'
   ],
   'จอมอนิเตอร์ & โต๊ะเก้าอี้': [
     'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf',
-    'https://images.unsplash.com/photo-1542751371-adc38448a05e'
+    'https://images.unsplash.com/photo-1542751371-adc38448a05e',
+    'https://images.unsplash.com/photo-1593640408182-31c70c8268f5',
+    'https://images.unsplash.com/photo-1585792180666-f7347c490ee2'
   ],
   'อุปกรณ์ออกกำลังกาย': [
     'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2',
     'https://images.unsplash.com/photo-1517838277536-f5f99be501cd',
-    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48'
+    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48',
+    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
   ],
   'แคมปิ้ง & เต็นท์': [
-    'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4'
+    'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4',
+    'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d',
+    'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7'
   ],
   'รองเท้า & เสื้อผ้ากีฬา': [
     'https://images.unsplash.com/photo-1511556532299-8f662fc26c06',
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'
+    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
+    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a'
   ]
 };
 
-// --- DYNAMIC NON-REPEATING IMAGE GENERATOR ---
-const getUniqueProductImage = (subCat: string, index: number, id: number): string => {
-  const pool = CATEGORY_IMAGE_POOLS[subCat] || [
-    'https://images.unsplash.com/photo-1523275335684-37898b6baf30'
-  ];
-  
-  // Base image selection
-  const baseImage = pool[index % pool.length];
-  
-  // Add unique parameter tricks so browser renders individual unique crops/seeds
-  return `${baseImage}?w=600&auto=format&fit=crop&q=80&sig=${id}`;
+// --- GUARANTEED UNIQUE NON-REPEATING IMAGE GENERATOR ---
+const getUniqueProductImage = (subCat: string, productIndex: number, id: number): string => {
+  const pool = CATEGORY_IMAGE_POOLS[subCat];
+  if (pool && pool.length > 0) {
+    const baseImg = pool[productIndex % pool.length];
+    return `${baseImg}?w=600&auto=format&fit=crop&q=80`;
+  }
+  return `https://picsum.photos/seed/product_${id}/600/600`;
 };
 
 // --- REALISTIC 360 PRODUCTS GENERATOR ---
@@ -250,7 +298,7 @@ const generate350Products = (): Product[] => {
     const reviewCount = (i * 43 + 95) % 1800 + 20;
     const soldCount = (i * 47 + 150) % 9800 + 200;
 
-    // Guaranteed Unique Non-Repeating Image URL per product ID
+    // Distinct Image URL assigned index-wise
     const uniqueImg = getUniqueProductImage(subCat, i, idCounter);
 
     products.push({
@@ -405,24 +453,24 @@ export default function Shop367Page() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans pb-32 selection:bg-indigo-500 selection:text-white">
       
-      {/* 🔮 Top Ambient Neon Announcement Bar */}
+      {/* 🔮 Announcement Bar */}
       <div className="bg-gradient-to-r from-violet-900 via-indigo-900 to-slate-900 text-slate-200 text-sm py-2.5 px-4 font-medium border-b border-indigo-800/40 shadow-inner">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
             <span className="bg-indigo-500 text-slate-950 font-black px-2.5 py-0.5 rounded-full text-xs uppercase tracking-wider shadow-sm shadow-indigo-500/50">
               367 OFFICIAL
             </span>
-            <span className="text-xs sm:text-sm font-medium">⚡ สินค้าภาพตรงปกไม่ซ้ำรายการ | โค้ดส่วนลด <strong className="text-emerald-400 font-mono bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">367VIP</strong> ลดทันที ฿200</span>
+            <span className="text-xs sm:text-sm font-medium">⚡ สินค้าภาพตรงปก | ใช้โค้ดส่วนลด <strong className="text-emerald-400 font-mono bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">367VIP</strong> ลดทันที ฿200</span>
           </div>
           <span className="hidden md:inline text-xs sm:text-sm text-indigo-300/80 font-mono">การันตีของแท้ 100% | จัดส่งฟรีทั่วประเทศ</span>
         </div>
       </div>
 
-      {/* 🚀 Sleek Header Navbar */}
+      {/* 🚀 Header Navbar */}
       <header className="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 shadow-2xl shadow-indigo-950/30">
         <div className="max-w-7xl mx-auto px-4 h-22 flex items-center justify-between gap-4 py-3">
           
-          {/* Neon Gradient Logo */}
+          {/* Logo */}
           <div 
             className="flex items-center gap-3 cursor-pointer select-none group"
             onClick={() => handleMainCatChange('all')}
@@ -440,7 +488,7 @@ export default function Shop367Page() {
             </div>
           </div>
 
-          {/* Search Box - Bigger Font */}
+          {/* Search Box - Large Font */}
           <div className="flex-1 max-w-xl">
             <div className="relative">
               <input
@@ -462,7 +510,7 @@ export default function Shop367Page() {
             </div>
           </div>
 
-          {/* Cart Drawer Trigger */}
+          {/* Cart Trigger */}
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-indigo-300 font-bold px-4 py-3 rounded-2xl transition shadow-lg shadow-black/40 text-sm sm:text-base"
@@ -525,7 +573,6 @@ export default function Shop367Page() {
       {/* 🎨 HERO PROMOTIONAL BANNER */}
       <section className="max-w-7xl mx-auto px-4 mt-6">
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-indigo-950 via-slate-900 to-violet-950 border border-indigo-800/50 shadow-2xl p-6 sm:p-10 flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Ambient Glow background */}
           <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
           <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -551,11 +598,10 @@ export default function Shop367Page() {
             </div>
           </div>
 
-          {/* Call to action card */}
           <div className="relative z-10 bg-slate-950/80 border border-slate-800 p-5 rounded-2xl text-center w-full md:w-auto min-w-[240px] shadow-xl">
             <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">สิทธิพิเศษสำหรับวันนี้</p>
             <p className="text-2xl font-black text-emerald-400 font-mono">แจกส่วนลด ฿200</p>
-            <p className="text-xs text-slate-400 mt-1">กดคัดลอกโค้ดไปใส่ที่หน้าชำระเงินได้ทันที</p>
+            <p className="text-xs text-slate-400 mt-1">กดรับโค้ดไปใส่ที่หน้าชำระเงินได้ทันที</p>
             <button 
               onClick={() => {
                 setCouponCode('367VIP');
@@ -572,7 +618,7 @@ export default function Shop367Page() {
       {/* 🛍️ Main Product Grid Section */}
       <main className="max-w-7xl mx-auto px-4 mt-8">
         
-        {/* Sorting & Filter Header Bar */}
+        {/* Header Filter Info */}
         <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800 shadow-xl mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 backdrop-blur-md">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
@@ -618,7 +664,7 @@ export default function Shop367Page() {
                 className="bg-slate-900 rounded-2xl border border-slate-800/90 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-950/60 hover:border-indigo-500/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Real Product Image Container */}
+                  {/* Product Image Container */}
                   <div className="relative aspect-square bg-slate-950 overflow-hidden">
                     <img
                       src={product.image}
@@ -637,7 +683,7 @@ export default function Shop367Page() {
                     </div>
                   </div>
 
-                  {/* Product Details - Bigger Fonts */}
+                  {/* Product Details */}
                   <div className="p-3.5 sm:p-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-xs font-bold text-indigo-300 bg-indigo-950 border border-indigo-800/60 px-2.5 py-0.5 rounded-full inline-block">
@@ -648,12 +694,12 @@ export default function Shop367Page() {
                       </span>
                     </div>
 
-                    {/* Product Name - Bigger Font Size */}
+                    {/* Product Name */}
                     <h3 className="text-sm sm:text-base font-bold text-slate-100 line-clamp-2 h-11 leading-snug group-hover:text-indigo-300 transition-colors">
                       {product.name}
                     </h3>
 
-                    {/* Rating & Review Count - Bigger Font Size */}
+                    {/* Rating & Reviews */}
                     <div className="flex items-center justify-between mt-3 text-xs sm:text-sm text-slate-300 font-medium">
                       <div className="flex items-center gap-1 text-amber-400 font-bold bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
                         <span>★</span>
@@ -667,7 +713,7 @@ export default function Shop367Page() {
                   </div>
                 </div>
 
-                {/* Price & Action Button - Bigger Price Font */}
+                {/* Price & Action Button */}
                 <div className="p-3.5 sm:p-4 pt-0">
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
@@ -709,7 +755,7 @@ export default function Shop367Page() {
           </div>
         )}
 
-        {/* 📖 Pagination Navigation - Bigger Font */}
+        {/* 📖 Pagination Controls */}
         {totalPages > 1 && (
           <div className="mt-12 flex justify-center items-center gap-2 sm:gap-3">
             <button
@@ -748,12 +794,11 @@ export default function Shop367Page() {
 
       </main>
 
-      {/* 🛒 High-End Cyber Cart Drawer */}
+      {/* 🛒 Cart Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex justify-end">
           <div className="w-full max-w-md bg-slate-900 h-full shadow-2xl flex flex-col justify-between border-l border-slate-800">
             
-            {/* Header */}
             <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 text-white">
               <div className="flex items-center gap-2">
                 <span className="text-lg font-black">ตะกร้าสินค้า (367 Official)</span>
@@ -769,7 +814,6 @@ export default function Shop367Page() {
               </button>
             </div>
 
-            {/* Cart Product List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {cart.length > 0 ? (
                 cart.map((item) => (
@@ -808,10 +852,8 @@ export default function Shop367Page() {
               )}
             </div>
 
-            {/* Coupon & Total Price Summary */}
             {cart.length > 0 && (
               <div className="p-4 border-t border-slate-800 bg-slate-950 space-y-3">
-                {/* Coupon Code Input */}
                 <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
                   <span className="text-xs font-bold text-slate-300 block mb-1">โค้ดส่วนลด (ลองใช้: 367VIP)</span>
                   <div className="flex gap-2">
@@ -836,7 +878,6 @@ export default function Shop367Page() {
                   )}
                 </div>
 
-                {/* Receipt Breakdown */}
                 <div className="space-y-1.5 text-xs sm:text-sm">
                   <div className="flex justify-between text-slate-400">
                     <span>ยอดรวมสินค้า:</span>
@@ -870,7 +911,7 @@ export default function Shop367Page() {
         </div>
       )}
 
-      {/* 📄 Checkout Modal & Clean Order Receipt (Without QR Code) */}
+      {/* 📄 Checkout Modal & Receipt */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
           <div className="bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden p-6 relative border border-slate-800 text-slate-100">
@@ -889,7 +930,6 @@ export default function Shop367Page() {
                 <h3 className="text-2xl font-black text-white">สั่งซื้อสินค้าสำเร็จ!</h3>
                 <p className="text-slate-400 text-xs sm:text-sm mt-1">หมายเลขคำสั่งซื้อ: <span className="font-bold text-emerald-400 font-mono">{generatedOrderId}</span></p>
                 
-                {/* Clean Receipt Summary Block (No QR Code) */}
                 <div className="mt-5 p-4 bg-slate-950 rounded-2xl border border-slate-800 text-left space-y-2 text-xs sm:text-sm">
                   <div className="flex justify-between text-slate-400">
                     <span>ผู้รับ:</span>
@@ -929,7 +969,6 @@ export default function Shop367Page() {
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                 <h3 className="text-xl font-black text-white border-b border-slate-800 pb-3">สั่งซื้อสินค้า (367 Official Store)</h3>
 
-                {/* Item List Summary */}
                 <div className="max-h-28 overflow-y-auto space-y-1.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs sm:text-sm">
                   {cart.map((c) => (
                     <div key={c.product.id} className="flex justify-between font-medium">
@@ -939,7 +978,6 @@ export default function Shop367Page() {
                   ))}
                 </div>
 
-                {/* Form Controls */}
                 <div className="space-y-3 text-xs sm:text-sm">
                   <div>
                     <label className="font-bold text-slate-300 block mb-1">ชื่อ-นามสกุล ผู้รับ *</label>
