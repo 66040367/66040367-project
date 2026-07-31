@@ -6,6 +6,7 @@ import React, { useState, useMemo } from 'react';
 interface Product {
   id: number;
   name: string;
+  description: string;
   mainCategory: string;
   subCategory: string;
   price: number;
@@ -57,12 +58,13 @@ const MAIN_CATEGORIES = [
   }
 ];
 
-// --- PRODUCT CATALOG WITH EXACT MATCHING NAME & URL (1:1 SPECIFIED) ---
+// --- EXTENDED PRODUCT CATALOG (THAI NAMES & DETAILED DESCRIPTIONS) ---
 const PRODUCT_CATALOG: Product[] = [
   // --- IT: โทรศัพท์มือถือ ---
   {
     id: 1,
-    name: 'Xiaomi 14 Ultra 5G Leica Lens',
+    name: 'สมาร์ทโฟน Xiaomi 14 Ultra เลนส์ Leica',
+    description: 'กล้องถ่ายภาพระดับมืออาชีพ เลนส์ Leica 4 ตัว ชิป Snapdragon 8 Gen 3 แรงระดับท็อป',
     mainCategory: 'it',
     subCategory: 'โทรศัพท์มือถือ',
     price: 40990,
@@ -75,7 +77,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 2,
-    name: 'iPhone 15 Pro Max 256GB',
+    name: 'ไอโฟน iPhone 15 Pro Max ความจุ 256GB',
+    description: 'บอดี้ไทเทเนียมน้ำหนักเบา ชิป A17 Pro ประสิทธิภาพสูง กล้องซูม optical 5 เท่า',
     mainCategory: 'it',
     subCategory: 'โทรศัพท์มือถือ',
     price: 48800,
@@ -88,7 +91,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 3,
-    name: 'Samsung Galaxy S24 Ultra',
+    name: 'สมาร์ทโฟน Samsung Galaxy S24 Ultra',
+    description: 'หน้าจอ Dynamic AMOLED 2X คมชัด มาพร้อมปากกา S-Pen และระบบ Galaxy AI อัจฉริยะ',
     mainCategory: 'it',
     subCategory: 'โทรศัพท์มือถือ',
     price: 43800,
@@ -101,7 +105,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 4,
-    name: 'Google Pixel 8 Pro',
+    name: 'สมาร์ทโฟน Google Pixel 8 Pro',
+    description: 'ประสบการณ์ Pure Android พร้อมระบบประมวลผล Tensor G3 และกล้องแต่งรูป AI อัจฉริยะ',
     mainCategory: 'it',
     subCategory: 'โทรศัพท์มือถือ',
     price: 32900,
@@ -116,7 +121,8 @@ const PRODUCT_CATALOG: Product[] = [
   // --- IT: แท็บเล็ต & ไอแพด ---
   {
     id: 5,
-    name: 'iPad Pro 11 นิ้ว ชิป M4',
+    name: 'แท็บเล็ต iPad Pro 11 นิ้ว ชิป M4',
+    description: 'หน้าจอ Ultra Retina XDR คมชัดระดับเรือธง ประมวลผลแรงลื่นไหล ดีไซน์บางเบาเป็นพิเศษ',
     mainCategory: 'it',
     subCategory: 'แท็บเล็ต & ไอแพด',
     price: 39900,
@@ -129,7 +135,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 6,
-    name: 'Samsung Galaxy Tab S9 Ultra',
+    name: 'แท็บเล็ต Samsung Galaxy Tab S9 Ultra',
+    description: 'หน้าจอใหญ่เต็มตา 14.6 นิ้ว ลำโพง Quad Speakers กันน้ำกันฝุ่นระดับ IP68',
     mainCategory: 'it',
     subCategory: 'แท็บเล็ต & ไอแพด',
     price: 38940,
@@ -145,6 +152,7 @@ const PRODUCT_CATALOG: Product[] = [
   {
     id: 7,
     name: 'แท่นวางไอแพดปรับระดับได้ Aluminum Holder',
+    description: 'วัสดุอลูมิเนียมเกรดพรีเมียม แข็งแรงทนทาน ปรับองศาได้อิสระ มียางกันสไลด์อย่างดี',
     mainCategory: 'it',
     subCategory: 'แก็ดเจ็ต & อุปกรณ์เสริม',
     price: 490,
@@ -157,7 +165,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 8,
-    name: 'พาวเวอร์แบงค์ 30000mAh Fast Charge',
+    name: 'พาวเวอร์แบงค์ชาร์จไว 30000mAh Fast Charge',
+    description: 'ความจุสูงสะใจ ชาร์จเร็ว 22.5W พร้อมหน้าจอ LED แสดงแบตเตอรี่ ชาร์จได้หลายเครื่องพร้อมกัน',
     mainCategory: 'it',
     subCategory: 'แก็ดเจ็ต & อุปกรณ์เสริม',
     price: 1370,
@@ -170,7 +179,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 9,
-    name: 'สายชาร์จ Fast Charge 100W Braided Cable',
+    name: 'สายชาร์จถัก Fast Charge 100W Type-C',
+    description: 'สายถักไนลอนหนาพิเศษ ทนทานต่อการหักงอ รองรับกำลังไฟสูงสุด 100W ชาร์จเร็วทันใจ',
     mainCategory: 'it',
     subCategory: 'แก็ดเจ็ต & อุปกรณ์เสริม',
     price: 390,
@@ -183,7 +193,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 10,
-    name: 'USB-C HUB 7-in-1 Aluminum Adapter',
+    name: 'อะแดปเตอร์แปลง USB-C HUB 7-in-1 Aluminum',
+    description: 'ขยายพอร์ตการเชื่อมต่อครบครัน ทั้ง HDMI 4K, USB 3.0, SD Card Reader และ Type-C PD',
     mainCategory: 'it',
     subCategory: 'แก็ดเจ็ต & อุปกรณ์เสริม',
     price: 790,
@@ -198,7 +209,8 @@ const PRODUCT_CATALOG: Product[] = [
   // --- IT: คอมพิวเตอร์ & โน๊ตบุ๊ค ---
   {
     id: 11,
-    name: 'PC เกมมิ่ง Intel Core i7 RTX 4070',
+    name: 'คอมพิวเตอร์ตั้งโต๊ะ PC เกมมิ่ง RTX 4070',
+    description: 'ซีพียู Intel Core i7 การ์ดจอ RTX 4070 แรม 32GB เล่นเกมระดับ AAA ลื่นไหลไม่มีสะดุด',
     mainCategory: 'it',
     subCategory: 'คอมพิวเตอร์',
     price: 42500,
@@ -211,7 +223,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 12,
-    name: 'Mini PC Workstation Ultra',
+    name: 'คอมพิวเตอร์ขนาดเล็ก Mini PC Workstation',
+    description: 'ตัวเครื่องประหยัดพื้นที่ สเปกแรงระดับงานตัดต่อ ประหยัดไฟ ทำงานเงียบสนิท',
     mainCategory: 'it',
     subCategory: 'คอมพิวเตอร์',
     price: 18450,
@@ -224,7 +237,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 13,
-    name: 'MacBook Pro M3 Max 16 นิ้ว',
+    name: 'โน๊ตบุ๊ค MacBook Pro M3 Max 16 นิ้ว',
+    description: 'ขีดสุดแห่งพลังการประมวลผลสำหรับสายกราฟิก ตัดต่อวิดีโอ 8K แบตเตอรี่ใช้งานยาวนาน',
     mainCategory: 'it',
     subCategory: 'โน๊ตบุ๊ค',
     price: 89900,
@@ -237,7 +251,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 14,
-    name: 'ASUS ROG Zephyrus Gaming Laptop',
+    name: 'โน๊ตบุ๊คเกมมิ่ง ASUS ROG Zephyrus',
+    description: 'หน้าจอ 240Hz บางเบาพกพาสะดวก ระบบระบายความร้อนโลหะเหลว เล่นเกมแรงเต็มสปีด',
     mainCategory: 'it',
     subCategory: 'โน๊ตบุ๊ค',
     price: 65900,
@@ -252,7 +267,8 @@ const PRODUCT_CATALOG: Product[] = [
   // --- GAMING GEAR ---
   {
     id: 15,
-    name: 'Mechanical Gaming Keyboard RGB',
+    name: 'คีย์บอร์ดเกมมิ่ง Mechanical Keyboard RGB',
+    description: 'สวิตช์ตอบสนองไว ปรับแต่งไฟ RGB ได้หลากหลาย รองรับการกดพร้อมกันทุกปุ่ม',
     mainCategory: 'gaming',
     subCategory: 'เมาส์ & คีย์บอร์ด',
     price: 2490,
@@ -265,7 +281,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 16,
-    name: 'Ultra-Lightweight Gaming Mouse',
+    name: 'เมาส์เกมมิ่งไร้สายน้ำหนักเบาพิเศษ',
+    description: 'น้ำหนักเบาเพียง 60 กรัม เซนเซอร์ความแม่นยำสูง แบตเตอรี่ใช้งานได้นานกว่า 80 ชั่วโมง',
     mainCategory: 'gaming',
     subCategory: 'เมาส์ & คีย์บอร์ด',
     price: 1890,
@@ -278,7 +295,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 17,
-    name: 'หูฟังเกมมิ่ง 7.1 Surround Wireless Headset',
+    name: 'หูฟังเกมมิ่งไร้สายระบบเสียง 7.1 Surround',
+    description: 'มิติเสียงโอบล้อมรอบทิศทาง ไมโครโฟนตัดเสียงรบกวน ฟองน้ำระบายอากาศใส่สบายตลอดวัน',
     mainCategory: 'gaming',
     subCategory: 'หูฟัง & ไมโครโฟน',
     price: 2490,
@@ -291,7 +309,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 18,
-    name: 'USB Condenser Streaming Microphone Pro',
+    name: 'ไมโครโฟนสตรีมมิ่ง USB Condenser Pro',
+    description: 'บันทึกเสียงคมชัดระดับสตูดิโอ ปรับโทนเสียงและปุ่ม Mute ในตัว เหมาะสำหรับแคสเกมและพอดแคสต์',
     mainCategory: 'gaming',
     subCategory: 'หูฟัง & ไมโครโฟน',
     price: 1590,
@@ -304,7 +323,8 @@ const PRODUCT_CATALOG: Product[] = [
   },
   {
     id: 19,
-    name: 'Gaming Monitor 27" 240Hz IPS 1ms',
+    name: 'จอมอนิเตอร์เกมมิ่ง 27 นิ้ว 240Hz IPS 1ms',
+    description: 'ภาพลื่นไหลไร้ภาพฉีกขาด สีสันสมจริง ขอบจอบางพิเศษ เหมาะสำหรับแข่งขันเกม eSports',
     mainCategory: 'gaming',
     subCategory: 'จอมอนิเตอร์ & โต๊ะเก้าอี้',
     price: 7900,
@@ -315,11 +335,26 @@ const PRODUCT_CATALOG: Product[] = [
     location: 'กรุงเทพมหานคร',
     image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80'
   },
+  {
+    id: 20,
+    name: 'เก้าอี้เกมมิ่งเพื่อสุขภาพ Ergonomic Gaming Chair',
+    description: 'ปรับระดับหลังและที่วางแขนได้อิสระ หมอนรองคอและเอวช่วยลดอาการปวดเมื่อยจากการนั่งนาน',
+    mainCategory: 'gaming',
+    subCategory: 'จอมอนิเตอร์ & โต๊ะเก้าอี้',
+    price: 4590,
+    originalPrice: 5700,
+    rating: 4.8,
+    soldCount: 940,
+    badge: 'HOT DEAL',
+    location: 'กรุงเทพมหานคร',
+    image: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=600&q=80'
+  },
 
   // --- BEAUTY ---
   {
-    id: 20,
-    name: 'Aura Hyaluron Intense Serum 50ml',
+    id: 21,
+    name: 'เซรั่มไฮยาลูรอนเข้มข้น ออร่าสกิน 50ml',
+    description: 'เติมความชุ่มชื้นล้ำลึก ฟื้นฟูผิวแห้งกร้าน ให้ผิวกระจ่างใส อิ่มฟูดูสุขภาพดี',
     mainCategory: 'beauty',
     subCategory: 'เซรั่ม & มอยส์เจอไรเซอร์',
     price: 490,
@@ -331,8 +366,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80'
   },
   {
-    id: 21,
-    name: 'Sunscreen Light Watery Essence SPF50+',
+    id: 22,
+    name: 'ครีมกันแดดเนื้อเอสเซนส์ SPF50+ PA++++',
+    description: 'เนื้อบางเบา ซึมไว ไม่เหนียวเหนอะหนะ ปกป้องผิวจากรังสี UVA/UVB และแสงสีฟ้า',
     mainCategory: 'beauty',
     subCategory: 'กันแดด & คลีนซิ่ง',
     price: 350,
@@ -344,8 +380,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80'
   },
   {
-    id: 22,
-    name: 'Velvet Matte Longlasting Lipstick',
+    id: 23,
+    name: 'ลิปสติกเนื้อกำมะหยี่ Velvet Matte Lipstick',
+    description: 'เม็ดสีแน่นชัด ติดทนนานตลอดวัน ไม่ตกล่อง ไม่ทำให้ริมฝีปากแห้งตึง',
     mainCategory: 'beauty',
     subCategory: 'เครื่องสำอาง & ลิปสติก',
     price: 290,
@@ -357,8 +394,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&q=80'
   },
   {
-    id: 23,
-    name: 'Eau De Parfum Luxury Unisex 50ml',
+    id: 24,
+    name: 'น้ำหอมพรีเมียม Eau De Parfum Unisex 50ml',
+    description: 'กลิ่นหอมเรียบหรู มีเสน่ห์ ติดทนนานกว่า 12 ชั่วโมง ใช้ได้ทั้งผู้ชายและผู้หญิง',
     mainCategory: 'beauty',
     subCategory: 'บำรุงผิวกาย & น้ำหอม',
     price: 1290,
@@ -369,11 +407,26 @@ const PRODUCT_CATALOG: Product[] = [
     location: 'กรุงเทพมหานคร',
     image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&q=80'
   },
+  {
+    id: 25,
+    name: 'คลีนซิ่งวอเตอร์ สูตรอ่อนโยน Cleansing Water',
+    description: 'เช็ดทำความสะอาดเครื่องสำอางและสิ่งสกปรกได้อย่างหมดจด ไม่ระคายเคืองตา',
+    mainCategory: 'beauty',
+    subCategory: 'กันแดด & คลีนซิ่ง',
+    price: 280,
+    originalPrice: 350,
+    rating: 4.8,
+    soldCount: 3400,
+    badge: 'ส่งฟรี',
+    location: 'นนทบุรี',
+    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80'
+  },
 
   // --- FASHION ---
   {
-    id: 24,
-    name: 'Oversized Streetwear Premium Cotton Tee',
+    id: 26,
+    name: 'เสื้อยืดทรง Oversized สตรีทสไตล์ ผ้าคอตตอน',
+    description: 'ผ้า Cotton 100% เกรดพรีเมียม ผ้านุ่ม ระบายอากาศดี ไม่หดไม่ย้วย ทรงสวยทันสมัย',
     mainCategory: 'fashion',
     subCategory: 'เสื้อยืด & เสื้อครอป',
     price: 350,
@@ -385,8 +438,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&q=80'
   },
   {
-    id: 25,
-    name: 'Straight Leg Vintage Denim Jeans',
+    id: 27,
+    name: 'กางเกงยีนส์ทรงตรงสไตล์วินเทจ Straight Leg',
+    description: 'เนื้อผ้ายีนส์หนากำลังดี ผ้านุ่มใส่สบาย ทรงสวยแมตช์เข้ากับเสื้อผ้าได้ง่ายทุกสไตล์',
     mainCategory: 'fashion',
     subCategory: 'กางเกง & ยีนส์',
     price: 890,
@@ -398,8 +452,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&q=80'
   },
   {
-    id: 26,
-    name: 'Zip-Up Fleece Hoodie Heavyweight',
+    id: 28,
+    name: 'เสื้อแจ็กเก็ตฮู้ดดี้ผ้านุ่ม Zip-Up Fleece',
+    description: 'เสื้อกันหนาวมีฮู้ด ผ้านุ่มอุ่นสบาย กันลมกันหนาวได้ดี ดีไซน์ซิปหน้าสวมใส่ง่าย',
     mainCategory: 'fashion',
     subCategory: 'แจ็กเก็ต & ฮู้ดดี้',
     price: 790,
@@ -411,8 +466,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80'
   },
   {
-    id: 27,
-    name: 'White Leather Sneaker Classic Style',
+    id: 29,
+    name: 'รองเท้าผ้าใบสีขาวทรงคลาสสิก Classic Sneaker',
+    description: 'ดีไซน์มินิมอล ใส่สบาย นุ่มเท้า เดินได้ทั้งวันโดยไม่เมื่อย แมตช์ได้กับทุกชุด',
     mainCategory: 'fashion',
     subCategory: 'กระเป๋า & รองเท้า',
     price: 1890,
@@ -423,11 +479,26 @@ const PRODUCT_CATALOG: Product[] = [
     location: 'ภูเก็ต',
     image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80'
   },
+  {
+    id: 30,
+    name: 'กระเป๋าสะพายข้างดีไซน์มินิมอล Minimalist Bag',
+    description: 'หนัง PU คุณภาพสูง กันน้ำได้ สายสะพายปรับระดับได้ มีช่องเก็บของด้านในเป็นสัดส่วน',
+    mainCategory: 'fashion',
+    subCategory: 'กระเป๋า & รองเท้า',
+    price: 650,
+    originalPrice: 820,
+    rating: 4.7,
+    soldCount: 2150,
+    badge: 'HOT DEAL',
+    location: 'กรุงเทพมหานคร',
+    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80'
+  },
 
   // --- HOME ---
   {
-    id: 28,
-    name: 'Minimalist Desk Lamp Touch Dimmer',
+    id: 31,
+    name: 'โคมไฟตั้งโต๊ะมินิมอล ปรับความสว่างได้ 3 ระดับ',
+    description: 'ระบบสัมผัส ถนอมสายตา แสงไฟนุ่มนวล ดีไซน์สวยงามเพิ่มความหรูหราให้โต๊ะทำงาน',
     mainCategory: 'home',
     subCategory: 'โคมไฟ & ไฟแต่งห้อง',
     price: 450,
@@ -439,8 +510,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80'
   },
   {
-    id: 29,
-    name: 'Aroma Soy Wax Candle Lavender 200g',
+    id: 32,
+    name: 'เทียนหอมอโรม่าไขถั่วเหลืองธรรมชาติ 200g',
+    description: 'กลิ่นลาเวนเดอร์ผ่อนคลาย สร้างบรรยากาศอบอุ่น วัตถุดิบธรรมชาติปลอดภัยไร้ควันพิษ',
     mainCategory: 'home',
     subCategory: 'เครื่องหอม & อโรม่า',
     price: 320,
@@ -452,8 +524,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=600&q=80'
   },
   {
-    id: 30,
-    name: 'Ergonomic Monitor Stand Solid Wood',
+    id: 33,
+    name: 'แท่นวางจอคอมพิวเตอร์ไม้แท้ Ergonomic Monitor Stand',
+    description: 'ช่วยปรับระดับสายตาให้ถูกต้องตามหลักสรีรศาสตร์ มีช่องว่างเก็บคีย์บอร์ดด้านล่าง',
     mainCategory: 'home',
     subCategory: 'เฟอร์นิเจอร์ & ชั้นวาง',
     price: 690,
@@ -465,8 +538,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=600&q=80'
   },
   {
-    id: 31,
-    name: 'Stainless Tumbler Vacuum Keep Cold 900ml',
+    id: 34,
+    name: 'แก้วน้ำสแตนเลสเก็บความเย็น 900ml',
+    description: 'สแตนเลส 304 อย่างดี เก็บความเย็นได้นานกว่า 12 ชั่วโมง ฝาปิดแน่นสนิท ไร้หยดน้ำเกาะ',
     mainCategory: 'home',
     subCategory: 'เครื่องครัว & แก้วน้ำ',
     price: 390,
@@ -480,8 +554,9 @@ const PRODUCT_CATALOG: Product[] = [
 
   // --- SPORTS ---
   {
-    id: 32,
-    name: 'Adjustable Dumbbell 24kg Quick Select',
+    id: 35,
+    name: 'ดัมเบลปรับน้ำหนักได้ 24กก. Quick Select',
+    description: 'ปรับน้ำหนักได้ง่ายดายใน 3 วินาที ประหยัดพื้นที่จัดเก็บ วัสดุเหล็กแข็งแรงทนทาน',
     mainCategory: 'sports',
     subCategory: 'อุปกรณ์ออกกำลังกาย',
     price: 3200,
@@ -493,8 +568,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&q=80'
   },
   {
-    id: 33,
-    name: 'Yoga Mat NBR 10mm Anti-Slip Eco',
+    id: 36,
+    name: 'เสื่อโยคะ NBR หนัก 10มม. กันสไลด์',
+    description: 'หนานุ่ม ยืดหยุ่นสูง ช่วยลดแรงกระแทกบริเวณข้อต่อ ไม่ลื่นไหล ปลอดภัยทุกท่วงท่า',
     mainCategory: 'sports',
     subCategory: 'อุปกรณ์ออกกำลังกาย',
     price: 450,
@@ -506,8 +582,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&q=80'
   },
   {
-    id: 34,
-    name: 'Automatic Tent 4-Person Waterproof',
+    id: 37,
+    name: 'เต็นท์สนามกางอัตโนมัติสำหรับ 4 คน',
+    description: 'กางง่ายภายใน 3 วินาที กันน้ำ กันลม และกันรังสี UV ระบายอากาศได้ดีเยี่ยม',
     mainCategory: 'sports',
     subCategory: 'แคมปิ้ง & เต็นท์',
     price: 1890,
@@ -519,8 +596,9 @@ const PRODUCT_CATALOG: Product[] = [
     image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80'
   },
   {
-    id: 35,
-    name: 'Marathon Carbon Plate Running Shoes',
+    id: 38,
+    name: 'รองเท้าวิ่งพื้นคาร์บอน Carbon Plate Running Shoes',
+    description: 'น้ำหนักเบา พื้นคาร์บอนช่วยคืนพลังงานทุกก้าววิ่ง รองรับแรงกระแทกได้ดีเยี่ยม',
     mainCategory: 'sports',
     subCategory: 'รองเท้า & เสื้อผ้ากีฬา',
     price: 2900,
@@ -557,7 +635,7 @@ export default function Shop367Page() {
     name: '',
     phone: '',
     address: '',
-    payment: 'promptpay' // 'promptpay' | 'card' | 'bank' | 'cod'
+    payment: 'promptpay'
   });
 
   const currentSubCategories = useMemo(() => {
@@ -569,7 +647,8 @@ export default function Shop367Page() {
     let result = PRODUCT_CATALOG.filter(item => {
       const matchMain = selectedMainCat === 'all' || item.mainCategory === selectedMainCat;
       const matchSub = selectedSubCat === 'ทั้งหมด' || item.subCategory === selectedSubCat;
-      const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchMain && matchSub && matchSearch;
     });
 
@@ -696,7 +775,7 @@ export default function Shop367Page() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="ค้นหาสินค้าจากรายการทั้งหมด..."
+                placeholder="ค้นหาสินค้าหรือ รายละเอียดสินค้า..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -783,7 +862,7 @@ export default function Shop367Page() {
               ช้อปสินค้าราคาพิเศษ <span className="bg-gradient-to-r from-indigo-400 via-emerald-400 to-violet-400 bg-clip-text text-transparent">ลดสูงสุด 70%</span>
             </h2>
             <p className="text-slate-300 text-sm sm:text-base font-medium">
-              สินค้าคุณภาพ การันตีจัดส่งไว พร้อมบริการเก็บเงินปลายทาง
+              สินค้าคุณภาพ รับประกันความตรงปก จัดส่งไว พร้อมบริการเก็บเงินปลายทาง
             </p>
           </div>
 
@@ -838,7 +917,7 @@ export default function Shop367Page() {
 
         {/* Product Cards Grid */}
         {paginatedProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {paginatedProducts.map((product) => (
               <div
                 key={product.id}
@@ -871,16 +950,21 @@ export default function Shop367Page() {
                       </span>
                     </div>
 
-                    <h3 className="text-sm sm:text-base font-bold text-slate-100 line-clamp-2 h-11 leading-snug group-hover:text-indigo-300 transition-colors">
+                    <h3 className="text-sm sm:text-base font-bold text-slate-100 line-clamp-1 leading-snug group-hover:text-indigo-300 transition-colors">
                       {product.name}
                     </h3>
+
+                    {/* Detailed Product Description */}
+                    <p className="text-xs text-slate-400 mt-1 line-clamp-2 min-h-[32px] font-normal leading-relaxed">
+                      {product.description}
+                    </p>
 
                     <div className="flex items-center justify-between mt-3 text-xs sm:text-sm text-slate-300 font-medium">
                       <div className="flex items-center gap-1 text-amber-400 font-bold bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
                         <span>★</span>
                         <span>{product.rating}</span>
                       </div>
-                      <span className="text-xs text-slate-400">ขายแล้ว {product.soldCount.toLocaleString()}</span>
+                      <span className="text-xs text-slate-400">ขายแล้ว {product.soldCount.toLocaleString()} ชิ้น</span>
                     </div>
                   </div>
                 </div>
@@ -1005,7 +1089,7 @@ export default function Shop367Page() {
             <button onClick={() => setIsCheckoutOpen(false)} className="absolute top-4 right-4 text-slate-400 text-xl font-bold hover:text-white">✕</button>
 
             {orderSuccess ? (
-              /* --- ORDER SUCCESS VIEW (WITH TRUCK EMOJI & ITEM DETAILS) --- */
+              /* --- ORDER SUCCESS VIEW --- */
               <div className="py-2 text-slate-100 space-y-5">
                 
                 {/* Header Status */}
@@ -1130,7 +1214,7 @@ export default function Shop367Page() {
                   </div>
                 </div>
 
-                {/* Payment Options (Without QR Image) */}
+                {/* Payment Options */}
                 <div className="pt-2">
                   <label className="font-bold text-slate-200 block mb-2 text-xs sm:text-sm">เลือกช่องทางการชำระเงิน *</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
