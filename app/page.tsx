@@ -23,7 +23,7 @@ interface CartItem {
   quantity: number;
 }
 
-// --- BANNERS DATA (ROYALTY-FREE HD IMAGES) ---
+// --- BANNERS DATA ---
 const HERO_BANNERS = [
   {
     id: 1,
@@ -65,7 +65,7 @@ const MAIN_CATEGORIES = [
   { id: 'sports', name: '⚽ สปอร์ต & เอาต์ดอร์', subs: ['ทั้งหมด', 'อุปกรณ์ออกกำลังกาย', 'แคมปิ้ง & เต็นท์', 'รองเท้า & เสื้อผ้ากีฬา'] }
 ];
 
-// --- AUTOMATIC CATALOG GENERATOR (MASSIVE DATA) ---
+// --- AUTOMATIC UNIQUE IMAGE & CATALOG GENERATOR ---
 const generateMassiveCatalog = (): Product[] => {
   const catalog: Product[] = [];
   let idCounter = 1;
@@ -77,100 +77,65 @@ const generateMassiveCatalog = (): Product[] => {
     {
       mainId: 'it',
       subs: ['โทรศัพท์มือถือ', 'คอมพิวเตอร์', 'โน๊ตบุ๊ค', 'แท็บเล็ต & ไอแพด', 'แก็ดเจ็ต & อุปกรณ์เสริม'],
-      items: ['สมาร์ทโฟน flagship', 'แท็บเล็ตจอ Pro', 'โน๊ตบุ๊คบางเบา', 'พาวเวอร์แบงค์ชาร์จไว', 'หูฟังไร้สาย ANC', 'สายชาร์จ Type-C'],
-      features: ['ชิปเซ็ตประมวลผลเร็วพิเศษ', 'แบตเตอรี่อึดใช้งานได้ทั้งวัน', 'รองรับ Fast Charge 65W', 'ดีไซน์พรีเมียม ประกันศูนย์ 1 ปี'],
-      priceRange: [390, 38900],
-      images: [
-        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80',
-        'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&q=80',
-        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80',
-        'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=600&q=80',
-        'https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600&q=80'
-      ]
+      items: ['สมาร์ทโฟน Flagship', 'แท็บเล็ต Pro Max', 'โน๊ตบุ๊ค Ultrabook', 'พาวเวอร์แบงค์ 30000mAh', 'หูฟังไร้สาย ANC', 'สายชาร์จ FastCharge 100W'],
+      features: ['ชิปเซ็ตประมวลผลรุ่นใหม่ล่าสุด', 'แบตเตอรี่อึดใช้งานได้ตลอดทั้งวัน', 'รองรับระบบชาร์จไวความเร็วสูง', 'รับประกันศูนย์ไทย 1 ปีเต็ม'],
+      priceRange: [390, 38900]
     },
     {
       mainId: 'gaming',
       subs: ['เมาส์ & คีย์บอร์ด', 'หูฟัง & ไมโครโฟน', 'จอมอนิเตอร์ & โต๊ะเก้าอี้'],
-      items: ['คีย์บอร์ด Mechanical RGB', 'เมาส์เกมมิ่ง Wireless', 'หูฟัง 7.1 Surround', 'ไมโครโฟนสตรีมเมอร์', 'จอมอนิเตอร์ 240Hz'],
-      features: ['สวิตช์สัมผัสนุ่มตอบสนองไว', 'ไฟ RGB ปรับได้ 16.8 ล้านสี', 'ระบบตัดเสียงรบกวน Noise Cancelling', 'ออกแบบตามสรีรศาสตร์'],
-      priceRange: [690, 14900],
-      images: [
-        'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80',
-        'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600&q=80',
-        'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80',
-        'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80'
-      ]
+      items: ['คีย์บอร์ด Mechanical RGB', 'เมาส์เกมมิ่งไร้สาย', 'หูฟัง 7.1 Surround', 'ไมโครโฟนคอนเดนเซอร์', 'จอมอนิเตอร์ 240Hz 1ms'],
+      features: ['สวิตช์สัมผัสนุ่ม ตอบสนองแม่นยำ', 'ไฟ RGB ปรับแต่งได้ 16.8 ล้านสี', 'ระบบตัดเสียงรบกวนภายนอก', 'ดีไซน์ Ergonomic เพื่อสุขภาพ'],
+      priceRange: [690, 14900]
     },
     {
       mainId: 'beauty',
       subs: ['เซรั่ม & มอยส์เจอไรเซอร์', 'กันแดด & คลีนซิ่ง', 'เครื่องสำอาง & ลิปสติก', 'บำรุงผิวกาย & น้ำหอม'],
-      items: ['เซรั่มเข้มข้น', 'คลีนซิ่งวอเตอร์', 'ครีมกันแดด SPF50+', 'ลิปสติกเนื้อแมตต์', 'โลชั่นบำรุงผิวกาย', 'น้ำหอม EDP'],
-      features: ['สูตรอ่อนโยนสำหรับผิวแพ้ง่าย', 'ซึมซาบไวไม่เหนอะหนะ', 'สารสกัดจากธรรมชาติ 100%', 'ติดทนนานตลอดวัน'],
-      priceRange: [190, 2800],
-      images: [
-        'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80',
-        'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80',
-        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&q=80',
-        'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&q=80'
-      ]
+      items: ['เซรั่มบำรุงล้ำลึก', 'คลีนซิ่งวอเตอร์', 'ครีมกันแดด SPF50+ PA++++', 'ลิปสติกเนื้อแมตต์', 'โลชั่นบำรุงผิวกาย', 'น้ำหอม Eau de Parfum'],
+      features: ['สูตรอ่อนโยน เหมาะสำหรับผิวแพ้ง่าย', 'เนื้อบางเบา ซึมซาบไว ไม่เหนอะหนะ', 'อุดมด้วยสารสกัดออร์แกนิกธรรมชาติ', 'ล็อคความชุ่มชื้นยาวนาน 24 ชม.'],
+      priceRange: [190, 2800]
     },
     {
       mainId: 'fashion',
       subs: ['เสื้อยืด & เสื้อครอป', 'กางเกง & ยีนส์', 'แจ็กเก็ต & ฮู้ดดี้', 'กระเป๋า & รองเท้า'],
-      items: ['เสื้อยืด Oversize', 'กางเกงคาร์โก้สตรีท', 'เสื้อแจ็กเก็ตกันลม', 'รองเท้าสนีกเกอร์', 'กระเป๋าสะพายกันน้ำ'],
-      features: ['เนื้อผ้า Premium Cotton 100%', 'ผ้านุ่มระบายอากาศดีเยี่ยม', 'ตัดเย็บประณีต ทรงสวย', 'สวมใส่สบายแมตช์ได้ทุกชุด'],
-      priceRange: [290, 3500],
-      images: [
-        'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&q=80',
-        'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&q=80',
-        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
-        'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80'
-      ]
+      items: ['เสื้อยืด Cotton Oversize', 'กางเกงคาร์โก้สตรีท', 'แจ็กเก็ตกันลมผ้าร่ม', 'รองเท้าสนีกเกอร์ทรงสปอร์ต', 'กระเป๋าสะพายข้างกันน้ำ'],
+      features: ['ผลิตจากเนื้อผ้า Cotton Premium 100%', 'ผ้านุ่ม ระบายอากาศได้ดีเยี่ยม', 'งานตัดเย็บประณีต ไม่ย้วยง่าย', 'แมตช์เข้าได้กับทุกสไตล์แต่งตัว'],
+      priceRange: [290, 3500]
     },
     {
       mainId: 'home',
       subs: ['โคมไฟ & ไฟแต่งห้อง', 'เครื่องหอม & อโรม่า', 'เฟอร์นิเจอร์ & ชั้นวาง', 'เครื่องครัว & แก้วน้ำ'],
-      items: ['โคมไฟสไตล์มินิมอล', 'เทียนหอมอโรม่า', 'ชั้นวางของพับได้', 'แก้วน้ำเก็บความเย็น', 'หม้อไฟฟ้ามัลติฟังก์ชัน'],
-      features: ['สร้างบรรยากาศอบอุ่นในบ้าน', 'วัสดุทนทาน ปลอดภัย ไร้สารพิษ', 'ดีไซน์ทันสมัย ประหยัดพื้นที่'],
-      priceRange: [150, 2200],
-      images: [
-        'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80',
-        'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=600&q=80',
-        'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=600&q=80',
-        'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80'
-      ]
+      items: ['โคมไฟมินิมอลปรับแสงได้', 'เทียนหอมอโรม่าสกัดธรรมชาติ', 'ชั้นวางของโครงเหล็กพับได้', 'แก้วน้ำสแตนเลสเก็บความเย็น', 'หม้อไฟฟ้ามัลติฟังก์ชัน'],
+      features: ['ช่วยเพิ่มบรรยากาศอบอุ่นภายในบ้าน', 'วัสดุคุณภาพสูง ทนทาน ปลอดภัย', 'ดีไซน์ทันสมัย ช่วยประหยัดพื้นที่ใช้งาน'],
+      priceRange: [150, 2200]
     },
     {
       mainId: 'sports',
       subs: ['อุปกรณ์ออกกำลังกาย', 'แคมปิ้ง & เต็นท์', 'รองเท้า & เสื้อผ้ากีฬา'],
-      items: ['ดัมเบลปรับน้ำหนัก', 'เสื่อโยคะกันสไลด์', 'เต็นท์สนามสนามกางไว', 'รองเท้าวิ่งน้ำหนักเบา', 'กระติกน้ำกีฬา'],
-      features: ['ยืดหยุ่นสูง รับน้ำหนักได้ดี', 'พกพาสะดวก เหมาะสำหรับกิจกรรมเอาต์ดอร์', 'การันตีความทนทาน'],
-      priceRange: [220, 4500],
-      images: [
-        'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&q=80',
-        'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&q=80',
-        'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80',
-        'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=600&q=80'
-      ]
+      items: ['ดัมเบลปรับน้ำหนักได้', 'เสื่อโยคะกันสไลด์ หนาพิเศษ', 'เต็นท์สนามกางอัตโนมัติ', 'รองเท้าวิ่งพื้นรองรับแรงกระแทก', 'กระติกน้ำสปอร์ตล็อคแน่น'],
+      features: ['มีความยืดหยุ่นสูง รับน้ำหนักได้มาก', 'พกพาสะดวก เหมาะสำหรับกิจกรรมOutdoor', 'การันตีความทนทาน ผ่านการทดสอบมาตรฐาน'],
+      priceRange: [220, 4500]
     }
   ];
 
   categoryTemplates.forEach(template => {
-    for (let i = 1; i <= 100; i++) {
+    for (let i = 1; i <= 80; i++) {
       const itemBase = template.items[i % template.items.length];
       const subCat = template.subs[i % template.subs.length];
       const feature = template.features[i % template.features.length];
-      const img = template.images[i % template.images.length];
 
       const minPrice = template.priceRange[0];
       const maxPrice = template.priceRange[1];
       const price = Math.floor((Math.random() * (maxPrice - minPrice) + minPrice) / 10) * 10;
       const originalPrice = Math.floor(price * (1.25 + Math.random() * 0.35));
 
+      // 🖼️ FIX IMAGE REPETITION: Unique Image Generation using Picsum Product Seeds
+      const imageUrl = `https://picsum.photos/seed/367product_${idCounter}/600/600`;
+
       catalog.push({
         id: idCounter,
-        name: `${itemBase} รุ่นพิเศษ 367 Ultra #${i}`,
-        description: `${feature} สินค้าคุณภาพมาตรฐานสากล พร้อมจัดส่งทันที`,
+        name: `${itemBase} รุ่น 367 Ultra #${i}`,
+        description: `${feature} สินค้าแท้สั่งตรงจากโรงงานผู้ผลิต พร้อมการรับประกันคุณภาพ`,
         mainCategory: template.mainId,
         subCategory: subCat,
         price: price,
@@ -179,7 +144,7 @@ const generateMassiveCatalog = (): Product[] => {
         soldCount: Math.floor(120 + Math.random() * 8500),
         badge: badges[i % badges.length],
         location: locations[i % locations.length],
-        image: img
+        image: imageUrl
       });
       idCounter++;
     }
@@ -212,14 +177,19 @@ export default function Shop367Page() {
   const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
   const [generatedOrderId, setGeneratedOrderId] = useState<string>('');
 
+  // Payment State (No QR Code Options)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     address: '',
-    payment: 'promptpay'
+    paymentMethod: 'card', // card | bank_transfer | cod | truemoney
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvv: '',
+    truemoneyPhone: ''
   });
 
-  // Auto Switch Hero Banner Every 5s
+  // Auto Switch Hero Banner
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveBanner((prev) => (prev + 1) % HERO_BANNERS.length);
@@ -325,7 +295,7 @@ export default function Shop367Page() {
             </span>
             <span>⚡ ใช้โค้ด <strong className="text-emerald-400 font-mono bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/30">367VIP</strong> ลดทันที ฿200</span>
           </div>
-          <span className="hidden md:inline text-xs text-indigo-300 font-mono">คลังสินค้ากว่า {PRODUCT_CATALOG.length} รายการ ลิขสิทธิ์แท้พร้อมส่ง</span>
+          <span className="hidden md:inline text-xs text-indigo-300 font-mono">การันตีรูปไม่ซ้ำ ของแท้พร้อมส่งทุกรายการ</span>
         </div>
       </div>
 
@@ -356,7 +326,7 @@ export default function Shop367Page() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="ค้นหาสินค้ากว่า 600 รายการ..."
+                placeholder="ค้นหาสินค้ากว่า 500 รายการ..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -392,11 +362,9 @@ export default function Shop367Page() {
         </div>
       </header>
 
-      {/* Hero Banner Carousel (NEW!) */}
+      {/* Hero Banner Carousel */}
       <section className="max-w-7xl mx-auto px-4 mt-6">
-        <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl min-h-[220px] sm:min-h-[320px] flex items-center">
-          
-          {/* Banner Images & Content */}
+        <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl min-h-[220px] sm:min-h-[300px] flex items-center">
           {HERO_BANNERS.map((banner, index) => (
             <div
               key={banner.id}
@@ -404,13 +372,11 @@ export default function Shop367Page() {
                 index === activeBanner ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             >
-              {/* Background Image with Dark Gradient Overlay */}
               <div className="absolute inset-0 bg-slate-950">
                 <img src={banner.image} alt={banner.title} className="w-full h-full object-cover opacity-35" />
                 <div className={`absolute inset-0 bg-gradient-to-r ${banner.bgGradient} opacity-90`} />
               </div>
 
-              {/* Banner Text Content */}
               <div className="relative z-20 p-6 sm:p-12 max-w-2xl space-y-3">
                 <span className="inline-block text-[11px] sm:text-xs font-black tracking-widest text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-3 py-1 rounded-full uppercase shadow-md">
                   {banner.tag}
@@ -430,7 +396,6 @@ export default function Shop367Page() {
             </div>
           ))}
 
-          {/* Banner Carousel Indicator Dots */}
           <div className="absolute bottom-4 right-6 z-30 flex gap-2">
             {HERO_BANNERS.map((_, i) => (
               <button
@@ -442,11 +407,10 @@ export default function Shop367Page() {
               />
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* Main & Sub Categories Bar */}
+      {/* Categories Bar */}
       <nav className="bg-slate-900/80 border-y border-slate-800/80 py-3 mt-6 sticky top-20 z-30 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
@@ -486,7 +450,7 @@ export default function Shop367Page() {
         </div>
       </nav>
 
-      {/* Products Section Header */}
+      {/* Products Grid */}
       <main className="max-w-7xl mx-auto px-4 mt-8">
         <div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 shadow-xl mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
@@ -521,7 +485,6 @@ export default function Shop367Page() {
           </div>
         </div>
 
-        {/* Product Cards Grid */}
         {paginatedProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {paginatedProducts.map((product) => (
@@ -530,7 +493,6 @@ export default function Shop367Page() {
                 className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-950/50 hover:border-indigo-500/50 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Image Container */}
                   <div className="relative aspect-square bg-slate-950 overflow-hidden">
                     <img
                       src={product.image}
@@ -545,7 +507,6 @@ export default function Shop367Page() {
                     )}
                   </div>
 
-                  {/* Product Info (Refined Typography) */}
                   <div className="p-4">
                     <div className="flex justify-between items-center mb-1.5">
                       <span className="text-[11px] font-bold text-indigo-400 bg-indigo-950/80 border border-indigo-800/50 px-2 py-0.5 rounded-md">
@@ -572,7 +533,6 @@ export default function Shop367Page() {
                   </div>
                 </div>
 
-                {/* Price & Action Button */}
                 <div className="p-4 pt-0">
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl font-black text-emerald-400 font-mono">
@@ -629,7 +589,6 @@ export default function Shop367Page() {
             </button>
           </div>
         )}
-
       </main>
 
       {/* Cart Drawer */}
@@ -688,20 +647,20 @@ export default function Shop367Page() {
         </div>
       )}
 
-      {/* Checkout Modal */}
+      {/* Checkout Modal (NO QR CODE OPTIONS) */}
       {isCheckoutOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-slate-900 w-full max-w-lg rounded-2xl p-6 relative border border-slate-800 text-slate-100 my-8 shadow-2xl">
             <button onClick={() => setIsCheckoutOpen(false)} className="absolute top-4 right-4 text-slate-400 text-lg font-bold hover:text-white">✕</button>
 
             {orderSuccess ? (
-              <div className="py-2 text-slate-100 space-y-4 text-center">
+              <div className="py-4 text-slate-100 space-y-4 text-center">
                 <div className="text-5xl mb-2">🚚</div>
                 <h3 className="text-xl font-black text-emerald-400">สั่งซื้อสำเร็จ!</h3>
                 <p className="text-xs font-medium text-slate-300">
-                  ระบบได้รับการชำระเงินเรียบร้อยแล้ว สินค้ากำลังเตรียมจัดส่ง
+                  ระบบได้รับการชำระเงินเรียบร้อยแล้ว สินค้ากำลังเตรียมจัดส่งให้คุณ
                 </p>
-                <div className="inline-block bg-slate-950 px-3 py-1 rounded-lg border border-slate-800 text-xs text-indigo-300 font-mono">
+                <div className="inline-block bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-xs text-indigo-300 font-mono">
                   หมายเลขคำสั่งซื้อ: <strong className="text-white">{generatedOrderId}</strong>
                 </div>
 
@@ -719,10 +678,11 @@ export default function Shop367Page() {
               </div>
             ) : (
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                <h3 className="text-lg font-black text-white border-b border-slate-800 pb-3">
+                <h3 className="text-lg font-black text-white border-b border-slate-800 pb-3 flex items-center gap-2">
                   🛍️ ชำระเงิน & จัดส่ง
                 </h3>
 
+                {/* Delivery Info */}
                 <div className="space-y-3 text-xs">
                   <div>
                     <label className="font-bold text-slate-300 block mb-1">ชื่อ-นามสกุล *</label>
@@ -735,16 +695,18 @@ export default function Shop367Page() {
                       className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:border-indigo-500 focus:outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="font-bold text-slate-300 block mb-1">เบอร์โทรศัพท์ *</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="เช่น 0812345678"
-                      value={formData.phone}
-                      onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:border-indigo-500 focus:outline-none"
-                    />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="font-bold text-slate-300 block mb-1">เบอร์โทรศัพท์ *</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="เช่น 0812345678"
+                        value={formData.phone}
+                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:border-indigo-500 focus:outline-none"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="font-bold text-slate-300 block mb-1">ที่อยู่จัดส่ง *</label>
@@ -759,7 +721,106 @@ export default function Shop367Page() {
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800 flex justify-between items-center">
+                {/* Payment Methods Selection (NO QR CODES) */}
+                <div className="pt-2">
+                  <label className="font-bold text-slate-200 block mb-2 text-xs">เลือกช่องทางการชำระเงิน *</label>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {[
+                      { id: 'card', icon: '💳', label: 'บัตรเครดิต / เดบิต' },
+                      { id: 'bank_transfer', icon: '🏦', label: 'โอนผ่านบัญชีธนาคาร' },
+                      { id: 'cod', icon: '📦', label: 'เก็บเงินปลายทาง (COD)' },
+                      { id: 'truemoney', icon: '📱', label: 'TrueMoney Wallet' }
+                    ].map((method) => (
+                      <button
+                        key={method.id}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, paymentMethod: method.id })}
+                        className={`p-2.5 rounded-xl border text-left flex items-center gap-2 font-bold transition-all ${
+                          formData.paymentMethod === method.id
+                            ? 'bg-indigo-950 border-indigo-500 text-indigo-200 ring-1 ring-indigo-500'
+                            : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                        }`}
+                      >
+                        <span className="text-base">{method.icon}</span>
+                        <span className="text-[11px] leading-tight">{method.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Payment Fields Conditional Display */}
+                <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-xs">
+                  {formData.paymentMethod === 'card' && (
+                    <div className="space-y-2.5">
+                      <p className="font-bold text-indigo-400">💳 ข้อมูลบัตรเครดิต / เดบิต</p>
+                      <input
+                        type="text"
+                        required
+                        placeholder="เลขบัตร 16 หลัก"
+                        maxLength={16}
+                        value={formData.cardNumber}
+                        onChange={e => setFormData({ ...formData, cardNumber: e.target.value })}
+                        className="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-white font-mono"
+                      />
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          required
+                          placeholder="MM/YY"
+                          maxLength={5}
+                          value={formData.cardExpiry}
+                          onChange={e => setFormData({ ...formData, cardExpiry: e.target.value })}
+                          className="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-white font-mono text-center"
+                        />
+                        <input
+                          type="password"
+                          required
+                          placeholder="CVV"
+                          maxLength={3}
+                          value={formData.cardCvv}
+                          onChange={e => setFormData({ ...formData, cardCvv: e.target.value })}
+                          className="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-white font-mono text-center"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {formData.paymentMethod === 'bank_transfer' && (
+                    <div className="space-y-2 text-slate-300">
+                      <p className="font-bold text-indigo-400">🏦 รายละเอียดการโอนเงิน</p>
+                      <div className="bg-slate-900 p-2.5 rounded-lg border border-slate-800 space-y-1 font-mono text-[11px]">
+                        <p><span className="text-slate-400">ธนาคาร:</span> กสิกรไทย (K-Bank)</p>
+                        <p><span className="text-slate-400">ชื่อบัญชี:</span> บจก. 367 สโตร์ มาร์เก็ตติ้ง</p>
+                        <p><span className="text-slate-400">เลขที่บัญชี:</span> <strong className="text-emerald-400 select-all">367-8-99999-0</strong></p>
+                      </div>
+                      <p className="text-[10px] text-slate-400">* ระบบจะตรวจสอบสลิปและอนุมัติยอดโดยอัตโนมัติ</p>
+                    </div>
+                  )}
+
+                  {formData.paymentMethod === 'cod' && (
+                    <div className="text-slate-300 space-y-1">
+                      <p className="font-bold text-emerald-400">📦 ชำระเงินปลายทาง</p>
+                      <p className="text-[11px]">คุณสามารถชำระเงินด้วยเงินสดหรือโอนชำระกับพนักงานขนส่งเมื่อได้รับสินค้าหน้าบ้าน</p>
+                    </div>
+                  )}
+
+                  {formData.paymentMethod === 'truemoney' && (
+                    <div className="space-y-2">
+                      <p className="font-bold text-amber-400">📱 ชำระผ่าน TrueMoney Wallet</p>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="กรอกเบอร์โทรศัพท์ TrueMoney"
+                        value={formData.truemoneyPhone}
+                        onChange={e => setFormData({ ...formData, truemoneyPhone: e.target.value })}
+                        className="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-white font-mono"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Submit Order */}
+                <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
                   <div>
                     <span className="text-[11px] text-slate-400 block">ยอดชำระสุทธิ</span>
                     <span className="text-xl font-black text-emerald-400 font-mono">฿{finalCartPrice.toLocaleString()}</span>
